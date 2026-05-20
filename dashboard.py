@@ -1737,7 +1737,7 @@ def _resultado_a_json(r: dict) -> dict:
     }
 
 
-def generar_html(todos_resultados: list, ruta_salida: str = "dashboard_solvencia.html",
+def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                  todos_morosidad: list = None,
                  todos_riesgo: list = None,
                  todos_cobertura: list = None,
@@ -16133,7 +16133,7 @@ def main():
     
     ruta_excel = obtener_ruta_excel()
     carpeta_salida = ruta_excel.parent
-    ruta_html = carpeta_salida / "dashboard_solvencia.html"
+    ruta_html = carpeta_salida / "index.html"
     
     print(f"\nCargando balances desde: {ruta_excel.name}")
     df = cargar_balances(str(ruta_excel), HOJA_BALANCES)
