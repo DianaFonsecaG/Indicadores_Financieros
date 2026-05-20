@@ -1442,6 +1442,112 @@ def calcular_crecimiento(df: pd.DataFrame, anio: int, mes: str) -> dict:
     }
 
 
+# ============================================================
+# CRECIMIENTO DE DEPÓSITOS (Pasivo)
+# ============================================================
+# Productos de captación y sus cuentas PUC:
+#   1. Ahorro a la Vista: total 210505 (disc. 210505001, 210505002), capital = 210505 - 210595
+#   2. CDAT: total 2110 (disc. 211005 <6m, 211010 6-12m, 211020 >=18m), capital = 2110 - 211095
+#   3. Ahorro Contractual: total 2125 (disc. 212505 corto, 212515 largo), capital = 2125 - 212595
+#   4. DAES: total 2130, capital = 2130 - 213095
+DEPOSITOS_PRODUCTOS = [
+    {
+        "id": "ahorro_vista", "nombre": "Ahorro a la Vista",
+        "cuenta_total": "210505", "cuenta_interes": "210595",
+        "discriminado": [
+            {"codigo": "210505001", "nombre": "Depósitos de Ahorro Voluntario"},
+            {"codigo": "210505002", "nombre": "Bolsillo Rentable"},
+        ],
+    },
+    {
+        "id": "cdat", "nombre": "CDAT",
+        "cuenta_total": "2110", "cuenta_interes": "211095",
+        "discriminado": [
+            {"codigo": "211005", "nombre": "CDAT menos de 6 meses"},
+            {"codigo": "211010", "nombre": "CDAT entre 6 y 12 meses"},
+            {"codigo": "211020", "nombre": "CDAT 18 meses o más"},
+        ],
+    },
+    {
+        "id": "contractual", "nombre": "Ahorro Contractual",
+        "cuenta_total": "2125", "cuenta_interes": "212595",
+        "discriminado": [
+            {"codigo": "212505", "nombre": "Corto Plazo"},
+            {"codigo": "212515", "nombre": "Largo Plazo"},
+        ],
+    },
+    {
+        "id": "daes", "nombre": "DAES",
+        "cuenta_total": "2130", "cuenta_interes": "213095",
+        "discriminado": [],
+    },
+]
+
+
+def calcular_crecimiento_depositos(df: pd.DataFrame, anio: int, mes: str) -> dict:
+    """
+    Calcula saldos (total y capital) y crecimiento interanual de los productos de
+    captación (depósitos). Crecimiento = (actual / mismo mes año anterior) - 1.
+    """
+    anio_anterior = anio - 1
+
+    def saldo_cuenta(periodo_anio, periodo_mes, cuenta):
+        df_p = df[(df["AÑO"] == periodo_anio) & (df["MES"] == periodo_mes.upper())]
+        return df_p[df_p["CUENTA"] == cuenta]["NUEVO SALDO"].abs().sum() / 1_000_000
+
+    productos = []
+    total_general_total = 0.0
+    total_general_capital = 0.0
+    total_general_total_aa = 0.0
+    total_general_capital_aa = 0.0
+
+    for prod in DEPOSITOS_PRODUCTOS:
+        total_act = saldo_cuenta(anio, mes, prod["cuenta_total"])
+        interes_act = saldo_cuenta(anio, mes, prod["cuenta_interes"])
+        capital_act = total_act - interes_act
+
+        total_aa = saldo_cuenta(anio_anterior, mes, prod["cuenta_total"])
+        interes_aa = saldo_cuenta(anio_anterior, mes, prod["cuenta_interes"])
+        capital_aa = total_aa - interes_aa
+
+        # Discriminado
+        disc = []
+        for d in prod["discriminado"]:
+            s = saldo_cuenta(anio, mes, d["codigo"])
+            disc.append({"codigo": d["codigo"], "nombre": d["nombre"], "saldo": s})
+
+        crec_total = ((total_act / total_aa) - 1) if total_aa > 0 else None
+        crec_capital = ((capital_act / capital_aa) - 1) if capital_aa > 0 else None
+
+        productos.append({
+            "id": prod["id"], "nombre": prod["nombre"],
+            "cuenta_total": prod["cuenta_total"], "cuenta_interes": prod["cuenta_interes"],
+            "saldo_total": total_act, "saldo_capital": capital_act, "interes": interes_act,
+            "saldo_total_aa": total_aa, "saldo_capital_aa": capital_aa,
+            "crecimiento_total": crec_total, "crecimiento_capital": crec_capital,
+            "discriminado": disc,
+        })
+        total_general_total += total_act
+        total_general_capital += capital_act
+        total_general_total_aa += total_aa
+        total_general_capital_aa += capital_aa
+
+    crec_gen_total = ((total_general_total / total_general_total_aa) - 1) if total_general_total_aa > 0 else None
+    crec_gen_capital = ((total_general_capital / total_general_capital_aa) - 1) if total_general_capital_aa > 0 else None
+
+    return {
+        "periodo": f"{mes.upper()} {anio}", "anio": anio, "mes": mes.upper(),
+        "productos": productos,
+        "total_depositos": total_general_total,
+        "total_capital": total_general_capital,
+        "total_depositos_aa": total_general_total_aa,
+        "total_capital_aa": total_general_capital_aa,
+        "crecimiento_total": crec_gen_total,
+        "crecimiento_capital": crec_gen_capital,
+        "tiene_anio_anterior": total_general_total_aa > 0,
+    }
+
+
 # CUENTAS DE 2 DÍGITOS para cada cuenta principal del balance
 SUBCUENTAS_BALANCE = {
     "1": ["11", "12", "13", "14", "15", "16", "17", "18", "19"],
@@ -1746,9 +1852,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                  todos_evolucion_pasivo: list = None,
                  todos_evolucion_patrimonio: list = None,
                  todos_icg: list = None,
+                 todos_depositos: list = None,
                  catalogo_cuentas: dict = None) -> str:
     """Genera el archivo HTML del dashboard interactivo."""
     datos_json = [_resultado_a_json(r) for r in todos_resultados]
+    
+    if todos_depositos is None:
+        todos_depositos = []
+    depositos_json = todos_depositos
     
     # Datos de morosidad (si no se pasan, lista vacía)
     if todos_morosidad is None:
@@ -1859,6 +1970,50 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         <!-- LIBRERÍAS EMBEBIDAS (100% offline) -->
         ___LIBS_EMBEBIDAS___
         <style>
+            /* ===== Botón flotante volver al inicio ===== */
+            #btn-inicio-flotante {{
+                position: fixed;
+                top: 18px;
+                right: 18px;
+                z-index: 9999;
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                padding: 10px 16px 10px 13px;
+                background: rgba(255,255,255,0.92);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1.5px solid #d7ddd5;
+                border-radius: 999px;
+                color: #15803d;
+                font-family: 'Poppins', sans-serif;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+                transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+            }}
+            #btn-inicio-flotante svg {{
+                width: 18px;
+                height: 18px;
+                flex-shrink: 0;
+            }}
+            #btn-inicio-flotante:hover {{
+                background: #15803d;
+                border-color: #15803d;
+                color: #ffffff;
+                transform: translateY(-2px) scale(1.04);
+                box-shadow: 0 8px 24px rgba(21,128,61,0.35);
+            }}
+            /* Oculto cuando estás en el menú principal */
+            body.en-inicio #btn-inicio-flotante {{
+                display: none;
+            }}
+            @media (max-width: 640px) {{
+                #btn-inicio-flotante span {{ display: none; }}
+                #btn-inicio-flotante {{ padding: 11px; }}
+            }}
+            
             :root {{
                 /* ===== Paleta profesional ===== */
                 --bg-grad: linear-gradient(135deg, #f5f7f5 0%, #eef1ef 100%);
@@ -3516,6 +3671,94 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 font-style: italic;
                 text-align: center;
             }}
+            
+            /* === Tabla de productos de depósitos === */
+            .depositos-tabla-wrap {{
+                overflow-x: auto;
+                border-radius: 12px;
+                border: 1px solid #e9edf2;
+            }}
+            .depositos-tabla {{
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+                min-width: 720px;
+            }}
+            .depositos-tabla thead th {{
+                position: sticky;
+                top: 0;
+                background: #fff7ed;
+                color: #b45309;
+                font-weight: 700;
+                font-size: 11.5px;
+                text-transform: uppercase;
+                letter-spacing: 0.4px;
+                padding: 13px 16px;
+                text-align: right;
+                border-bottom: 2px solid #fed7aa;
+                z-index: 2;
+            }}
+            .depositos-tabla thead th:first-child {{
+                text-align: left;
+            }}
+            .depositos-tabla tbody td {{
+                padding: 12px 16px;
+                text-align: right;
+                border-bottom: 1px solid #f1f5f9;
+                color: #334155;
+                font-weight: 600;
+            }}
+            .depositos-tabla tbody td:first-child {{
+                text-align: left;
+                font-weight: 700;
+                color: #1e293b;
+            }}
+            .depositos-tabla tbody tr.dep-producto-row {{
+                background: #ffffff;
+                cursor: default;
+            }}
+            .depositos-tabla tbody tr.dep-producto-row:hover {{
+                background: #fffaf3;
+            }}
+            .depositos-tabla tbody tr.dep-disc-row td {{
+                font-size: 12px;
+                color: #64748b;
+                font-weight: 500;
+                padding-top: 7px;
+                padding-bottom: 7px;
+                background: #fcfcfd;
+            }}
+            .depositos-tabla tbody tr.dep-disc-row td:first-child {{
+                padding-left: 38px;
+                font-weight: 500;
+                color: #64748b;
+            }}
+            .depositos-tabla tbody tr.dep-total-row td {{
+                background: #fff7ed;
+                font-weight: 800;
+                color: #b45309;
+                border-top: 2px solid #fed7aa;
+                font-size: 13.5px;
+            }}
+            .dep-prod-nombre {{
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+            }}
+            .dep-prod-punto {{
+                width: 10px; height: 10px; border-radius: 50%;
+                flex-shrink: 0;
+            }}
+            .dep-crec {{
+                display: inline-flex;
+                align-items: center;
+                gap: 3px;
+                font-size: 12px;
+                font-weight: 700;
+            }}
+            .dep-crec.sube {{ color: #16a34a; }}
+            .dep-crec.baja {{ color: #dc2626; }}
+            .dep-crec.igual {{ color: #94a3b8; }}
             
             /* === KPIs cards de Evolución === */
             .evolucion-kpis-grid {{
@@ -5627,6 +5870,16 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
     </head>
     <body>
         
+        <!-- ========== BOTÓN FLOTANTE: VOLVER AL INICIO ========== -->
+        <button id="btn-inicio-flotante" onclick="volverAlMenu()" title="Volver a la página principal" aria-label="Inicio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9.5L12 3l9 6.5"/>
+                <path d="M5 9.5V21h14V9.5"/>
+                <path d="M9 21v-6h6v6"/>
+            </svg>
+            <span>Inicio</span>
+        </button>
+        
         <!-- ========== MENÚ PRINCIPAL (PANTALLA INICIAL) ========== -->
         <div class="menu-principal" id="menu-principal">
             <div class="menu-header">
@@ -5780,53 +6033,17 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             <div class="menu-grid">
                 
                 <!-- ÍNDICE DE MORA (ACTIVO) -->
-                <div class="modulo-card modulo-mora" onclick="abrirIndiceMora()">
+                <!-- EVOLUCIÓN DEL ACTIVO (cuenta 1) -->
+                <div class="modulo-card modulo-evolucion-activo" onclick="abrirEvolucionActivo()">
                     <span class="modulo-badge activo">Disponible</span>
                     <div class="modulo-icono">
                         <svg viewBox="0 0 24 24">
-                            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
-                            <polyline points="12 7 12 13 16 15"/>
-                            <path d="M4.5 4.5L7 7"/>
-                            <path d="M19.5 4.5L17 7"/>
+                            <path d="M3 17l6-6 4 4 8-8"/>
+                            <polyline points="14 7 21 7 21 14"/>
                         </svg>
                     </div>
-                    <h3 class="modulo-titulo">Índice de Mora</h3>
-                    <p class="modulo-descripcion">Análisis de morosidad por categoría y grupo de cartera, con histórico completo.</p>
-                    <span class="modulo-accion">
-                        Abrir módulo
-                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                    </span>
-                </div>
-                
-                <!-- ÍNDICE DE RIESGO (ACTIVO) -->
-                <div class="modulo-card modulo-riesgo" onclick="abrirIndiceRiesgo()">
-                    <span class="modulo-badge activo">Disponible</span>
-                    <div class="modulo-icono">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                            <path d="M9 12l2 2 4-4"/>
-                        </svg>
-                    </div>
-                    <h3 class="modulo-titulo">Índice de Riesgo</h3>
-                    <p class="modulo-descripcion">Calidad de cartera por categoría de riesgo crediticio (A-E) con histórico.</p>
-                    <span class="modulo-accion">
-                        Abrir módulo
-                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-                    </span>
-                </div>
-                
-                <!-- COBERTURA DE CARTERA (ACTIVO) -->
-                <div class="modulo-card modulo-cobertura" onclick="abrirCobertura()">
-                    <span class="modulo-badge activo">Disponible</span>
-                    <div class="modulo-icono">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2L4 7v5c0 5 3 9 8 11 5-2 8-6 8-11V7l-8-5z"/>
-                            <path d="M9 12l2 2 4-4"/>
-                            <circle cx="12" cy="12" r="3"/>
-                        </svg>
-                    </div>
-                    <h3 class="modulo-titulo">Cobertura de Cartera</h3>
-                    <p class="modulo-descripcion">Deterioro sobre cartera vencida por modalidad: indicador de provisiones.</p>
+                    <h3 class="modulo-titulo">Evolución del Activo</h3>
+                    <p class="modulo-descripcion">Saldo total del Activo (cuenta 1) y sus subcuentas, evolución mes a mes.</p>
                     <span class="modulo-accion">
                         Abrir módulo
                         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
@@ -5851,17 +6068,54 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     </span>
                 </div>
                 
-                <!-- EVOLUCIÓN DEL ACTIVO (cuenta 1) -->
-                <div class="modulo-card modulo-evolucion-activo" onclick="abrirEvolucionActivo()">
+                <!-- COBERTURA DE CARTERA (ACTIVO) -->
+                <div class="modulo-card modulo-cobertura" onclick="abrirCobertura()">
                     <span class="modulo-badge activo">Disponible</span>
                     <div class="modulo-icono">
                         <svg viewBox="0 0 24 24">
-                            <path d="M3 17l6-6 4 4 8-8"/>
-                            <polyline points="14 7 21 7 21 14"/>
+                            <path d="M12 2L4 7v5c0 5 3 9 8 11 5-2 8-6 8-11V7l-8-5z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                            <circle cx="12" cy="12" r="3"/>
                         </svg>
                     </div>
-                    <h3 class="modulo-titulo">Evolución del Activo</h3>
-                    <p class="modulo-descripcion">Saldo total del Activo (cuenta 1) y sus subcuentas, evolución mes a mes.</p>
+                    <h3 class="modulo-titulo">Cobertura de Cartera</h3>
+                    <p class="modulo-descripcion">Deterioro sobre cartera vencida por modalidad: indicador de provisiones.</p>
+                    <span class="modulo-accion">
+                        Abrir módulo
+                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                </div>
+                
+                <!-- ÍNDICE DE RIESGO (ACTIVO) -->
+                <div class="modulo-card modulo-riesgo" onclick="abrirIndiceRiesgo()">
+                    <span class="modulo-badge activo">Disponible</span>
+                    <div class="modulo-icono">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M9 12l2 2 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="modulo-titulo">Índice de Riesgo</h3>
+                    <p class="modulo-descripcion">Calidad de cartera por categoría de riesgo crediticio (A-E) con histórico.</p>
+                    <span class="modulo-accion">
+                        Abrir módulo
+                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                </div>
+                
+                <!-- ÍNDICE DE MORA (ACTIVO) -->
+                <div class="modulo-card modulo-mora" onclick="abrirIndiceMora()">
+                    <span class="modulo-badge activo">Disponible</span>
+                    <div class="modulo-icono">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                            <polyline points="12 7 12 13 16 15"/>
+                            <path d="M4.5 4.5L7 7"/>
+                            <path d="M19.5 4.5L17 7"/>
+                        </svg>
+                    </div>
+                    <h3 class="modulo-titulo">Índice de Mora</h3>
+                    <p class="modulo-descripcion">Análisis de morosidad por categoría y grupo de cartera, con histórico completo.</p>
                     <span class="modulo-accion">
                         Abrir módulo
                         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
@@ -5898,6 +6152,91 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         Abrir módulo
                         <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
                     </span>
+                </div>
+                
+                <!-- CRECIMIENTO DE DEPÓSITOS -->
+                <div class="modulo-card modulo-evolucion-pasivo" onclick="abrirCrecimientoDepositos()">
+                    <span class="modulo-badge activo">Disponible</span>
+                    <div class="modulo-icono">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 3v18h18"/>
+                            <polyline points="7 13 11 9 14 12 19 6"/>
+                            <polyline points="14 6 19 6 19 11"/>
+                        </svg>
+                    </div>
+                    <h3 class="modulo-titulo">Crecimiento de Depósitos</h3>
+                    <p class="modulo-descripcion">Captaciones por producto: Ahorro a la Vista, CDAT, Contractual y DAES, con crecimiento mensual.</p>
+                    <span class="modulo-accion">
+                        Abrir módulo
+                        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ========== DASHBOARD: CRECIMIENTO DE DEPÓSITOS ========== -->
+        <div class="container oculto" id="depositos-root">
+            <div class="dashboard-header">
+                <div class="header-titulo">
+                    <button class="btn-volver-evolucion btn-volver-pasivo" onclick="volverAlSubmenuPasivo()">
+                        <svg viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6"/></svg>
+                        <span>Volver al módulo Pasivo</span>
+                    </button>
+                    <h1 class="header-title-text" style="color:#b45309;">Crecimiento de Depósitos</h1>
+                    <div class="subtitle">Captaciones por producto · Crecimiento mensual</div>
+                </div>
+                <div class="header-acciones">
+                    <div class="filtros">
+                        <div class="filtro-card">
+                            <label for="depositos-filtro-anio">Año</label>
+                            <select id="depositos-filtro-anio"></select>
+                        </div>
+                        <div class="filtro-card">
+                            <label for="depositos-filtro-mes">Mes</label>
+                            <select id="depositos-filtro-mes"></select>
+                        </div>
+                    </div>
+                    <div class="cobertura-toggle-wrap">
+                        <span class="cobertura-toggle-label">Tipo de saldo</span>
+                        <div class="cobertura-toggle" id="depositos-toggle">
+                            <button class="cobertura-toggle-btn activo" data-modo="total" onclick="cambiarModoDepositos('total')">Saldo Total</button>
+                            <button class="cobertura-toggle-btn" data-modo="capital" onclick="cambiarModoDepositos('capital')">Saldo Capital</button>
+                        </div>
+                        <span class="cobertura-toggle-hint">Capital = saldo sin intereses por pagar</span>
+                    </div>
+                    <button class="btn-excel" id="btn-excel-depositos" onclick="descargarExcelDepositos()" title="Descargar reporte detallado en Excel">
+                        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></svg>
+                        <span>Descargar Excel</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- KPIs -->
+            <div class="evo-kpis" id="depositos-kpis"></div>
+            
+            <!-- Gráfico histórico -->
+            <div class="section acc-graficos">
+                <h2 class="section-title">Evolución Histórica de Depósitos</h2>
+                <p class="seccion-subtitulo" id="depositos-graf-sub">Saldo total de captaciones por producto · Millones COP</p>
+                <div class="historico-flex-wrap">
+                    <div class="historico-eje-fijo">
+                        <div id="chartDepositos-axis-container" class="eje-y-html-container"></div>
+                    </div>
+                    <div class="chart-scroll-container" id="depositos-scroll-container">
+                        <div class="chart-inner" id="depositos-inner">
+                            <canvas id="chartDepositos"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-hint">Desplázate por los períodos con la barra inferior</div>
+            </div>
+            
+            <!-- Tabla de productos -->
+            <div class="section">
+                <h2 class="section-title">Detalle por Producto de Captación</h2>
+                <p class="seccion-subtitulo" id="depositos-prod-sub">Saldos y crecimiento mensual en el período seleccionado</p>
+                <div class="depositos-tabla-wrap">
+                    <table class="depositos-tabla" id="depositos-tabla"></table>
                 </div>
             </div>
         </div>
@@ -7685,6 +8024,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         const SERIE_ICG_COSTOS    = DATOS_ICG.map(r => r.costos);
         const SERIE_ICG_GASTOS    = DATOS_ICG.map(r => r.gastos_sin_excedente);
         const SERIE_ICG_EXCEDENTE = DATOS_ICG.map(r => r.excedente);
+        
+        // ===== DATOS DE CRECIMIENTO DE DEPÓSITOS =====
+        const DATOS_DEPOSITOS = {json.dumps(depositos_json, default=_json_default, ensure_ascii=False)};
+        const SERIE_DEP_TOTAL   = DATOS_DEPOSITOS.map(r => r.total_depositos);
+        const SERIE_DEP_CAPITAL = DATOS_DEPOSITOS.map(r => r.total_capital);
         
         // ===== SERIES DE COMPOSICIÓN (Numerador / Denominador) =====
         const SERIE_SOLVENCIA_NUM = {json.dumps(serie_solvencia_num, default=_json_default)};
@@ -10463,13 +10807,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             'dashboard-root',
             'mora-root', 'riesgo-root', 'cobertura-root', 'crecimiento-root',
             'evolucion-activo-root', 'evolucion-pasivo-root', 'evolucion-patrimonio-root',
-            'evolucion-icg-root', 'rentabilidad-root'
+            'evolucion-icg-root', 'rentabilidad-root', 'depositos-root'
         ];
         function ocultarTodosLosModulos() {{
             TODOS_LOS_MODULOS.forEach(id => {{
                 const el = document.getElementById(id);
                 if (el) el.classList.add('oculto');
             }});
+            // Al abrir cualquier módulo, ya no estamos en el inicio → mostrar botón 🏠
+            document.body.classList.remove('en-inicio');
         }}
         
         function abrirSolvencia() {{
@@ -10495,6 +10841,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function volverAlMenu() {{
             ocultarTodosLosModulos();
             document.getElementById('menu-principal').classList.remove('oculto');
+            document.body.classList.add('en-inicio');
             window.scrollTo({{ top: 0, behavior: 'instant' }});
         }}
         
@@ -10526,6 +10873,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function volverAlMenuPrincipal() {{
             ocultarTodosLosModulos();
             document.getElementById('menu-principal').classList.remove('oculto');
+            document.body.classList.add('en-inicio');
             window.scrollTo({{ top: 0, behavior: 'instant' }});
         }}
         
@@ -10551,6 +10899,348 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             window.scrollTo({{ top: 0, behavior: 'instant' }});
         }}
         
+        
+        // ============================================================
+        // ========== SUBMODULO: CRECIMIENTO DE DEPOSITOS ==========
+        // ============================================================
+        const DEPOSITOS_STATE = {{ inicializado: false, chart: null, idxActual: 0, modo: 'total' }};
+        const DEP_COLORS = {{
+            ahorro_vista: '#0ea5e9',
+            cdat:         '#b45309',
+            contractual:  '#15803d',
+            daes:         '#8b5cf6',
+        }};
+        
+        function depSaldoProducto(prod, modo) {{
+            return modo === 'capital' ? prod.saldo_capital : prod.saldo_total;
+        }}
+        function depSerieProducto(id, modo) {{
+            return DATOS_DEPOSITOS.map(r => {{
+                const p = r.productos.find(x => x.id === id);
+                return p ? depSaldoProducto(p, modo) : 0;
+            }});
+        }}
+        function depSerieTotal(modo) {{
+            return DATOS_DEPOSITOS.map(r => modo === 'capital' ? r.total_capital : r.total_depositos);
+        }}
+        function depCrecimientoMensual(serie) {{
+            return serie.map((v, i) => {{
+                if (i === 0) return null;
+                const ant = serie[i-1];
+                if (!ant || ant === 0) return null;
+                return ((v / ant) - 1) * 100;
+            }});
+        }}
+        
+        function abrirCrecimientoDepositos() {{
+            ocultarTodosLosModulos();
+            document.getElementById('depositos-root').classList.remove('oculto');
+            if (!DEPOSITOS_STATE.inicializado) {{
+                DEPOSITOS_STATE.inicializado = true;
+                inicializarDashboardDepositos();
+            }} else {{
+                requestAnimationFrame(() => {{
+                    ajustarAnchoCanvasDepositos();
+                    if (DEPOSITOS_STATE.chart) DEPOSITOS_STATE.chart.resize();
+                }});
+            }}
+            window.scrollTo({{ top: 0, behavior: 'instant' }});
+        }}
+        
+        function inicializarDashboardDepositos() {{
+            const anios = [...new Set(DATOS_DEPOSITOS.map(r => r.anio))].sort();
+            const selAnio = document.getElementById('depositos-filtro-anio');
+            selAnio.innerHTML = anios.map(a => `<option value="${{a}}">${{a}}</option>`).join('');
+            selAnio.value = DATOS_DEPOSITOS[DATOS_DEPOSITOS.length - 1].anio;
+            
+            function poblarMeses() {{
+                const anioSel = parseInt(selAnio.value);
+                const meses = DATOS_DEPOSITOS.filter(r => r.anio === anioSel).map(r => r.mes);
+                const selMes = document.getElementById('depositos-filtro-mes');
+                selMes.innerHTML = meses.map(m => `<option value="${{m}}">${{MESES_NOMBRE[m] || m}}</option>`).join('');
+                selMes.value = meses[meses.length - 1];
+            }}
+            poblarMeses();
+            selAnio.onchange = () => {{ poblarMeses(); aplicarFiltroDepositos(); }};
+            document.getElementById('depositos-filtro-mes').onchange = aplicarFiltroDepositos;
+            
+            DEPOSITOS_STATE.idxActual = DATOS_DEPOSITOS.length - 1;
+            inicializarGraficoDepositos();
+            renderPeriodoDepositos(DEPOSITOS_STATE.idxActual);
+        }}
+        
+        function aplicarFiltroDepositos() {{
+            const anio = parseInt(document.getElementById('depositos-filtro-anio').value);
+            const mes = document.getElementById('depositos-filtro-mes').value;
+            const idx = DATOS_DEPOSITOS.findIndex(r => r.anio === anio && r.mes === mes);
+            if (idx >= 0) {{
+                DEPOSITOS_STATE.idxActual = idx;
+                renderPeriodoDepositos(idx);
+                if (DEPOSITOS_STATE.chart) scrollAlPeriodoDepositos(idx);
+            }}
+        }}
+        
+        function cambiarModoDepositos(modo) {{
+            if (modo === DEPOSITOS_STATE.modo) return;
+            DEPOSITOS_STATE.modo = modo;
+            document.querySelectorAll('#depositos-toggle .cobertura-toggle-btn').forEach(b => {{
+                b.classList.toggle('activo', b.dataset.modo === modo);
+            }});
+            document.getElementById('depositos-graf-sub').textContent =
+                (modo === 'capital' ? 'Saldo capital' : 'Saldo total') + ' de captaciones por producto - Millones COP';
+            inicializarGraficoDepositos();
+            renderPeriodoDepositos(DEPOSITOS_STATE.idxActual);
+        }}
+        
+        const fmtDepMill = (v) => (v === null || v === undefined) ? '—' :
+            new Intl.NumberFormat('de-DE', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}).format(v);
+        const fmtDepMillEs = (v) => {{
+            if (v === null || v === undefined) return '';
+            if (v === 0) return '0';
+            return new Intl.NumberFormat('de-DE', {{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}).format(v);
+        }};
+        
+        function badgeCrecDep(v) {{
+            if (v === null || v === undefined) return '<span class="dep-crec igual">—</span>';
+            if (Math.abs(v) < 0.005) return '<span class="dep-crec igual">▬ 0,00%</span>';
+            const sube = v > 0;
+            const cls = sube ? 'sube' : 'baja';
+            const fl = sube ? '▲' : '▼';
+            return `<span class="dep-crec ${{cls}}">${{fl}} ${{(sube?'+':'')}}${{v.toFixed(2).replace('.',',')}}%</span>`;
+        }}
+        
+        function renderPeriodoDepositos(idx) {{
+            const r = DATOS_DEPOSITOS[idx];
+            if (!r) return;
+            const modo = DEPOSITOS_STATE.modo;
+            
+            const totalSerie = depSerieTotal(modo);
+            const crecTotalSerie = depCrecimientoMensual(totalSerie);
+            const totalVal = modo === 'capital' ? r.total_capital : r.total_depositos;
+            const crecTotal = crecTotalSerie[idx];
+            
+            let kpisHtml = `
+                <div class="evo-kpi-card" style="border-left:4px solid #b45309;">
+                    <span class="evo-kpi-label">TOTAL DEPOSITOS</span>
+                    <span class="evo-kpi-valor" style="color:#b45309;">${{fmtDepMill(totalVal)}}</span>
+                    <span class="evo-kpi-sub">${{badgeCrecDep(crecTotal)}} vs mes anterior</span>
+                </div>`;
+            r.productos.forEach(p => {{
+                const serie = depSerieProducto(p.id, modo);
+                const crecSerie = depCrecimientoMensual(serie);
+                const val = depSaldoProducto(p, modo);
+                const color = DEP_COLORS[p.id] || '#64748b';
+                kpisHtml += `
+                    <div class="evo-kpi-card" style="border-left:4px solid ${{color}};">
+                        <span class="evo-kpi-label">${{p.nombre.toUpperCase()}}</span>
+                        <span class="evo-kpi-valor" style="color:${{color}};">${{fmtDepMill(val)}}</span>
+                        <span class="evo-kpi-sub">${{badgeCrecDep(crecSerie[idx])}} vs mes anterior</span>
+                    </div>`;
+            }});
+            document.getElementById('depositos-kpis').innerHTML = kpisHtml;
+            
+            document.getElementById('depositos-prod-sub').textContent =
+                `${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}} - ${{modo === 'capital' ? 'Saldo capital' : 'Saldo total'}} - Crecimiento mensual`;
+            
+            const labelSaldo = modo === 'capital' ? 'Saldo Capital' : 'Saldo Total';
+            let thtml = `<thead><tr>
+                <th>Producto</th>
+                <th>${{labelSaldo}} (M COP)</th>
+                <th>Crecimiento mensual</th>
+                <th>Participacion</th>
+            </tr></thead><tbody>`;
+            
+            r.productos.forEach(p => {{
+                const serie = depSerieProducto(p.id, modo);
+                const crecSerie = depCrecimientoMensual(serie);
+                const val = depSaldoProducto(p, modo);
+                const part = totalVal > 0 ? (val / totalVal * 100) : 0;
+                const color = DEP_COLORS[p.id] || '#64748b';
+                thtml += `<tr class="dep-producto-row">
+                    <td><span class="dep-prod-nombre"><span class="dep-prod-punto" style="background:${{color}}"></span>${{p.nombre}}</span></td>
+                    <td>${{fmtDepMill(val)}}</td>
+                    <td>${{badgeCrecDep(crecSerie[idx])}}</td>
+                    <td>${{part.toFixed(1).replace('.',',')}}%</td>
+                </tr>`;
+                (p.discriminado || []).forEach(d => {{
+                    thtml += `<tr class="dep-disc-row">
+                        <td>${{d.nombre}}</td>
+                        <td>${{fmtDepMill(d.saldo)}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>`;
+                }});
+            }});
+            thtml += `<tr class="dep-total-row">
+                <td>TOTAL DEPOSITOS</td>
+                <td>${{fmtDepMill(totalVal)}}</td>
+                <td>${{badgeCrecDep(crecTotal)}}</td>
+                <td>100,0%</td>
+            </tr>`;
+            thtml += '</tbody>';
+            document.getElementById('depositos-tabla').innerHTML = thtml;
+        }}
+        
+        function inicializarGraficoDepositos() {{
+            const modo = DEPOSITOS_STATE.modo;
+            const etiquetas = DATOS_DEPOSITOS.map(r => `${{(MESES_NOMBRE[r.mes] || r.mes).substring(0,3)}}-${{String(r.anio).substring(2)}}`);
+            const etiquetasLargas = DATOS_DEPOSITOS.map(r => `${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}}`);
+            const productos = [
+                {{ id: 'ahorro_vista', label: 'Ahorro a la Vista' }},
+                {{ id: 'cdat', label: 'CDAT' }},
+                {{ id: 'contractual', label: 'Ahorro Contractual' }},
+                {{ id: 'daes', label: 'DAES' }},
+            ];
+            ajustarAnchoCanvasDepositos();
+            const ctx = document.getElementById('chartDepositos');
+            if (DEPOSITOS_STATE.chart) DEPOSITOS_STATE.chart.destroy();
+            
+            const datasets = productos.map(prod => {{
+                const serie = depSerieProducto(prod.id, modo);
+                const color = DEP_COLORS[prod.id];
+                return {{
+                    label: prod.label, type: 'bar', data: serie,
+                    backgroundColor: color, borderColor: color,
+                    borderWidth: 1, borderRadius: 3, stack: 'depositos',
+                }};
+            }});
+            
+            DEPOSITOS_STATE.chart = new Chart(ctx, {{
+                type: 'bar',
+                data: {{ labels: etiquetas, datasets }},
+                options: {{
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: {{ mode: 'index', intersect: false }},
+                    layout: {{ padding: {{ top: 28, bottom: 8, left: 8, right: 20 }} }},
+                    plugins: {{
+                        legend: {{
+                            display: true, position: 'top', align: 'start',
+                            labels: {{ usePointStyle: true, pointStyle: 'rectRounded', padding: 14, font: {{ size: 12, weight: '600' }}, color: '#475569' }}
+                        }},
+                        tooltip: {{
+                            backgroundColor: '#1c2520', padding: 12, cornerRadius: 8,
+                            titleColor: '#fff', bodyColor: '#fff',
+                            titleFont: {{ weight: '700', size: 13 }}, bodyFont: {{ size: 12.5, weight: '600' }},
+                            callbacks: {{
+                                title: (items) => items?.[0] ? etiquetasLargas[items[0].dataIndex] : '',
+                                label: (c) => `  ${{c.dataset.label}}: ${{fmtDepMill(c.parsed.y)}} M`,
+                                footer: (items) => {{
+                                    const sum = items.reduce((a,b) => a + b.parsed.y, 0);
+                                    return `  Total: ${{fmtDepMill(sum)}} M`;
+                                }}
+                            }}
+                        }},
+                        datalabels: {{ display: false }}
+                    }},
+                    scales: {{
+                        y: {{ beginAtZero: true, stacked: true, display: false, grace: '8%' }},
+                        x: {{ stacked: true, offset: true, grid: {{ display: false }},
+                              ticks: {{ maxRotation: 0, font: {{ size: 10, weight: '500' }}, color: '#475569' }} }}
+                    }},
+                    onClick: (evt, els) => {{ if (els.length > 0) {{
+                        DEPOSITOS_STATE.idxActual = els[0].index;
+                        renderPeriodoDepositos(els[0].index);
+                    }} }}
+                }}
+            }});
+            
+            const totalSerie = depSerieTotal(modo);
+            const maxTotal = Math.max(...totalSerie, 0);
+            sincronizarEjeYHistorico([0, maxTotal], 'chartDepositos-axis-container', {{
+                tituloEje: 'Millones COP', formatter: fmtDepMillEs
+            }});
+            setTimeout(() => scrollAlPeriodoDepositos(DEPOSITOS_STATE.idxActual), 100);
+        }}
+        
+        function ajustarAnchoCanvasDepositos() {{
+            const inner = document.getElementById('depositos-inner');
+            const scroll = document.getElementById('depositos-scroll-container');
+            if (!inner || !scroll) return;
+            let anchoVisible = scroll.clientWidth;
+            if (anchoVisible < 100) anchoVisible = 900;
+            const VENTANA = 12, ANCHO_MIN = 56;
+            const anchoPorMes = Math.max(ANCHO_MIN, anchoVisible / VENTANA);
+            inner.style.width = Math.max(anchoVisible, DATOS_DEPOSITOS.length * anchoPorMes) + 'px';
+        }}
+        
+        function scrollAlPeriodoDepositos(idx) {{
+            const scroll = document.getElementById('depositos-scroll-container');
+            const inner = document.getElementById('depositos-inner');
+            if (!scroll || !inner) return;
+            const ratio = idx / Math.max(1, DATOS_DEPOSITOS.length - 1);
+            scroll.scrollTo({{ left: Math.max(0, ratio * inner.scrollWidth - scroll.clientWidth/2), behavior: 'smooth' }});
+        }}
+        
+        async function descargarExcelDepositos() {{
+            const btn = document.getElementById('btn-excel-depositos');
+            const span = btn.querySelector('span');
+            const txt0 = span.textContent;
+            btn.disabled = true; span.textContent = 'Generando...';
+            try {{
+                const wb = new ExcelJS.Workbook();
+                wb.creator = 'Dashboard Cooperativo';
+                const modo = DEPOSITOS_STATE.modo;
+                const labelSaldo = modo === 'capital' ? 'Saldo Capital' : 'Saldo Total';
+                const ws = wb.addWorksheet('Resumen');
+                ws.columns = [
+                    {{ header: 'Periodo', width: 16 }},
+                    {{ header: 'Ahorro a la Vista', width: 18 }},
+                    {{ header: 'CDAT', width: 16 }},
+                    {{ header: 'Ahorro Contractual', width: 18 }},
+                    {{ header: 'DAES', width: 16 }},
+                    {{ header: 'Total Depositos', width: 18 }},
+                    {{ header: 'Crec. Mensual %', width: 16 }},
+                ];
+                DATOS_DEPOSITOS.forEach((r, i) => {{
+                    const get = (id) => {{ const p = r.productos.find(x => x.id === id); return p ? depSaldoProducto(p, modo) : 0; }};
+                    ws.addRow([
+                        `${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}}`,
+                        get('ahorro_vista'), get('cdat'), get('contractual'), get('daes'),
+                        {{ formula: `B${{i+2}}+C${{i+2}}+D${{i+2}}+E${{i+2}}` }},
+                        i === 0 ? null : {{ formula: `IFERROR((F${{i+2}}/F${{i+1}}-1)*100,0)` }}
+                    ]);
+                }});
+                ws.getRow(1).font = {{ bold: true, color: {{ argb: 'FFB45309' }} }};
+                ws.getRow(1).fill = {{ type: 'pattern', pattern: 'solid', fgColor: {{ argb: 'FFFFF7ED' }} }};
+                [2,3,4,5,6].forEach(c => ws.getColumn(c).numFmt = '#,##0.00');
+                ws.getColumn(7).numFmt = '0.00"%"';
+                ws.views = [{{ state: 'frozen', ySplit: 1 }}];
+                
+                const r = DATOS_DEPOSITOS[DEPOSITOS_STATE.idxActual];
+                const wsD = wb.addWorksheet('Detalle periodo');
+                wsD.columns = [{{ header: 'Producto / Subcuenta', width: 36 }}, {{ header: 'Cuenta', width: 14 }}, {{ header: labelSaldo, width: 18 }}];
+                const t = wsD.addRow([`Detalle ${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}}`, '', '']);
+                t.font = {{ bold: true, size: 13, color: {{ argb: 'FFB45309' }} }};
+                wsD.addRow([]);
+                const hdr = wsD.addRow(['Producto / Subcuenta', 'Cuenta', labelSaldo]);
+                hdr.font = {{ bold: true }};
+                hdr.fill = {{ type: 'pattern', pattern: 'solid', fgColor: {{ argb: 'FFFFF7ED' }} }};
+                r.productos.forEach(p => {{
+                    const pr = wsD.addRow([p.nombre, p.cuenta_total, depSaldoProducto(p, modo)]);
+                    pr.font = {{ bold: true }};
+                    (p.discriminado || []).forEach(d => {{
+                        wsD.addRow([`    ${{d.nombre}}`, d.codigo, d.saldo]);
+                    }});
+                }});
+                const totRow = wsD.addRow(['TOTAL DEPOSITOS', '', modo === 'capital' ? r.total_capital : r.total_depositos]);
+                totRow.font = {{ bold: true, color: {{ argb: 'FFB45309' }} }};
+                wsD.getColumn(3).numFmt = '#,##0.00';
+                
+                const buf = await wb.xlsx.writeBuffer();
+                const blob = new Blob([buf], {{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = 'Crecimiento_Depositos_Auditable.xlsx';
+                a.click(); URL.revokeObjectURL(url);
+                span.textContent = '\u2713 Descargado';
+                setTimeout(() => {{ span.textContent = txt0; btn.disabled = false; }}, 2000);
+            }} catch(e) {{
+                console.error('Error Excel depositos:', e);
+                span.textContent = 'Error'; setTimeout(() => {{ span.textContent = txt0; btn.disabled = false; }}, 2000);
+            }}
+        }}
+        
+
         // ===== Navegación al Dashboard de MORA =====
         let moraInicializado = false;
         let chartMora = null;
@@ -16292,6 +16982,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         // (El DOMContentLoaded original queda vacío: el dashboard se inicializa
         //  cuando el usuario hace clic en "Solvencia" desde el menú principal)
         document.addEventListener('DOMContentLoaded', () => {{
+            // Estamos en el inicio al cargar → ocultar botón 🏠
+            document.body.classList.add('en-inicio');
             // Construir el tablero resumen (2 matrices de indicadores)
             try {{ construirTableroResumen(); }} catch(e) {{ console.error('Error tablero:', e); }}
         }});
@@ -16811,6 +17503,14 @@ def main():
         if i % 10 == 0 or i == n_total:
             print(f"   ... {i}/{n_total} calculados ({ricg['periodo']})")
     
+    print(f"\nCalculando Crecimiento de Depositos para los {n_total} periodos...")
+    todos_depositos = []
+    for i, (anio, mes) in enumerate(periodos, 1):
+        rd = calcular_crecimiento_depositos(df, anio, mes)
+        todos_depositos.append(rd)
+        if i % 10 == 0 or i == n_total:
+            print(f"   ... {i}/{n_total} calculados ({rd['periodo']})")
+    
     r = todos_resultados[-1]
     rm = todos_morosidad[-1]
     rr = todos_riesgo[-1]
@@ -16846,6 +17546,7 @@ def main():
                  todos_evolucion_pasivo=todos_evolucion_pasivo,
                  todos_evolucion_patrimonio=todos_evolucion_patrimonio,
                  todos_icg=todos_icg,
+                 todos_depositos=todos_depositos,
                  catalogo_cuentas=catalogo_cuentas)
     print(f"   OK: {ruta_html.name}")
     
@@ -22434,10 +23135,3 @@ if __name__ == "__main__":
 # nVpm6zrkcumvazbkRG/OvxybLV+K5vasvXVl216KHYsOnySOhUUlH/b4e7sklg7WI39QwX0uYGUDnbyH
 # UlZkqE4r7/4v5I+iawA1EgA=
 #@BUNDLE_DATA_END@#
-import subprocess
-from datetime import datetime
-fecha = datetime.now().strftime("%Y-%m-%d %H:%M")
-subprocess.run("git add -A", shell=True)
-subprocess.run(f'git commit -m "Dashboard actualizado {fecha}"', shell=True)
-subprocess.run("git push origin main", shell=True)
-print("✅ Publicado en GitHub automáticamente")
