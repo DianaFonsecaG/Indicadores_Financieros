@@ -1985,7 +1985,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 -webkit-backdrop-filter: blur(10px);
                 border: 1.5px solid #d7ddd5;
                 border-radius: 999px;
-                color: #15803d;
+                color: #17A53D;
                 font-family: 'Poppins', sans-serif;
                 font-size: 13px;
                 font-weight: 700;
@@ -1999,8 +1999,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 flex-shrink: 0;
             }}
             #btn-inicio-flotante:hover {{
-                background: #15803d;
-                border-color: #15803d;
+                background: #17A53D;
+                border-color: #17A53D;
                 color: #ffffff;
                 transform: translateY(-2px) scale(1.04);
                 box-shadow: 0 8px 24px rgba(21,128,61,0.35);
@@ -2015,52 +2015,56 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             
             :root {{
-                /* ===== Paleta profesional ===== */
-                --bg-grad: linear-gradient(135deg, #f5f7f5 0%, #eef1ef 100%);
+                /* ===== Paleta monocromática (extraída de la imagen de referencia) ===== */
+                --bg-grad: linear-gradient(135deg, #f6f7f9 0%, #eef0f3 100%);
                 --card: #ffffff;
-                --card-soft: #f9faf9;
+                --card-soft: #f9fafb;
                 --text: #1c2520;
                 --text-muted: #6b7268;
                 --text-light: #a0a59c;
                 --border: #e4e6e0;
                 --border-soft: #eef0eb;
                 
-                /* Verdes (primario) */
-                --primary: #15803d;
-                --primary-dark: #166534;
-                --primary-soft: #f0fdf4;
-                --primary-mid: #86efac;
-                --success: #15803d;
-                --success-soft: #f0fdf4;
+                /* Verde (Greens · primario / Solvencia) */
+                --primary: #17A53D;
+                --primary-dark: #11782C;
+                --primary-soft: #C1E5CB;
+                --primary-mid: #77DE93;
+                --success: #17A53D;
+                --success-dark: #11782C;
+                --success-soft: #C1E5CB;
                 
-                /* Ámbar / Amarillo */
-                --warning: #ca8a04;
-                --warning-soft: #fefce8;
-                --warning-mid: #fde047;
+                /* Ámbar / Amarillo (Oranges-Yellows · advertencia) */
+                --warning: #FB8A09;
+                --warning-soft: #F8F5DC;
+                --warning-mid: #F5DE46;
                 
-                /* Naranja */
-                --accent: #ea580c;
-                --accent-soft: #fff7ed;
+                /* Naranja (Oranges · Ingresos / acento cálido) */
+                --accent: #F78502;
+                --accent-dark: #A75A00;
+                --accent-soft: #F8E9D7;
                 
-                /* Rojo (alerta) */
-                --danger: #dc2626;
-                --danger-soft: #fef2f2;
+                /* Rojo (Reds · alerta/peligro) */
+                --danger: #C91A15;
+                --danger-soft: #F3DFDF;
                 
-                /* Grises elegantes */
-                --slate: #475569;
-                --slate-soft: #f1f5f9;
+                /* Azul-violeta neutro elegante (sustituye los grises azulados) */
+                --slate: #4D61B4;
+                --slate-soft: #E6E8F1;
                 
-                /* Acentos por módulo */
-                --acc-solvencia: #15803d;
-                --acc-graficos: #475569;
-                --acc-formula: #ca8a04;
-                --acc-limites: #ea580c;
-                --acc-activos: #166534;
-                --acc-patrimonio: #475569;
+                /* Acentos por módulo (arco frío + naranja para resultados) */
+                --acc-solvencia: #17A53D;   /* Greens */
+                --acc-graficos: #4D61B4;    /* Blue Violets */
+                --acc-formula: #FB8A09;     /* Ámbar */
+                --acc-limites: #F78502;     /* Oranges */
+                --acc-activos: #36BAA8;     /* Blue Greens */
+                --acc-pasivo: #4D61B4;      /* Blue Violets */
+                --acc-patrimonio: #6039A3;  /* Violets */
+                --acc-ingresos: #F78502;    /* Oranges */
                 
                 --shadow: 0 4px 14px rgba(15,30,20,0.05);
                 --shadow-lg: 0 12px 32px rgba(15,30,20,0.08);
-                --neon-glow: 0 0 0 1px rgba(21,128,61,0.08), 0 8px 24px rgba(21,128,61,0.10);
+                --neon-glow: 0 0 0 1px rgba(77,97,180,0.10), 0 8px 24px rgba(77,97,180,0.12);
             }}
             *, *::before, *::after {{ box-sizing: border-box; }}
             html, body {{
@@ -2309,7 +2313,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 position: absolute;
                 top: 0; left: 0; right: 0;
                 height: 4px;
-                background: linear-gradient(90deg, #dc2626 0%, #eab308 25%, #22c55e 42%, #15803d 100%);
+                background: linear-gradient(90deg, #C91A15 0%, #FBDA03 25%, #26D354 42%, #17A53D 100%);
             }}
             .gauge-card .gauge-label {{
                 font-size: 11px; font-weight: 600;
@@ -2345,10 +2349,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 stroke-width: 18;
                 stroke-linecap: butt;
             }}
-            .gauge-zone-red {{ stroke: #dc2626; }}
-            .gauge-zone-yellow {{ stroke: #eab308; }}
-            .gauge-zone-green {{ stroke: #22c55e; }}
-            .gauge-zone-green-dark {{ stroke: #15803d; }}
+            .gauge-zone-red {{ stroke: #C91A15; }}
+            .gauge-zone-yellow {{ stroke: #FBDA03; }}
+            .gauge-zone-green {{ stroke: #26D354; }}
+            .gauge-zone-green-dark {{ stroke: #17A53D; }}
             
             .gauge-needle-line {{
                 fill: #1c2520;
@@ -2387,10 +2391,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 letter-spacing: -1.5px;
                 transition: fill 0.5s;
             }}
-            .gauge-center-value.zona-rojo {{ fill: #dc2626; }}
-            .gauge-center-value.zona-amarillo {{ fill: #eab308; }}
-            .gauge-center-value.zona-verde {{ fill: #22c55e; }}
-            .gauge-center-value.zona-verde-dark {{ fill: #15803d; }}
+            .gauge-center-value.zona-rojo {{ fill: #C91A15; }}
+            .gauge-center-value.zona-amarillo {{ fill: #E2C403; }}
+            .gauge-center-value.zona-verde {{ fill: #26D354; }}
+            .gauge-center-value.zona-verde-dark {{ fill: #17A53D; }}
             
             .gauge-status {{
                 margin-top: 12px;
@@ -2944,7 +2948,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 display: inline-block;
                 width: 6px;
                 height: 36px;
-                background: linear-gradient(180deg, #15803d 0%, #22c55e 100%);
+                background: linear-gradient(180deg, #17A53D 0%, #26D354 100%);
                 border-radius: 3px;
                 margin-right: 16px;
                 vertical-align: -6px;
@@ -3007,59 +3011,59 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* Colores por módulo (variables CSS) */
             .modulo-activo {{
-                --card-color: #06b6d4;
-                --card-color-soft: rgba(6,182,212,0.10);
-                --card-color-glow: rgba(6,182,212,0.25);
-                --card-color-deep: #0e7490;
-                border-color: #06b6d4;
-                box-shadow: 0 0 0 4px rgba(6,182,212,0.10), 0 6px 22px rgba(6,182,212,0.22);
+                --card-color: #36BAA8;
+                --card-color-soft: rgba(54,186,168,0.10);
+                --card-color-glow: rgba(54,186,168,0.25);
+                --card-color-deep: #237C70;
+                border-color: #36BAA8;
+                box-shadow: 0 0 0 4px rgba(54,186,168,0.10), 0 6px 22px rgba(54,186,168,0.22);
             }}
             .modulo-activo:hover {{
-                box-shadow: 0 0 0 6px rgba(6,182,212,0.16), 0 12px 32px rgba(6,182,212,0.40);
+                box-shadow: 0 0 0 6px rgba(54,186,168,0.16), 0 12px 32px rgba(54,186,168,0.40);
             }}
             
             .modulo-pasivo {{
-                --card-color: #ec4899;
-                --card-color-soft: rgba(236,72,153,0.10);
-                --card-color-glow: rgba(236,72,153,0.25);
-                --card-color-deep: #9d174d;
-                border-color: #ec4899;
-                box-shadow: 0 0 0 4px rgba(236,72,153,0.10), 0 6px 22px rgba(236,72,153,0.22);
+                --card-color: #4D61B4;
+                --card-color-soft: rgba(77,97,180,0.10);
+                --card-color-glow: rgba(77,97,180,0.25);
+                --card-color-deep: #33417C;
+                border-color: #4D61B4;
+                box-shadow: 0 0 0 4px rgba(77,97,180,0.10), 0 6px 22px rgba(77,97,180,0.22);
             }}
             .modulo-pasivo:hover {{
-                box-shadow: 0 0 0 6px rgba(236,72,153,0.16), 0 12px 32px rgba(236,72,153,0.40);
+                box-shadow: 0 0 0 6px rgba(77,97,180,0.16), 0 12px 32px rgba(77,97,180,0.40);
             }}
             
             .modulo-patrimonio {{
-                --card-color: #8b5cf6;
-                --card-color-soft: rgba(139,92,246,0.10);
-                --card-color-glow: rgba(139,92,246,0.25);
-                --card-color-deep: #5b21b6;
-                border-color: #8b5cf6;
-                box-shadow: 0 0 0 4px rgba(139,92,246,0.10), 0 6px 22px rgba(139,92,246,0.22);
+                --card-color: #6039A3;
+                --card-color-soft: rgba(96,57,163,0.10);
+                --card-color-glow: rgba(96,57,163,0.25);
+                --card-color-deep: #3C2367;
+                border-color: #6039A3;
+                box-shadow: 0 0 0 4px rgba(96,57,163,0.10), 0 6px 22px rgba(96,57,163,0.22);
             }}
             .modulo-patrimonio:hover {{
-                box-shadow: 0 0 0 6px rgba(139,92,246,0.16), 0 12px 32px rgba(139,92,246,0.40);
+                box-shadow: 0 0 0 6px rgba(96,57,163,0.16), 0 12px 32px rgba(96,57,163,0.40);
             }}
             
             .modulo-ingresos {{
-                --card-color: #f59e0b;
-                --card-color-soft: rgba(245,158,11,0.10);
-                --card-color-glow: rgba(245,158,11,0.25);
-                --card-color-deep: #b45309;
-                border-color: #f59e0b;
-                box-shadow: 0 0 0 4px rgba(245,158,11,0.10), 0 6px 22px rgba(245,158,11,0.22);
+                --card-color: #F78502;
+                --card-color-soft: rgba(247,133,2,0.10);
+                --card-color-glow: rgba(247,133,2,0.25);
+                --card-color-deep: #A75A00;
+                border-color: #F78502;
+                box-shadow: 0 0 0 4px rgba(247,133,2,0.10), 0 6px 22px rgba(247,133,2,0.22);
             }}
             .modulo-ingresos:hover {{
-                box-shadow: 0 0 0 6px rgba(245,158,11,0.16), 0 12px 32px rgba(245,158,11,0.40);
+                box-shadow: 0 0 0 6px rgba(247,133,2,0.16), 0 12px 32px rgba(247,133,2,0.40);
             }}
             
             .modulo-solvencia {{
-                --card-color: #15803d;
+                --card-color: #17A53D;
                 --card-color-soft: rgba(21,128,61,0.10);
                 --card-color-glow: rgba(21,128,61,0.30);
-                --card-color-deep: #14532d;
-                border-color: #15803d;
+                --card-color-deep: #0C5E22;
+                border-color: #17A53D;
                 box-shadow: 0 0 0 4px rgba(21,128,61,0.12), 0 6px 22px rgba(21,128,61,0.25);
             }}
             .modulo-solvencia:hover {{
@@ -3068,11 +3072,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === RIESGO: card del submenu Activo === */
             .modulo-riesgo {{
-                --card-color: #1e40af;
+                --card-color: #045988;
                 --card-color-soft: rgba(30,64,175,0.10);
                 --card-color-glow: rgba(30,64,175,0.30);
-                --card-color-deep: #1e3a8a;
-                border-color: #1e40af;
+                --card-color-deep: #033F61;
+                border-color: #045988;
                 box-shadow: 0 0 0 4px rgba(30,64,175,0.12), 0 6px 22px rgba(30,64,175,0.25);
             }}
             .modulo-riesgo:hover {{
@@ -3081,11 +3085,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === COBERTURA: card del submenu Activo (teal/esmeralda) === */
             .modulo-cobertura {{
-                --card-color: #0d9488;
+                --card-color: #2A9488;
                 --card-color-soft: rgba(13,148,136,0.10);
                 --card-color-glow: rgba(13,148,136,0.30);
-                --card-color-deep: #115e59;
-                border-color: #0d9488;
+                --card-color-deep: #1E6B61;
+                border-color: #2A9488;
                 box-shadow: 0 0 0 4px rgba(13,148,136,0.12), 0 6px 22px rgba(13,148,136,0.25);
             }}
             .modulo-cobertura:hover {{
@@ -3094,11 +3098,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === CRECIMIENTO: card del submenu Activo (índigo) === */
             .modulo-crecimiento {{
-                --card-color: #6366f1;
+                --card-color: #088DD5;
                 --card-color-soft: rgba(99,102,241,0.10);
                 --card-color-glow: rgba(99,102,241,0.30);
-                --card-color-deep: #4338ca;
-                border-color: #6366f1;
+                --card-color-deep: #045988;
+                border-color: #088DD5;
                 box-shadow: 0 0 0 4px rgba(99,102,241,0.12), 0 6px 22px rgba(99,102,241,0.25);
             }}
             .modulo-crecimiento:hover {{
@@ -3107,11 +3111,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === MORA: card del submenu Activo === */
             .modulo-mora {{
-                --card-color: #dc2626;
+                --card-color: #C91A15;
                 --card-color-soft: rgba(220,38,38,0.10);
                 --card-color-glow: rgba(220,38,38,0.30);
-                --card-color-deep: #991b1b;
-                border-color: #dc2626;
+                --card-color-deep: #A0100B;
+                border-color: #C91A15;
                 box-shadow: 0 0 0 4px rgba(220,38,38,0.12), 0 6px 22px rgba(220,38,38,0.25);
             }}
             .modulo-mora:hover {{
@@ -3120,11 +3124,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === EVOLUCIÓN ACTIVO: cyan === */
             .modulo-evolucion-activo {{
-                --card-color: #06b6d4;
+                --card-color: #36BAA8;
                 --card-color-soft: rgba(6,182,212,0.10);
                 --card-color-glow: rgba(6,182,212,0.30);
-                --card-color-deep: #0e7490;
-                border-color: #06b6d4;
+                --card-color-deep: #237C70;
+                border-color: #36BAA8;
                 box-shadow: 0 0 0 4px rgba(6,182,212,0.12), 0 6px 22px rgba(6,182,212,0.25);
             }}
             .modulo-evolucion-activo:hover {{
@@ -3133,40 +3137,40 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === EVOLUCIÓN ICG: naranja === */
             .modulo-evolucion-icg {{
-                --card-color: #f97316;
+                --card-color: #F78502;
                 --card-color-soft: rgba(249,115,22,0.10);
                 --card-color-glow: rgba(249,115,22,0.30);
-                --card-color-deep: #c2410c;
-                border-color: #f97316;
+                --card-color-deep: #A75A00;
+                border-color: #F78502;
                 box-shadow: 0 0 0 4px rgba(249,115,22,0.12), 0 6px 22px rgba(249,115,22,0.25);
             }}
             .modulo-evolucion-icg:hover {{
                 box-shadow: 0 0 0 6px rgba(249,115,22,0.20), 0 14px 36px rgba(249,115,22,0.45);
             }}
             .btn-volver-icg {{
-                color: #c2410c;
-                border-color: #f97316;
-                background: rgba(249,115,22,0.05);
+                color: #A75A00;
+                border-color: #F78502;
+                background: rgba(247,133,2,0.05);
             }}
             .btn-volver-icg:hover {{
-                background: rgba(249,115,22,0.12);
+                background: rgba(247,133,2,0.12);
             }}
             
             /* === RENTABILIDAD: dorado (rentabilidad/profit) === */
             .modulo-rentabilidad {{
-                --card-color: #634782;
+                --card-color: #6039A3;
                 --card-color-soft: rgba(99,71,130,0.10);
                 --card-color-glow: rgba(99,71,130,0.30);
-                --card-color-deep: #3D2259;
-                border-color: #634782;
+                --card-color-deep: #3C2367;
+                border-color: #6039A3;
                 box-shadow: 0 0 0 4px rgba(184,146,60,0.12), 0 6px 22px rgba(184,146,60,0.25);
             }}
             .modulo-rentabilidad:hover {{
                 box-shadow: 0 0 0 6px rgba(99,71,130,0.20), 0 14px 36px rgba(99,71,130,0.45);
             }}
             .btn-volver-rent {{
-                color: #3D2259;
-                border-color: #634782;
+                color: #3C2367;
+                border-color: #6039A3;
                 background: rgba(99,71,130,0.05);
             }}
             .btn-volver-rent:hover {{
@@ -3183,12 +3187,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             @media (max-width: 900px) {{
                 .rent-kpis-grid {{ grid-template-columns: 1fr; }}
             }}
-            .evo-kpi-rent-roe        {{ border-left: 4px solid #634782; }}
-            .evo-kpi-rent-roe .evo-kpi-valor   {{ color: #3D2259; }}
-            .evo-kpi-rent-margen     {{ border-left: 4px solid #937BAB; }}
-            .evo-kpi-rent-margen .evo-kpi-valor {{ color: #634782; }}
+            .evo-kpi-rent-roe        {{ border-left: 4px solid #6039A3; }}
+            .evo-kpi-rent-roe .evo-kpi-valor   {{ color: #3C2367; }}
+            .evo-kpi-rent-margen     {{ border-left: 4px solid #9B86C0; }}
+            .evo-kpi-rent-margen .evo-kpi-valor {{ color: #6039A3; }}
             .evo-kpi-rent-roic       {{ border-left: 4px solid #DEBBFF; }}
-            .evo-kpi-rent-roic .evo-kpi-valor   {{ color: #937BAB; }}
+            .evo-kpi-rent-roic .evo-kpi-valor   {{ color: #9B86C0; }}
             
             /* Bloques de indicador (gráfica + tabla apiladas) */
             .rent-indicador-bloque .historico-flex-wrap {{ margin-bottom: 6px; }}
@@ -3213,9 +3217,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .rent-leyenda-line {{
                 width: 22px; height: 3px; display: inline-block; border-radius: 2px;
             }}
-            .rent-line-roe    {{ background: #b8923c; }}
-            .rent-line-margen {{ background: #3F7878; }}
-            .rent-line-roic   {{ background: #5A8B6E; }}
+            .rent-line-roe    {{ background: #11782C; }}
+            .rent-line-margen {{ background: #A75A00; }}
+            .rent-line-roic   {{ background: #C91A15; }}
             
             /* Leyenda en escala de grises (gráfico de barras) */
             .rent-leyenda-grises {{ justify-content: center; margin-top: 16px; }}
@@ -3301,14 +3305,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             @media (max-width: 600px) {{
                 .icg-kpis-grid {{ grid-template-columns: 1fr; }}
             }}
-            .evo-kpi-icg-ingresos                       {{ border-left: 4px solid #15803d; }}
-            .evo-kpi-icg-ingresos .evo-kpi-valor        {{ color: #166534; }}
-            .evo-kpi-icg-costos                         {{ border-left: 4px solid #c2410c; }}
-            .evo-kpi-icg-costos .evo-kpi-valor          {{ color: #c2410c; }}
-            .evo-kpi-icg-gastos                         {{ border-left: 4px solid #dc2626; }}
-            .evo-kpi-icg-gastos .evo-kpi-valor          {{ color: #991b1b; }}
-            .evo-kpi-icg-excedente                      {{ border-left: 4px solid #6d28d9; }}
-            .evo-kpi-icg-excedente .evo-kpi-valor       {{ color: #6d28d9; }}
+            .evo-kpi-icg-ingresos                       {{ border-left: 4px solid #17A53D; }}
+            .evo-kpi-icg-ingresos .evo-kpi-valor        {{ color: #11782C; }}
+            .evo-kpi-icg-costos                         {{ border-left: 4px solid #F78502; }}
+            .evo-kpi-icg-costos .evo-kpi-valor          {{ color: #A75A00; }}
+            .evo-kpi-icg-gastos                         {{ border-left: 4px solid #C91A15; }}
+            .evo-kpi-icg-gastos .evo-kpi-valor          {{ color: #C91A15; }}
+            .evo-kpi-icg-excedente                      {{ border-left: 4px solid #4D61B4; }}
+            .evo-kpi-icg-excedente .evo-kpi-valor       {{ color: #4D61B4; }}
             
             /* === Leyenda del gráfico combinado === */
             .icg-leyenda {{
@@ -3341,16 +3345,16 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 display: inline-block;
                 border-radius: 2px;
             }}
-            /* Paleta pastel — muestras planas para la leyenda */
-            .icg-sq-ingresos {{ background: #F5D77E; border: 1px solid #E5C166; }}
-            .icg-sq-costos   {{ background: #6FA8A8; border: 1px solid #578F8F; }}
-            .icg-sq-gastos   {{ background: #A8D5BA; border: 1px solid #8AC0A2; }}
-            .icg-sq-excedente-pos {{ background: #2C3E50; border: 1px solid #1c2520; }}
-            .icg-sq-excedente-neg {{ background: #C0392B; border: 1px solid #962618; }}
+            /* Muestras de leyenda — armonizadas con ICG_COLORS de la paleta */
+            .icg-sq-ingresos {{ background: #77DE93; border: 1px solid #26D354; }}
+            .icg-sq-costos   {{ background: #F6A141; border: 1px solid #F78502; }}
+            .icg-sq-gastos   {{ background: #EEA9A6; border: 1px solid #EA544F; }}
+            .icg-sq-excedente-pos {{ background: #33417C; border: 1px solid #4D61B4; }}
+            .icg-sq-excedente-neg {{ background: #C91A15; border: 1px solid #A0100B; }}
             /* Excedente: la "línea" se acompaña de un punto blanco con borde negro,
                igual que los marcadores del gráfico */
             .icg-line-excedente {{
-                background: #1a1a1a;
+                background: #4D61B4;
                 height: 2px; width: 24px;
                 position: relative;
             }}
@@ -3361,7 +3365,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 transform: translate(-50%, -50%);
                 width: 7px; height: 7px;
                 background: #ffffff;
-                border: 1.5px solid #1a1a1a;
+                border: 1.5px solid #4D61B4;
                 border-radius: 50%;
             }}
             
@@ -3379,7 +3383,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 border-radius: 16px;
                 box-shadow: inset 0 0 0 1px rgba(120,140,140,0.10);
             }}
-            .chart-scroll-icg::-webkit-scrollbar-thumb {{ background: #A8D5BA; }}
+            .chart-scroll-icg::-webkit-scrollbar-thumb {{ background: #4D61B4; }}
             
             /* === Composición por subcuentas en 3 columnas === */
             .icg-subcuentas-cols {{
@@ -3540,11 +3544,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === EVOLUCIÓN PASIVO: ámbar/naranja === */
             .modulo-evolucion-pasivo {{
-                --card-color: #f59e0b;
+                --card-color: #F78502;
                 --card-color-soft: rgba(245,158,11,0.10);
                 --card-color-glow: rgba(245,158,11,0.30);
-                --card-color-deep: #b45309;
-                border-color: #f59e0b;
+                --card-color-deep: #33417C;
+                border-color: #F78502;
                 box-shadow: 0 0 0 4px rgba(245,158,11,0.12), 0 6px 22px rgba(245,158,11,0.25);
             }}
             .modulo-evolucion-pasivo:hover {{
@@ -3553,11 +3557,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === EVOLUCIÓN PATRIMONIO: violeta === */
             .modulo-evolucion-patrimonio {{
-                --card-color: #8b5cf6;
+                --card-color: #6039A3;
                 --card-color-soft: rgba(139,92,246,0.10);
                 --card-color-glow: rgba(139,92,246,0.30);
-                --card-color-deep: #6d28d9;
-                border-color: #8b5cf6;
+                --card-color-deep: #3C2367;
+                border-color: #6039A3;
                 box-shadow: 0 0 0 4px rgba(139,92,246,0.12), 0 6px 22px rgba(139,92,246,0.25);
             }}
             .modulo-evolucion-patrimonio:hover {{
@@ -3593,28 +3597,28 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 box-shadow: 0 4px 14px rgba(0,0,0,0.12);
             }}
             .btn-volver-activo {{
-                color: #0e7490;
-                border-color: #06b6d4;
-                background: rgba(6,182,212,0.05);
+                color: #237C70;
+                border-color: #36BAA8;
+                background: rgba(54,186,168,0.05);
             }}
             .btn-volver-activo:hover {{
-                background: rgba(6,182,212,0.12);
+                background: rgba(54,186,168,0.12);
             }}
             .btn-volver-pasivo {{
-                color: #b45309;
-                border-color: #f59e0b;
-                background: rgba(245,158,11,0.05);
+                color: #4D61B4;
+                border-color: #4D61B4;
+                background: rgba(77,97,180,0.05);
             }}
             .btn-volver-pasivo:hover {{
-                background: rgba(245,158,11,0.12);
+                background: rgba(77,97,180,0.12);
             }}
             .btn-volver-patrimonio {{
-                color: #6d28d9;
-                border-color: #8b5cf6;
-                background: rgba(139,92,246,0.05);
+                color: #3C2367;
+                border-color: #6039A3;
+                background: rgba(96,57,163,0.05);
             }}
             .btn-volver-patrimonio:hover {{
-                background: rgba(139,92,246,0.12);
+                background: rgba(96,57,163,0.12);
             }}
             
             /* === Toggle Cobertura con/sin Provisión General === */
@@ -3653,16 +3657,16 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 white-space: nowrap;
             }}
             .cobertura-toggle-btn:hover {{
-                color: #115e59;
+                color: #1E6B61;
                 background: rgba(13,148,136,0.06);
             }}
             .cobertura-toggle-btn.activo {{
-                background: #0d9488;
+                background: #2A9488;
                 color: white;
                 box-shadow: 0 2px 6px rgba(13,148,136,0.30);
             }}
             .cobertura-toggle-btn.activo:hover {{
-                background: #115e59;
+                background: #1E6B61;
                 color: white;
             }}
             .cobertura-toggle-hint {{
@@ -3687,15 +3691,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .depositos-tabla thead th {{
                 position: sticky;
                 top: 0;
-                background: #fff7ed;
-                color: #b45309;
+                background: #EEF0F8;
+                color: #4D61B4;
                 font-weight: 700;
                 font-size: 11.5px;
                 text-transform: uppercase;
                 letter-spacing: 0.4px;
                 padding: 13px 16px;
                 text-align: right;
-                border-bottom: 2px solid #fed7aa;
+                border-bottom: 2px solid #F4CC9E;
                 z-index: 2;
             }}
             .depositos-tabla thead th:first-child {{
@@ -3734,10 +3738,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 color: #64748b;
             }}
             .depositos-tabla tbody tr.dep-total-row td {{
-                background: #fff7ed;
+                background: #EEF0F8;
                 font-weight: 800;
-                color: #b45309;
-                border-top: 2px solid #fed7aa;
+                color: #4D61B4;
+                border-top: 2px solid #BDC3DD;
                 font-size: 13.5px;
             }}
             .dep-prod-nombre {{
@@ -3757,7 +3761,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 font-weight: 700;
             }}
             .dep-crec.sube {{ color: #16a34a; }}
-            .dep-crec.baja {{ color: #dc2626; }}
+            .dep-crec.baja {{ color: #C91A15; }}
             .dep-crec.igual {{ color: #94a3b8; }}
             
             /* === KPIs cards de Evolución === */
@@ -3805,15 +3809,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 color: #6b7280;
                 font-style: italic;
             }}
-            .evo-kpi-activo .evo-kpi-valor       {{ color: #0e7490; }}
-            .evo-kpi-activo                       {{ border-left: 4px solid #06b6d4; }}
-            .evo-kpi-pasivo .evo-kpi-valor       {{ color: #b45309; }}
-            .evo-kpi-pasivo                       {{ border-left: 4px solid #f59e0b; }}
-            .evo-kpi-patrimonio .evo-kpi-valor   {{ color: #6d28d9; }}
-            .evo-kpi-patrimonio                   {{ border-left: 4px solid #8b5cf6; }}
+            .evo-kpi-activo .evo-kpi-valor       {{ color: #237C70; }}
+            .evo-kpi-activo                       {{ border-left: 4px solid #36BAA8; }}
+            .evo-kpi-pasivo .evo-kpi-valor       {{ color: #4D61B4; }}
+            .evo-kpi-pasivo                       {{ border-left: 4px solid #4D61B4; }}
+            .evo-kpi-patrimonio .evo-kpi-valor   {{ color: #3C2367; }}
+            .evo-kpi-patrimonio                   {{ border-left: 4px solid #6039A3; }}
             
-            .evo-kpi-var-positiva  {{ color: #15803d !important; }}
-            .evo-kpi-var-negativa  {{ color: #dc2626 !important; }}
+            .evo-kpi-var-positiva  {{ color: #17A53D !important; }}
+            .evo-kpi-var-negativa  {{ color: #C91A15 !important; }}
             .evo-kpi-var-neutral   {{ color: #6b7280 !important; }}
             
             /* === Composición por subcuentas === */
@@ -3948,17 +3952,17 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             
             /* === Scrollbar coloreada del scroll === */
-            .chart-scroll-evolucion-activo::-webkit-scrollbar-thumb {{ background: #06b6d4; }}
-            .chart-scroll-evolucion-pasivo::-webkit-scrollbar-thumb {{ background: #f59e0b; }}
-            .chart-scroll-evolucion-patrimonio::-webkit-scrollbar-thumb {{ background: #8b5cf6; }}
+            .chart-scroll-evolucion-activo::-webkit-scrollbar-thumb {{ background: #36BAA8; }}
+            .chart-scroll-evolucion-pasivo::-webkit-scrollbar-thumb {{ background: #4D61B4; }}
+            .chart-scroll-evolucion-patrimonio::-webkit-scrollbar-thumb {{ background: #6039A3; }}
             
             /* === Activo composición === */
             .modulo-activo-comp {{
-                --card-color: #06b6d4;
+                --card-color: #36BAA8;
                 --card-color-soft: rgba(6,182,212,0.10);
                 --card-color-glow: rgba(6,182,212,0.25);
-                --card-color-deep: #0e7490;
-                border-color: #06b6d4;
+                --card-color-deep: #237C70;
+                border-color: #36BAA8;
                 box-shadow: 0 0 0 4px rgba(6,182,212,0.10), 0 6px 22px rgba(6,182,212,0.22);
             }}
             .modulo-activo-comp:hover {{
@@ -3967,11 +3971,11 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === Cartera === */
             .modulo-cartera {{
-                --card-color: #0ea5e9;
+                --card-color: #088DD5;
                 --card-color-soft: rgba(14,165,233,0.10);
                 --card-color-glow: rgba(14,165,233,0.25);
                 --card-color-deep: #075985;
-                border-color: #0ea5e9;
+                border-color: #088DD5;
                 box-shadow: 0 0 0 4px rgba(14,165,233,0.10), 0 6px 22px rgba(14,165,233,0.22);
             }}
             .modulo-cartera:hover {{
@@ -4088,7 +4092,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 font-weight: 800;
                 letter-spacing: -0.5px;
                 margin: 0 0 6px;
-                background: linear-gradient(135deg, #0e7490 0%, #6d28d9 50%, #b45309 100%);
+                background: linear-gradient(135deg, #36BAA8 0%, #4D61B4 50%, #6039A3 100%);
                 -webkit-background-clip: text;
                 background-clip: text;
                 -webkit-text-fill-color: transparent;
@@ -4100,7 +4104,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             .tablero-sub span {{
                 font-weight: 700;
-                color: #0e7490;
+                color: #4D61B4;
             }}
             
             /* Tarjeta contenedora de cada matriz — glassmorphism */
@@ -4124,10 +4128,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 opacity: 0.9;
             }}
             .matriz-pct::before {{
-                background: linear-gradient(90deg, #0e7490, #06b6d4, #6d28d9);
+                background: linear-gradient(90deg, #36BAA8, #4D61B4, #6039A3);
             }}
             .matriz-money::before {{
-                background: linear-gradient(90deg, #b45309, #f59e0b, #15803d);
+                background: linear-gradient(90deg, #4D61B4, #6039A3, #F78502);
             }}
             
             .matriz-card-head {{
@@ -4149,12 +4153,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 flex-shrink: 0;
             }}
             .matriz-pct .matriz-card-ico {{
-                background: linear-gradient(135deg, #0e7490, #6d28d9);
-                box-shadow: 0 6px 18px rgba(13,116,144,0.4);
+                background: linear-gradient(135deg, #36BAA8, #6039A3);
+                box-shadow: 0 6px 18px rgba(54,186,168,0.4);
             }}
             .matriz-money .matriz-card-ico {{
-                background: linear-gradient(135deg, #b45309, #15803d);
-                box-shadow: 0 6px 18px rgba(180,83,9,0.4);
+                background: linear-gradient(135deg, #4D61B4, #F78502);
+                box-shadow: 0 6px 18px rgba(77,97,180,0.4);
             }}
             .matriz-card-head h3 {{
                 font-size: 17px;
@@ -4188,13 +4192,13 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 border: 1px solid #e2e8f0;
             }}
             .matriz-pct .matriz-scroll::-webkit-scrollbar-thumb {{
-                background: linear-gradient(90deg, #0e7490, #6d28d9);
+                background: linear-gradient(90deg, #237C70, #3C2367);
                 border-radius: 999px;
                 border: 3px solid #eef2f6;
                 min-width: 60px;
             }}
             .matriz-money .matriz-scroll::-webkit-scrollbar-thumb {{
-                background: linear-gradient(90deg, #b45309, #15803d);
+                background: linear-gradient(90deg, #A75A00, #17A53D);
                 border-radius: 999px;
                 border: 3px solid #eef2f6;
                 min-width: 60px;
@@ -4239,15 +4243,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             /* Resaltar columna del año (diciembre) — dorado sutil */
             .matriz-tabla thead th.cierre-anual {{
-                background: #fffbeb;
-                color: #b45309;
+                background: #F8F5DC;
+                color: #A75A00;
                 font-weight: 700;
-                border-color: #fde68a;
+                border-color: #F5DE46;
             }}
             /* Resaltar el último período cargado */
             .matriz-tabla thead th.ultimo-periodo {{
-                background: #ecfeff;
-                color: #0e7490;
+                background: #D8EEEB;
+                color: #237C70;
                 font-weight: 700;
                 border-color: #a5f3fc;
             }}
@@ -4338,7 +4342,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 letter-spacing: 0.1px;
             }}
             .var-sube  {{ color: #16a34a; }}
-            .var-baja  {{ color: #dc2626; }}
+            .var-baja  {{ color: #C91A15; }}
             .var-igual {{ color: #94a3b8; }}
             
             /* Filas clickables */
@@ -4397,7 +4401,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 box-shadow: 0 24px 60px rgba(0,0,0,0.25);
                 animation: cardEntrada 0.4s ease;
                 position: relative;
-                border: 1.5px solid var(--prox-color, #06b6d4);
+                border: 1.5px solid var(--prox-color, #36BAA8);
                 box-shadow: 0 0 0 4px var(--prox-soft, rgba(6,182,212,0.12)),
                             0 24px 60px rgba(0,0,0,0.25);
             }}
@@ -4415,7 +4419,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .proximamente-icono svg {{
                 width: 36px;
                 height: 36px;
-                stroke: var(--prox-color, #06b6d4);
+                stroke: var(--prox-color, #36BAA8);
                 stroke-width: 2;
                 fill: none;
             }}
@@ -4423,7 +4427,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .proximamente-card h2 {{
                 font-size: 24px;
                 margin: 0 0 10px;
-                color: var(--prox-deep, #0e7490);
+                color: var(--prox-deep, #237C70);
                 font-weight: 700;
                 letter-spacing: -0.4px;
             }}
@@ -4437,7 +4441,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .proximamente-tag {{
                 display: inline-block;
                 background: var(--prox-soft, rgba(6,182,212,0.12));
-                color: var(--prox-deep, #0e7490);
+                color: var(--prox-deep, #237C70);
                 padding: 6px 14px;
                 border-radius: 999px;
                 font-size: 11.5px;
@@ -4466,9 +4470,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* Botón "Volver al menú" — Estilo NEON MORADO llamativo */
             .btn-menu {{
-                background: linear-gradient(135deg, #22c55e 0%, #15803d 100%);
+                background: linear-gradient(135deg, #26D354 0%, #17A53D 100%);
                 color: #ffffff;
-                border: 1.5px solid #4ade80;
+                border: 1.5px solid #77DE93;
                 padding: 10px 20px;
                 border-radius: 13px;
                 font-family: 'Poppins', sans-serif;
@@ -4519,7 +4523,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             .btn-menu:hover {{
                 transform: translateX(-3px) translateY(-1px);
-                background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+                background: linear-gradient(135deg, #77DE93 0%, #16a34a 100%);
                 box-shadow:
                     0 0 0 4px rgba(74, 222, 128, 0.25),
                     0 0 32px rgba(74, 222, 128, 0.75),
@@ -4559,19 +4563,19 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* ===== DASHBOARD DE MORA - efectos neón rojo ===== */
             .gauge-card-mora::before {{
-                background: linear-gradient(90deg, #15803d 0%, #eab308 40%, #f97316 70%, #dc2626 100%);
+                background: linear-gradient(90deg, #17A53D 0%, #E2C403 40%, #F78502 70%, #C91A15 100%);
             }}
-            .gauge-zone-orange-mora {{ stroke: #f97316; }}
-            .gauge-zone-red-mora {{ stroke: #dc2626; }}
-            .gauge-center-value.zona-mora-bajo {{ fill: #15803d; }}
-            .gauge-center-value.zona-mora-medio {{ fill: #eab308; }}
-            .gauge-center-value.zona-mora-alto {{ fill: #f97316; }}
-            .gauge-center-value.zona-mora-critico {{ fill: #dc2626; }}
+            .gauge-zone-orange-mora {{ stroke: #F78502; }}
+            .gauge-zone-red-mora {{ stroke: #C91A15; }}
+            .gauge-center-value.zona-mora-bajo {{ fill: #17A53D; }}
+            .gauge-center-value.zona-mora-medio {{ fill: #E2C403; }}
+            .gauge-center-value.zona-mora-alto {{ fill: #F78502; }}
+            .gauge-center-value.zona-mora-critico {{ fill: #C91A15; }}
             
             /* KPIs específicos de Mora */
-            .kpi-card.kpi-mora-vivienda::before {{ background: #8b5cf6; }}
-            .kpi-card.kpi-mora-libranza::before {{ background: #ec4899; }}
-            .kpi-card.kpi-mora-sinlibranza::before {{ background: #f59e0b; }}
+            .kpi-card.kpi-mora-vivienda::before {{ background: #6039A3; }}
+            .kpi-card.kpi-mora-libranza::before {{ background: #CD3F94; }}
+            .kpi-card.kpi-mora-sinlibranza::before {{ background: #F78502; }}
             
             /* Sección de gráfico con efecto neón rojo */
             .seccion-mora-neon {{
@@ -4588,36 +4592,36 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 position: absolute;
                 top: 0; left: 0;
                 width: 100%; height: 3px;
-                background: linear-gradient(90deg, transparent, #dc2626, #ec4899, #dc2626, transparent);
+                background: linear-gradient(90deg, transparent, #C91A15, #CD3F94, #C91A15, transparent);
                 border-radius: 18px 18px 0 0;
                 opacity: 0.85;
             }}
             .seccion-mora-neon .section-title::before {{
-                background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+                background: linear-gradient(180deg, #C91A15 0%, #A0100B 100%);
                 box-shadow: 0 0 8px rgba(220, 38, 38, 0.5);
             }}
             
             /* Scroll container neón mejorado */
             .chart-scroll-neon {{
-                scrollbar-color: #dc2626 #fee2e2;
+                scrollbar-color: #C91A15 #F3DFDF;
             }}
             .chart-scroll-neon::-webkit-scrollbar {{
                 height: 14px;
-                background: linear-gradient(180deg, #fef2f2 0%, #fee2e2 100%);
+                background: linear-gradient(180deg, #F8E5E4 0%, #F3DFDF 100%);
                 border-radius: 8px;
                 border: 1px solid rgba(220, 38, 38, 0.15);
             }}
             .chart-scroll-neon::-webkit-scrollbar-thumb {{
-                background: linear-gradient(180deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
+                background: linear-gradient(180deg, #EA544F 0%, #C91A15 50%, #A0100B 100%);
                 border-radius: 8px;
-                border: 2px solid #fee2e2;
+                border: 2px solid #F3DFDF;
                 background-clip: padding-box;
                 box-shadow:
                     0 0 8px rgba(220, 38, 38, 0.5),
                     inset 0 1px 0 rgba(255, 255, 255, 0.3);
             }}
             .chart-scroll-neon::-webkit-scrollbar-thumb:hover {{
-                background: linear-gradient(180deg, #f87171 0%, #ef4444 50%, #dc2626 100%);
+                background: linear-gradient(180deg, #f87171 0%, #EA544F 50%, #C91A15 100%);
                 box-shadow:
                     0 0 12px rgba(220, 38, 38, 0.75),
                     inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -4639,7 +4643,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             .mora-grupo-header {{
                 padding: 14px 18px;
-                background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+                background: linear-gradient(135deg, #F8E5E4 0%, #F3DFDF 100%);
                 border-bottom: 1px solid rgba(220, 38, 38, 0.15);
                 display: flex;
                 justify-content: space-between;
@@ -4676,12 +4680,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 font-family: 'JetBrains Mono', monospace;
                 letter-spacing: 0.3px;
             }}
-            .mora-pill-bajo {{ background: rgba(21,128,61,0.12); color: #15803d; border: 1px solid rgba(21,128,61,0.25); }}
-            .mora-pill-medio {{ background: rgba(234,179,8,0.15); color: #a16207; border: 1px solid rgba(234,179,8,0.30); }}
-            .mora-pill-alto {{ background: rgba(249,115,22,0.15); color: #c2410c; border: 1px solid rgba(249,115,22,0.30); }}
+            .mora-pill-bajo {{ background: rgba(21,128,61,0.12); color: #17A53D; border: 1px solid rgba(21,128,61,0.25); }}
+            .mora-pill-medio {{ background: rgba(234,179,8,0.15); color: #AC9500; border: 1px solid rgba(234,179,8,0.30); }}
+            .mora-pill-alto {{ background: rgba(249,115,22,0.15); color: #A75A00; border: 1px solid rgba(249,115,22,0.30); }}
             .mora-pill-critico {{
                 background: rgba(220,38,38,0.12);
-                color: #991b1b;
+                color: #A0100B;
                 border: 1px solid rgba(220,38,38,0.30);
                 box-shadow: 0 0 8px rgba(220, 38, 38, 0.25);
             }}
@@ -4737,10 +4741,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 text-align: center;
             }}
             .cat-A {{ background: #84cc16; }}
-            .cat-B {{ background: #facc15; color: #422006; }}
-            .cat-C {{ background: #f97316; }}
-            .cat-D {{ background: #ef4444; }}
-            .cat-E {{ background: #991b1b; }}
+            .cat-B {{ background: #FBDA03; color: #422006; }}
+            .cat-C {{ background: #F78502; }}
+            .cat-D {{ background: #EA544F; }}
+            .cat-E {{ background: #A0100B; }}
             
             /* Grid resumen por categoría */
             .categoria-mora-grid {{
@@ -4769,28 +4773,28 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 box-shadow: 0 0 0 4px rgba(132,204,22,0.18), 0 8px 24px rgba(132,204,22,0.30);
             }}
             .categoria-mora-card.cat-card-B {{
-                border-color: #facc15;
+                border-color: #FBDA03;
                 box-shadow: 0 0 0 3px rgba(250,204,21,0.12), 0 4px 14px rgba(250,204,21,0.20);
             }}
             .categoria-mora-card.cat-card-B:hover {{
                 box-shadow: 0 0 0 4px rgba(250,204,21,0.20), 0 8px 24px rgba(250,204,21,0.32);
             }}
             .categoria-mora-card.cat-card-C {{
-                border-color: #f97316;
+                border-color: #F78502;
                 box-shadow: 0 0 0 3px rgba(249,115,22,0.10), 0 4px 14px rgba(249,115,22,0.20);
             }}
             .categoria-mora-card.cat-card-C:hover {{
                 box-shadow: 0 0 0 4px rgba(249,115,22,0.18), 0 8px 24px rgba(249,115,22,0.32);
             }}
             .categoria-mora-card.cat-card-D {{
-                border-color: #ef4444;
+                border-color: #EA544F;
                 box-shadow: 0 0 0 3px rgba(239,68,68,0.10), 0 4px 14px rgba(239,68,68,0.20);
             }}
             .categoria-mora-card.cat-card-D:hover {{
                 box-shadow: 0 0 0 4px rgba(239,68,68,0.18), 0 8px 24px rgba(239,68,68,0.32);
             }}
             .categoria-mora-card.cat-card-E {{
-                border-color: #991b1b;
+                border-color: #A0100B;
                 box-shadow: 0 0 0 3px rgba(153,27,27,0.10), 0 4px 14px rgba(153,27,27,0.22);
             }}
             .categoria-mora-card.cat-card-E:hover {{
@@ -4854,10 +4858,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 box-shadow: 0 24px 60px rgba(0,0,0,0.30);
                 animation: cardEntrada 0.4s ease;
                 position: relative;
-                border: 1.5px solid var(--hist-color, #15803d);
+                border: 1.5px solid var(--hist-color, #17A53D);
                 box-shadow:
                     0 0 0 4px var(--hist-soft, rgba(21,128,61,0.10)),
-                    0 0 0 5px var(--hist-color, #15803d) 22,
+                    0 0 0 5px var(--hist-color, #17A53D) 22,
                     0 24px 60px rgba(0,0,0,0.30);
             }}
             
@@ -4901,7 +4905,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .historico-tag {{
                 display: inline-block;
                 background: var(--hist-soft, rgba(21,128,61,0.12));
-                color: var(--hist-deep, #166534);
+                color: var(--hist-deep, #11782C);
                 padding: 5px 12px;
                 border-radius: 999px;
                 font-size: 10.5px;
@@ -4909,7 +4913,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 text-transform: uppercase;
                 letter-spacing: 0.8px;
                 margin-bottom: 10px;
-                border: 1px solid var(--hist-color, #15803d);
+                border: 1px solid var(--hist-color, #17A53D);
             }}
             .historico-card h2 {{
                 font-size: 22px;
@@ -4931,7 +4935,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 background: var(--hist-soft, rgba(21,128,61,0.10));
                 padding: 12px 20px;
                 border-radius: 14px;
-                border: 1px solid var(--hist-color, #15803d);
+                border: 1px solid var(--hist-color, #17A53D);
             }}
             .historico-stat-label {{
                 font-size: 10.5px;
@@ -4943,7 +4947,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .historico-stat-value {{
                 font-size: 28px;
                 font-weight: 800;
-                color: var(--hist-color, #15803d);
+                color: var(--hist-color, #17A53D);
                 font-family: 'JetBrains Mono', monospace;
                 letter-spacing: -1px;
                 line-height: 1.1;
@@ -4959,25 +4963,25 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 border-radius: 12px;
                 background: linear-gradient(180deg, #fafbfc 0%, #f5f7f9 100%);
                 border: 1px solid #e4e6e0;
-                scrollbar-color: var(--hist-color, #15803d) var(--hist-soft, #f0fdf4);
+                scrollbar-color: var(--hist-color, #17A53D) var(--hist-soft, #E8F6EC);
             }}
             .historico-chart-scroll::-webkit-scrollbar {{
                 height: 16px;
-                background: var(--hist-soft, #f0fdf4);
+                background: var(--hist-soft, #E8F6EC);
                 border-radius: 8px;
                 border: 1px solid var(--hist-color-30, rgba(21,128,61,0.20));
             }}
             .historico-chart-scroll::-webkit-scrollbar-thumb {{
-                background: linear-gradient(180deg, var(--hist-color-light, #22c55e) 0%, var(--hist-color, #15803d) 50%, var(--hist-deep, #14532d) 100%);
+                background: linear-gradient(180deg, var(--hist-color-light, #26D354) 0%, var(--hist-color, #17A53D) 50%, var(--hist-deep, #0C5E22) 100%);
                 border-radius: 8px;
-                border: 2px solid var(--hist-soft, #f0fdf4);
+                border: 2px solid var(--hist-soft, #E8F6EC);
                 background-clip: padding-box;
                 box-shadow:
                     0 0 10px var(--hist-glow, rgba(21,128,61,0.5)),
                     inset 0 1px 0 rgba(255,255,255,0.35);
             }}
             .historico-chart-scroll::-webkit-scrollbar-thumb:hover {{
-                background: linear-gradient(180deg, var(--hist-color-lighter, #4ade80) 0%, var(--hist-color-light, #22c55e) 50%, var(--hist-color, #15803d) 100%);
+                background: linear-gradient(180deg, var(--hist-color-lighter, #77DE93) 0%, var(--hist-color-light, #26D354) 50%, var(--hist-color, #17A53D) 100%);
                 box-shadow:
                     0 0 16px var(--hist-glow, rgba(21,128,61,0.75)),
                     inset 0 1px 0 rgba(255,255,255,0.45);
@@ -5019,7 +5023,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             .historico-hint {{
                 font-size: 11px;
-                color: var(--hist-color, #15803d);
+                color: var(--hist-color, #17A53D);
                 text-align: center;
                 margin-top: 8px;
                 font-style: italic;
@@ -5041,7 +5045,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 border-radius: 6px;
             }}
             .historico-scrollable::-webkit-scrollbar-thumb {{
-                background: var(--hist-color, #15803d);
+                background: var(--hist-color, #17A53D);
                 border-radius: 6px;
                 opacity: 0.7;
             }}
@@ -5064,8 +5068,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 bottom: 3px;
                 width: 4px;
                 border-radius: 3px;
-                background: var(--hist-color, #15803d);
-                box-shadow: 0 0 8px var(--hist-color, #15803d);
+                background: var(--hist-color, #17A53D);
+                box-shadow: 0 0 8px var(--hist-color, #17A53D);
             }}
             
             .historico-leyenda-chart {{
@@ -5120,14 +5124,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             .historico-tabla-resultado {{
                 background: linear-gradient(90deg, var(--hist-soft, rgba(21,128,61,0.08)) 0%, transparent 100%);
-                border-top: 2px solid var(--hist-color, #15803d) !important;
+                border-top: 2px solid var(--hist-color, #17A53D) !important;
             }}
             .historico-tabla-resultado .historico-tabla-lbl {{
-                color: var(--hist-deep, #166534);
+                color: var(--hist-deep, #11782C);
                 font-weight: 700;
             }}
             .historico-tabla-resultado .historico-tabla-val {{
-                color: var(--hist-deep, #166534);
+                color: var(--hist-deep, #11782C);
                 font-size: 16px;
             }}
             
@@ -5299,8 +5303,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === Colores por modalidad === */
             .mod-vivienda {{
-                --mod-color: #8b5cf6;
-                border-color: #c4b5fd;
+                --mod-color: #6039A3;
+                border-color: #D6CCE6;
                 box-shadow: 0 0 0 3px rgba(139,92,246,0.08), 0 4px 14px rgba(139,92,246,0.15);
             }}
             .mod-vivienda:hover {{
@@ -5308,8 +5312,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             
             .mod-consumo-cl {{
-                --mod-color: #ec4899;
-                border-color: #f9a8d4;
+                --mod-color: #CD3F94;
+                border-color: #E7BED7;
                 box-shadow: 0 0 0 3px rgba(236,72,153,0.08), 0 4px 14px rgba(236,72,153,0.15);
             }}
             .mod-consumo-cl:hover {{
@@ -5317,8 +5321,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             
             .mod-consumo-sl {{
-                --mod-color: #f59e0b;
-                border-color: #fcd34d;
+                --mod-color: #F78502;
+                border-color: #F4CC9E;
                 box-shadow: 0 0 0 3px rgba(245,158,11,0.08), 0 4px 14px rgba(245,158,11,0.15);
             }}
             .mod-consumo-sl:hover {{
@@ -5326,7 +5330,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             
             .mod-microcredito {{
-                --mod-color: #06b6d4;
+                --mod-color: #36BAA8;
                 border-color: #67e8f9;
                 box-shadow: 0 0 0 3px rgba(6,182,212,0.08), 0 4px 14px rgba(6,182,212,0.15);
             }}
@@ -5335,8 +5339,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             
             .mod-comercial {{
-                --mod-color: #14b8a6;
-                border-color: #5eead4;
+                --mod-color: #36BAA8;
+                border-color: #ABDED7;
                 box-shadow: 0 0 0 3px rgba(20,184,166,0.08), 0 4px 14px rgba(20,184,166,0.15);
             }}
             .mod-comercial:hover {{
@@ -5345,7 +5349,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* Card especial para "Cartera Total por Riesgo" en el módulo Crecimiento */
             .mod-riesgo-crec {{
-                --mod-color: #1e40af;
+                --mod-color: #045988;
                 border-color: #93c5fd;
                 box-shadow: 0 0 0 3px rgba(30,64,175,0.08), 0 4px 14px rgba(30,64,175,0.18);
             }}
@@ -5355,7 +5359,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* === Sección modalidad con borde sutil === */
             .seccion-modalidad-riesgo .section-title::before {{
-                background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+                background: linear-gradient(180deg, #045988 0%, #033F61 100%);
                 box-shadow: 0 0 8px rgba(30, 64, 175, 0.45);
             }}
             
@@ -5466,6 +5470,54 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 position: relative;
                 width: 100%;
             }}
+            /* ===== Cuadrícula 2x2 del módulo Crecimiento de Depósitos ===== */
+            .dep-grid-2x2 {{
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 18px;
+                margin-top: 6px;
+            }}
+            .dep-mini-card {{
+                background: linear-gradient(135deg, #fafbfc 0%, #f5f7f9 100%);
+                border: 1px solid #eef0f2;
+                border-radius: 14px;
+                padding: 14px 14px 8px 14px;
+                box-shadow: 0 1px 3px rgba(16,24,40,0.04);
+                min-width: 0;
+                overflow: hidden;
+            }}
+            .dep-mini-card .historico-flex-wrap {{ min-width: 0; }}
+            .dep-mini-card .chart-scroll-container {{ min-width: 0; flex: 1 1 0; }}
+            .dep-mini-inner {{
+                height: 230px;
+                min-width: 100%;
+            }}
+            .dep-mini-titulo {{
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 13.5px;
+                font-weight: 700;
+                color: #1c2520;
+                margin-bottom: 6px;
+                letter-spacing: 0.2px;
+            }}
+            .dep-mini-punto {{
+                width: 11px;
+                height: 11px;
+                border-radius: 50%;
+                flex: 0 0 auto;
+                box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
+            }}
+            .dep-mini-inner {{
+                height: 230px;
+            }}
+            .dep-grid-2x2 .historico-eje-fijo-small {{
+                height: 230px;
+            }}
+            @media (max-width: 760px) {{
+                .dep-grid-2x2 {{ grid-template-columns: 1fr; }}
+            }}
             .historico-eje-fijo {{
                 flex: 0 0 80px;
                 width: 80px;
@@ -5553,7 +5605,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 text-align: right;
             }}
             .seccion-modalidad-mora .section-title::before {{
-                background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+                background: linear-gradient(180deg, #C91A15 0%, #A0100B 100%);
                 box-shadow: 0 0 8px rgba(220, 38, 38, 0.45);
             }}
             
@@ -5562,18 +5614,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 display: none;
             }}
             .gauge-card-cobertura::before {{
-                background: linear-gradient(90deg, #dc2626 0%, #f97316 30%, #eab308 60%, #14b8a6 100%);
+                background: linear-gradient(90deg, #C91A15 0%, #F78502 30%, #E2C403 60%, #36BAA8 100%);
             }}
             
             /* KPIs específicos de Cobertura */
-            .kpi-card.kpi-cobertura-consumo::before {{ background: #f59e0b; }}
-            .kpi-card.kpi-cobertura-vivienda::before {{ background: #8b5cf6; }}
-            .kpi-card.kpi-cobertura-otros::before {{ background: #14b8a6; }}
+            .kpi-card.kpi-cobertura-consumo::before {{ background: #F78502; }}
+            .kpi-card.kpi-cobertura-vivienda::before {{ background: #6039A3; }}
+            .kpi-card.kpi-cobertura-otros::before {{ background: #36BAA8; }}
             
             /* Sección de gráfico con efecto neón teal */
             .seccion-cobertura-neon {{
                 position: relative;
-                background: linear-gradient(180deg, #ffffff 0%, #f0fdfa 100%);
+                background: linear-gradient(180deg, #ffffff 0%, #D8EEEB 100%);
                 border: 1.5px solid rgba(20, 184, 166, 0.30);
                 box-shadow:
                     0 0 0 3px rgba(20, 184, 166, 0.10),
@@ -5585,36 +5637,36 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 position: absolute;
                 top: 0; left: 0;
                 width: 100%; height: 3px;
-                background: linear-gradient(90deg, transparent, #14b8a6, #2dd4bf, #14b8a6, transparent);
+                background: linear-gradient(90deg, transparent, #36BAA8, #62CBBD, #36BAA8, transparent);
                 border-radius: 18px 18px 0 0;
                 opacity: 0.9;
             }}
             .seccion-cobertura-neon .section-title::before {{
-                background: linear-gradient(180deg, #14b8a6 0%, #0f766e 100%);
+                background: linear-gradient(180deg, #36BAA8 0%, #237C70 100%);
                 box-shadow: 0 0 10px rgba(20, 184, 166, 0.55);
             }}
             
             /* Scroll container neón teal */
             .chart-scroll-cobertura {{
-                scrollbar-color: #14b8a6 #ccfbf1;
+                scrollbar-color: #36BAA8 #D8EEEB;
             }}
             .chart-scroll-cobertura::-webkit-scrollbar {{
                 height: 14px;
-                background: linear-gradient(180deg, #f0fdfa 0%, #ccfbf1 100%);
+                background: linear-gradient(180deg, #D8EEEB 0%, #D8EEEB 100%);
                 border-radius: 8px;
                 border: 1px solid rgba(20, 184, 166, 0.15);
             }}
             .chart-scroll-cobertura::-webkit-scrollbar-thumb {{
-                background: linear-gradient(180deg, #2dd4bf 0%, #14b8a6 50%, #0f766e 100%);
+                background: linear-gradient(180deg, #62CBBD 0%, #36BAA8 50%, #237C70 100%);
                 border-radius: 8px;
-                border: 2px solid #ccfbf1;
+                border: 2px solid #D8EEEB;
                 background-clip: padding-box;
                 box-shadow:
                     0 0 10px rgba(20, 184, 166, 0.55),
                     inset 0 1px 0 rgba(255, 255, 255, 0.35);
             }}
             .chart-scroll-cobertura::-webkit-scrollbar-thumb:hover {{
-                background: linear-gradient(180deg, #5eead4 0%, #2dd4bf 50%, #14b8a6 100%);
+                background: linear-gradient(180deg, #ABDED7 0%, #62CBBD 50%, #36BAA8 100%);
                 box-shadow:
                     0 0 16px rgba(20, 184, 166, 0.80),
                     inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -5622,7 +5674,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* Sección modalidad cobertura */
             .seccion-modalidad-cobertura .section-title::before {{
-                background: linear-gradient(180deg, #14b8a6 0%, #0f766e 100%);
+                background: linear-gradient(180deg, #36BAA8 0%, #237C70 100%);
                 box-shadow: 0 0 8px rgba(20, 184, 166, 0.50);
             }}
             
@@ -5646,18 +5698,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 display: none !important;
             }}
             .gauge-card-crecimiento::before {{
-                background: linear-gradient(90deg, #dc2626 0%, #eab308 30%, #15803d 60%, #6366f1 100%);
+                background: linear-gradient(90deg, #C91A15 0%, #E2C403 30%, #17A53D 60%, #088DD5 100%);
             }}
-            .gauge-zone-indigo-crec {{ stroke: #6366f1; }}
-            .gauge-center-value.zona-crec-negativo {{ fill: #dc2626; }}
-            .gauge-center-value.zona-crec-bajo {{ fill: #eab308; }}
-            .gauge-center-value.zona-crec-bueno {{ fill: #15803d; }}
-            .gauge-center-value.zona-crec-alto {{ fill: #6366f1; }}
+            .gauge-zone-indigo-crec {{ stroke: #088DD5; }}
+            .gauge-center-value.zona-crec-negativo {{ fill: #C91A15; }}
+            .gauge-center-value.zona-crec-bajo {{ fill: #E2C403; }}
+            .gauge-center-value.zona-crec-bueno {{ fill: #17A53D; }}
+            .gauge-center-value.zona-crec-alto {{ fill: #088DD5; }}
             
             /* KPIs específicos de Crecimiento */
-            .kpi-card.kpi-crec-consumo::before {{ background: #f59e0b; }}
-            .kpi-card.kpi-crec-vivienda::before {{ background: #8b5cf6; }}
-            .kpi-card.kpi-crec-riesgo::before {{ background: #1e40af; }}
+            .kpi-card.kpi-crec-consumo::before {{ background: #F78502; }}
+            .kpi-card.kpi-crec-vivienda::before {{ background: #6039A3; }}
+            .kpi-card.kpi-crec-riesgo::before {{ background: #045988; }}
             
             /* Sección de gráfico con efecto neón índigo */
             .seccion-crecimiento-neon {{
@@ -5674,18 +5726,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 position: absolute;
                 top: 0; left: 0;
                 width: 100%; height: 3px;
-                background: linear-gradient(90deg, transparent, #6366f1, #8b5cf6, #6366f1, transparent);
+                background: linear-gradient(90deg, transparent, #088DD5, #6039A3, #088DD5, transparent);
                 border-radius: 18px 18px 0 0;
                 opacity: 0.9;
             }}
             .seccion-crecimiento-neon .section-title::before {{
-                background: linear-gradient(180deg, #6366f1 0%, #4338ca 100%);
+                background: linear-gradient(180deg, #088DD5 0%, #045988 100%);
                 box-shadow: 0 0 10px rgba(99, 102, 241, 0.55);
             }}
             
             /* Scroll container neón índigo */
             .chart-scroll-crecimiento {{
-                scrollbar-color: #6366f1 #e0e7ff;
+                scrollbar-color: #088DD5 #e0e7ff;
             }}
             .chart-scroll-crecimiento::-webkit-scrollbar {{
                 height: 14px;
@@ -5694,7 +5746,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 border: 1px solid rgba(99, 102, 241, 0.15);
             }}
             .chart-scroll-crecimiento::-webkit-scrollbar-thumb {{
-                background: linear-gradient(180deg, #818cf8 0%, #6366f1 50%, #4338ca 100%);
+                background: linear-gradient(180deg, #2CAAEE 0%, #088DD5 50%, #045988 100%);
                 border-radius: 8px;
                 border: 2px solid #e0e7ff;
                 background-clip: padding-box;
@@ -5703,7 +5755,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     inset 0 1px 0 rgba(255, 255, 255, 0.35);
             }}
             .chart-scroll-crecimiento::-webkit-scrollbar-thumb:hover {{
-                background: linear-gradient(180deg, #a5b4fc 0%, #818cf8 50%, #6366f1 100%);
+                background: linear-gradient(180deg, #89CAED 0%, #2CAAEE 50%, #088DD5 100%);
                 box-shadow:
                     0 0 16px rgba(99, 102, 241, 0.80),
                     inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -5711,7 +5763,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             /* Sección modalidad crecimiento */
             .seccion-modalidad-crecimiento .section-title::before {{
-                background: linear-gradient(180deg, #6366f1 0%, #4338ca 100%);
+                background: linear-gradient(180deg, #088DD5 0%, #045988 100%);
                 box-shadow: 0 0 8px rgba(99, 102, 241, 0.55);
             }}
             
@@ -5720,13 +5772,13 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 display: none;
             }}
             .gauge-card-riesgo::before {{
-                background: linear-gradient(90deg, #15803d 0%, #eab308 40%, #f97316 70%, #1e40af 100%);
+                background: linear-gradient(90deg, #17A53D 0%, #E2C403 40%, #F78502 70%, #045988 100%);
             }}
             
             /* KPIs específicos de Riesgo */
-            .kpi-card.kpi-riesgo-A::before {{ background: #15803d; }}
-            .kpi-card.kpi-riesgo-CD::before {{ background: #f97316; }}
-            .kpi-card.kpi-riesgo-E::before {{ background: #1e40af; }}
+            .kpi-card.kpi-riesgo-A::before {{ background: #17A53D; }}
+            .kpi-card.kpi-riesgo-CD::before {{ background: #F78502; }}
+            .kpi-card.kpi-riesgo-E::before {{ background: #045988; }}
             
             /* Sección de gráfico con efecto neón azul oscuro */
             .seccion-riesgo-neon {{
@@ -5743,36 +5795,36 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 position: absolute;
                 top: 0; left: 0;
                 width: 100%; height: 3px;
-                background: linear-gradient(90deg, transparent, #1e40af, #3b82f6, #1e40af, transparent);
+                background: linear-gradient(90deg, transparent, #045988, #2CAAEE, #045988, transparent);
                 border-radius: 18px 18px 0 0;
                 opacity: 0.9;
             }}
             .seccion-riesgo-neon .section-title::before {{
-                background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+                background: linear-gradient(180deg, #045988 0%, #033F61 100%);
                 box-shadow: 0 0 10px rgba(30, 64, 175, 0.55);
             }}
             
             /* Scroll container neón azul */
             .chart-scroll-riesgo {{
-                scrollbar-color: #1e40af #dbeafe;
+                scrollbar-color: #045988 #C1E1F2;
             }}
             .chart-scroll-riesgo::-webkit-scrollbar {{
                 height: 14px;
-                background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
+                background: linear-gradient(180deg, #E8F2FA 0%, #C1E1F2 100%);
                 border-radius: 8px;
                 border: 1px solid rgba(30, 64, 175, 0.15);
             }}
             .chart-scroll-riesgo::-webkit-scrollbar-thumb {{
-                background: linear-gradient(180deg, #3b82f6 0%, #1e40af 50%, #1e3a8a 100%);
+                background: linear-gradient(180deg, #2CAAEE 0%, #045988 50%, #033F61 100%);
                 border-radius: 8px;
-                border: 2px solid #dbeafe;
+                border: 2px solid #C1E1F2;
                 background-clip: padding-box;
                 box-shadow:
                     0 0 8px rgba(30, 64, 175, 0.5),
                     inset 0 1px 0 rgba(255, 255, 255, 0.3);
             }}
             .chart-scroll-riesgo::-webkit-scrollbar-thumb:hover {{
-                background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 50%, #1e40af 100%);
+                background: linear-gradient(180deg, #89CAED 0%, #2CAAEE 50%, #045988 100%);
                 box-shadow:
                     0 0 12px rgba(30, 64, 175, 0.75),
                     inset 0 1px 0 rgba(255, 255, 255, 0.4);
@@ -5792,7 +5844,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 font-size: 12.5px;
             }}
             .riesgo-bruta-card thead tr {{
-                background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+                background: linear-gradient(180deg, #045988 0%, #033F61 100%);
                 color: white;
             }}
             .riesgo-bruta-card thead th {{
@@ -5814,7 +5866,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .riesgo-bruta-card tbody tr:hover {{ background: #f0f9ff; }}
             .riesgo-bruta-card .codigo {{
                 font-family: 'JetBrains Mono', monospace;
-                color: #1e40af;
+                color: #045988;
                 font-weight: 600;
                 font-size: 12px;
                 width: 80px;
@@ -5833,29 +5885,29 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 font-weight: 400;
             }}
             .riesgo-bruta-card tfoot tr {{
-                background: linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%);
-                border-top: 2px solid #1e40af;
+                background: linear-gradient(180deg, #E8F2FA 0%, #C1E1F2 100%);
+                border-top: 2px solid #045988;
             }}
             .riesgo-bruta-card tfoot td {{
                 padding: 12px 16px;
                 font-weight: 700;
-                color: #1e3a8a;
+                color: #033F61;
                 font-size: 13px;
             }}
             .riesgo-bruta-card tfoot td.num {{
-                color: #1e40af;
+                color: #045988;
                 font-size: 14px;
             }}
             
             /* Card de categoria con estilo azul */
             .categoria-mora-card.cat-card-A-riesgo {{
-                border-color: #15803d;
+                border-color: #17A53D;
                 box-shadow: 0 0 0 3px rgba(21,128,61,0.10), 0 4px 14px rgba(21,128,61,0.18);
             }}
             .categoria-mora-card.cat-card-A-riesgo:hover {{
                 box-shadow: 0 0 0 4px rgba(21,128,61,0.18), 0 8px 24px rgba(21,128,61,0.30);
             }}
-            .cat-A-riesgo {{ background: #15803d !important; color: white !important; }}
+            .cat-A-riesgo {{ background: #17A53D !important; color: white !important; }}
             
             
             /* Responsive */
@@ -6026,7 +6078,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
                     <span>Volver al menú principal</span>
                 </button>
-                <h1 style="color: #0e7490;">Módulo Activo</h1>
+                <h1 style="color: #237C70;">Módulo Activo</h1>
                 <p class="subtitle">Selecciona el indicador que deseas analizar</p>
             </div>
             
@@ -6132,7 +6184,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
                     <span>Volver al menú principal</span>
                 </button>
-                <h1 style="color: #b45309;">Módulo Pasivo</h1>
+                <h1 style="color: #4D61B4;">Módulo Pasivo</h1>
                 <p class="subtitle">Selecciona el indicador que deseas analizar</p>
             </div>
             
@@ -6182,7 +6234,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         <svg viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6"/></svg>
                         <span>Volver al módulo Pasivo</span>
                     </button>
-                    <h1 class="header-title-text" style="color:#b45309;">Crecimiento de Depósitos</h1>
+                    <h1 class="header-title-text" style="color:#4D61B4;">Crecimiento de Depósitos</h1>
                     <div class="subtitle">Captaciones por producto · Crecimiento mensual</div>
                 </div>
                 <div class="header-acciones">
@@ -6214,21 +6266,82 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             <!-- KPIs -->
             <div class="evo-kpis" id="depositos-kpis"></div>
             
-            <!-- Gráfico histórico -->
+            <!-- Gráfico histórico TOTAL (grande) -->
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica de Depósitos</h2>
-                <p class="seccion-subtitulo" id="depositos-graf-sub">Saldo total de captaciones por producto · Millones COP</p>
+                <p class="seccion-subtitulo" id="depositos-graf-sub">Saldo total de captaciones · Millones COP</p>
                 <div class="historico-flex-wrap">
                     <div class="historico-eje-fijo">
-                        <div id="chartDepositos-axis-container" class="eje-y-html-container"></div>
+                        <div id="chartDepositosTotal-axis-container" class="eje-y-html-container"></div>
                     </div>
-                    <div class="chart-scroll-container" id="depositos-scroll-container">
-                        <div class="chart-inner" id="depositos-inner">
-                            <canvas id="chartDepositos"></canvas>
+                    <div class="chart-scroll-container" id="depositosTotal-scroll-container">
+                        <div class="chart-inner" id="depositosTotal-inner">
+                            <canvas id="chartDepositosTotal"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="chart-hint">Desplázate por los períodos con la barra inferior</div>
+            </div>
+            
+            <!-- Cuadrícula 2x2: un gráfico por producto -->
+            <div class="section acc-graficos">
+                <h2 class="section-title">Evolución por Producto</h2>
+                <p class="seccion-subtitulo">Saldo histórico de cada producto de captación · Millones COP</p>
+                <div class="dep-grid-2x2">
+                    <div class="dep-mini-card">
+                        <div class="dep-mini-titulo"><span class="dep-mini-punto" id="dep-mini-punto-ahorro_vista"></span>Ahorro a la Vista</div>
+                        <div class="historico-flex-wrap">
+                            <div class="historico-eje-fijo historico-eje-fijo-small">
+                                <div id="chartDep-ahorro_vista-axis-container" class="eje-y-html-container"></div>
+                            </div>
+                            <div class="chart-scroll-container" id="dep-ahorro_vista-scroll-container">
+                                <div class="chart-inner dep-mini-inner" id="dep-ahorro_vista-inner">
+                                    <canvas id="chartDep-ahorro_vista"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dep-mini-card">
+                        <div class="dep-mini-titulo"><span class="dep-mini-punto" id="dep-mini-punto-cdat"></span>CDAT</div>
+                        <div class="historico-flex-wrap">
+                            <div class="historico-eje-fijo historico-eje-fijo-small">
+                                <div id="chartDep-cdat-axis-container" class="eje-y-html-container"></div>
+                            </div>
+                            <div class="chart-scroll-container" id="dep-cdat-scroll-container">
+                                <div class="chart-inner dep-mini-inner" id="dep-cdat-inner">
+                                    <canvas id="chartDep-cdat"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dep-mini-card">
+                        <div class="dep-mini-titulo"><span class="dep-mini-punto" id="dep-mini-punto-contractual"></span>Ahorro Contractual</div>
+                        <div class="historico-flex-wrap">
+                            <div class="historico-eje-fijo historico-eje-fijo-small">
+                                <div id="chartDep-contractual-axis-container" class="eje-y-html-container"></div>
+                            </div>
+                            <div class="chart-scroll-container" id="dep-contractual-scroll-container">
+                                <div class="chart-inner dep-mini-inner" id="dep-contractual-inner">
+                                    <canvas id="chartDep-contractual"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dep-mini-card">
+                        <div class="dep-mini-titulo"><span class="dep-mini-punto" id="dep-mini-punto-daes"></span>DAES</div>
+                        <div class="historico-flex-wrap">
+                            <div class="historico-eje-fijo historico-eje-fijo-small">
+                                <div id="chartDep-daes-axis-container" class="eje-y-html-container"></div>
+                            </div>
+                            <div class="chart-scroll-container" id="dep-daes-scroll-container">
+                                <div class="chart-inner dep-mini-inner" id="dep-daes-inner">
+                                    <canvas id="chartDep-daes"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-hint">Cada gráfico se desplaza por los períodos con su barra inferior</div>
             </div>
             
             <!-- Tabla de productos -->
@@ -6248,7 +6361,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
                     <span>Volver al menú principal</span>
                 </button>
-                <h1 style="color: #6d28d9;">Módulo Patrimonio</h1>
+                <h1 style="color: #3C2367;">Módulo Patrimonio</h1>
                 <p class="subtitle">Selecciona el indicador que deseas analizar</p>
             </div>
             
@@ -6279,7 +6392,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
                     <span>Volver al menú principal</span>
                 </button>
-                <h1 style="color: #c2410c;">Módulo Ingresos, Costos y Gastos</h1>
+                <h1 style="color: #A75A00;">Módulo Ingresos, Costos y Gastos</h1>
                 <p class="subtitle">Selecciona el indicador que deseas analizar</p>
             </div>
             
@@ -6331,7 +6444,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         <svg viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6"/></svg>
                         <span>Volver al módulo Ingresos, Costos y Gastos</span>
                     </button>
-                    <h1 class="header-title-text" style="color:#c2410c;">Evolución de Ingresos, Costos y Gastos</h1>
+                    <h1 class="header-title-text" style="color:#A75A00;">Evolución de Ingresos, Costos y Gastos</h1>
                     <div class="subtitle">Cuentas 4 (Ingresos), 6 (Costos), 5−53 (Gastos) y 53 (Excedente)</div>
                 </div>
                 <div class="header-acciones">
@@ -6438,15 +6551,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 <p class="seccion-subtitulo">Cuentas de 2 dígitos de Ingresos, Costos y Gastos</p>
                 <div class="icg-subcuentas-cols">
                     <div class="icg-subcuentas-col">
-                        <h3 class="icg-col-titulo" style="color:#B8923C;">Ingresos (4)</h3>
+                        <h3 class="icg-col-titulo" style="color:#11782C;">Ingresos (4)</h3>
                         <div id="icg-subc-ingresos" class="evolucion-subcuentas-grid icg-grid-col"></div>
                     </div>
                     <div class="icg-subcuentas-col">
-                        <h3 class="icg-col-titulo" style="color:#3F7878;">Costos (6)</h3>
+                        <h3 class="icg-col-titulo" style="color:#A75A00;">Costos (6)</h3>
                         <div id="icg-subc-costos" class="evolucion-subcuentas-grid icg-grid-col"></div>
                     </div>
                     <div class="icg-subcuentas-col">
-                        <h3 class="icg-col-titulo" style="color:#5A8B6E;">Gastos (5)</h3>
+                        <h3 class="icg-col-titulo" style="color:#C91A15;">Gastos (5)</h3>
                         <div id="icg-subc-gastos" class="evolucion-subcuentas-grid icg-grid-col"></div>
                     </div>
                 </div>
@@ -6527,7 +6640,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
                         <span>Volver al módulo Ingresos, Costos y Gastos</span>
                     </button>
-                    <h1 style="color: #3D2259;">Indicadores de Rentabilidad</h1>
+                    <h1 style="color: #3C2367;">Indicadores de Rentabilidad</h1>
                     <div class="subtitle">ROE · Margen Neto · ROIC — Valores YTD anualizados según el período seleccionado</div>
                 </div>
                 <div class="header-acciones">
@@ -6588,14 +6701,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 <div class="chart-hint">Desplázate por los períodos con la barra inferior</div>
                 <!-- Tabla resumen ROE -->
                 <div class="rent-comp-card rent-comp-card-full">
-                    <div class="rent-comp-titulo" style="color:#3D2259;">Composición del período seleccionado</div>
+                    <div class="rent-comp-titulo" style="color:#3C2367;">Composición del período seleccionado</div>
                     <div class="rent-comp-formula">(1 + (Excedente / (Patrimonio<sub>prom</sub> × n)))<sup>n</sup> − 1</div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Excedente (Cta 53)</span><span class="rent-comp-row-valor" id="rent-comp-roe-exc">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Patrimonio total actual (Cta 3)</span><span class="rent-comp-row-valor" id="rent-comp-roe-patr-act">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Patrimonio mismo mes año ant.</span><span class="rent-comp-row-valor" id="rent-comp-roe-patr-ant">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Patrimonio promedio</span><span class="rent-comp-row-valor" id="rent-comp-roe-patr-prom">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Mes del año (n)</span><span class="rent-comp-row-valor" id="rent-comp-roe-n">—</span></div>
-                    <div class="rent-comp-row rent-comp-row-final" style="color:#3D2259;"><span class="rent-comp-row-label">ROE anualizado</span><span class="rent-comp-row-valor" id="rent-comp-roe-final">—</span></div>
+                    <div class="rent-comp-row rent-comp-row-final" style="color:#3C2367;"><span class="rent-comp-row-label">ROE anualizado</span><span class="rent-comp-row-valor" id="rent-comp-roe-final">—</span></div>
                 </div>
             </div>
             
@@ -6616,13 +6729,13 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 <div class="chart-hint">Desplázate por los períodos con la barra inferior</div>
                 <!-- Tabla resumen Margen Neto -->
                 <div class="rent-comp-card rent-comp-card-full">
-                    <div class="rent-comp-titulo" style="color:#634782;">Composición del período seleccionado</div>
+                    <div class="rent-comp-titulo" style="color:#6039A3;">Composición del período seleccionado</div>
                     <div class="rent-comp-formula">Excedente / (Cta 41 + Cta 4225)</div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Excedente (Cta 53)</span><span class="rent-comp-row-valor" id="rent-comp-mn-exc">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Ingresos por ventas (Cta 41)</span><span class="rent-comp-row-valor" id="rent-comp-mn-41">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Recuperaciones (Cta 4225)</span><span class="rent-comp-row-valor" id="rent-comp-mn-4225">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Suma denominador</span><span class="rent-comp-row-valor" id="rent-comp-mn-denom">—</span></div>
-                    <div class="rent-comp-row rent-comp-row-final" style="color:#634782;"><span class="rent-comp-row-label">Margen Neto</span><span class="rent-comp-row-valor" id="rent-comp-mn-final">—</span></div>
+                    <div class="rent-comp-row rent-comp-row-final" style="color:#6039A3;"><span class="rent-comp-row-label">Margen Neto</span><span class="rent-comp-row-valor" id="rent-comp-mn-final">—</span></div>
                 </div>
             </div>
             
@@ -6643,7 +6756,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 <div class="chart-hint">Desplázate por los períodos con la barra inferior</div>
                 <!-- Tabla resumen ROIC -->
                 <div class="rent-comp-card rent-comp-card-full">
-                    <div class="rent-comp-titulo" style="color:#937BAB;">Composición del período seleccionado</div>
+                    <div class="rent-comp-titulo" style="color:#9B86C0;">Composición del período seleccionado</div>
                     <div class="rent-comp-formula">(1 + (Excedente / (Capital invertido<sub>prom</sub> × n)))<sup>n</sup> − 1<br><span style="color:#9ca3af;">Capital = Prom. depósitos + Prom. obligaciones + Prom. patrimonio</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Excedente (Cta 53)</span><span class="rent-comp-row-valor" id="rent-comp-roic-exc">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Prom. depósitos (Cta 21)</span><span class="rent-comp-row-valor" id="rent-comp-roic-prom-dep">—</span></div>
@@ -6651,7 +6764,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Prom. patrimonio (Cta 3)</span><span class="rent-comp-row-valor" id="rent-comp-roic-prom-patr">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Capital invertido (suma)</span><span class="rent-comp-row-valor" id="rent-comp-roic-denom">—</span></div>
                     <div class="rent-comp-row"><span class="rent-comp-row-label">Mes del año (n)</span><span class="rent-comp-row-valor" id="rent-comp-roic-n">—</span></div>
-                    <div class="rent-comp-row rent-comp-row-final" style="color:#937BAB;"><span class="rent-comp-row-label">ROIC anualizado</span><span class="rent-comp-row-valor" id="rent-comp-roic-final">—</span></div>
+                    <div class="rent-comp-row rent-comp-row-final" style="color:#9B86C0;"><span class="rent-comp-row-label">ROIC anualizado</span><span class="rent-comp-row-valor" id="rent-comp-roic-final">—</span></div>
                 </div>
             </div>
         </div>
@@ -6771,14 +6884,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             </div>
             
             <!-- COMPOSICIÓN DEL CÁLCULO (Numerador vs Denominador) -->
-            <div class="section seccion-composicion" style="--comp-color: #dc2626;">
+            <div class="section seccion-composicion" style="--comp-color: #C91A15;">
                 <div class="composicion-header">
                     <h2 class="section-title" style="margin: 0;">Composición del Cálculo</h2>
                     <span class="composicion-fmla">Mora Total / Cartera Total = Índice de Mora</span>
                 </div>
                 <div class="composicion-leyenda">
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#dc2626;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#C91A15;"></span>
                         Mora Total (B+C+D+E)
                     </span>
                     <span class="composicion-leyenda-item">
@@ -6934,14 +7047,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             </div>
             
             <!-- COMPOSICIÓN DEL CÁLCULO -->
-            <div class="section seccion-composicion" style="--comp-color: #1e40af;">
+            <div class="section seccion-composicion" style="--comp-color: #045988;">
                 <div class="composicion-header">
                     <h2 class="section-title" style="margin: 0;">Composición del Cálculo</h2>
                     <span class="composicion-fmla">Cartera (B+C+D+E) / Cartera Total = Calidad de Cartera</span>
                 </div>
                 <div class="composicion-leyenda">
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#1e40af;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#045988;"></span>
                         Cartera B+C+D+E
                     </span>
                     <span class="composicion-leyenda-item">
@@ -7112,18 +7225,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             </div>
             
             <!-- COMPOSICIÓN DEL CÁLCULO -->
-            <div class="section seccion-composicion" style="--comp-color: #14b8a6;">
+            <div class="section seccion-composicion" style="--comp-color: #36BAA8;">
                 <div class="composicion-header">
                     <h2 class="section-title" style="margin: 0;">Composición del Cálculo</h2>
                     <span class="composicion-fmla">Deterioro / Cartera Vencida = Cobertura</span>
                 </div>
                 <div class="composicion-leyenda">
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#0d9488;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#2A9488;"></span>
                         Deterioro Total
                     </span>
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#5eead4;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#ABDED7;"></span>
                         Cartera Vencida (B+C+D+E)
                     </span>
                 </div>
@@ -7263,18 +7376,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             </div>
             
             <!-- COMPOSICIÓN DEL CÁLCULO -->
-            <div class="section seccion-composicion" style="--comp-color: #6366f1;">
+            <div class="section seccion-composicion" style="--comp-color: #088DD5;">
                 <div class="composicion-header">
                     <h2 class="section-title" style="margin: 0;">Composición del Cálculo</h2>
                     <span class="composicion-fmla">(Cartera Actual / Cartera Año Anterior) − 1 = Crecimiento</span>
                 </div>
                 <div class="composicion-leyenda">
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#6366f1;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#088DD5;"></span>
                         Cartera Período Actual
                     </span>
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#a5b4fc;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#89CAED;"></span>
                         Cartera Año Anterior
                     </span>
                 </div>
@@ -7307,7 +7420,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         <svg viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6"/></svg>
                         <span>Volver al módulo Activo</span>
                     </button>
-                    <h1 class="header-title-text" style="color:#0e7490;">Evolución del Activo</h1>
+                    <h1 class="header-title-text" style="color:#237C70;">Evolución del Activo</h1>
                     <div class="subtitle">Cuenta 1 · Saldo total y composición por subcuentas</div>
                 </div>
                 <div class="header-acciones">
@@ -7383,7 +7496,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         <svg viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6"/></svg>
                         <span>Volver al módulo Pasivo</span>
                     </button>
-                    <h1 class="header-title-text" style="color:#b45309;">Evolución del Pasivo</h1>
+                    <h1 class="header-title-text" style="color:#4D61B4;">Evolución del Pasivo</h1>
                     <div class="subtitle">Cuenta 2 · Saldo total y composición por subcuentas</div>
                 </div>
                 <div class="header-acciones">
@@ -7456,7 +7569,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         <svg viewBox="0 0 24 24" fill="none"><polyline points="15 18 9 12 15 6"/></svg>
                         <span>Volver al módulo Patrimonio</span>
                     </button>
-                    <h1 class="header-title-text" style="color:#6d28d9;">Evolución del Patrimonio</h1>
+                    <h1 class="header-title-text" style="color:#3C2367;">Evolución del Patrimonio</h1>
                     <div class="subtitle">Cuenta 3 · Saldo total y composición por subcuentas</div>
                 </div>
                 <div class="header-acciones">
@@ -7845,18 +7958,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             </div>
             
             <!-- COMPOSICIÓN DEL CÁLCULO -->
-            <div class="section seccion-composicion" style="--comp-color: #15803d;">
+            <div class="section seccion-composicion" style="--comp-color: #17A53D;">
                 <div class="composicion-header">
                     <h2 class="section-title" style="margin: 0;">Composición del Cálculo</h2>
                     <span class="composicion-fmla">Patrimonio Técnico / APR = Solvencia</span>
                 </div>
                 <div class="composicion-leyenda">
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#15803d;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#17A53D;"></span>
                         Patrimonio Técnico
                     </span>
                     <span class="composicion-leyenda-item">
-                        <span class="composicion-leyenda-sq" style="background:#86efac;"></span>
+                        <span class="composicion-leyenda-sq" style="background:#ADE6BC;"></span>
                         Activos Ponderados por Riesgo (APR)
                     </span>
                 </div>
@@ -7864,7 +7977,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="composicion-eje-fijo">
                         <div id="chartSolvenciaCompAxis-container" class="eje-y-html-container"></div>
                     </div>
-                    <div class="composicion-scroll-wrap" id="solvencia-comp-scroll" style="scrollbar-color: #15803d #f0fdf4;">
+                    <div class="composicion-scroll-wrap" id="solvencia-comp-scroll" style="scrollbar-color: #17A53D #E8F6EC;">
                         <div class="composicion-scroll-inner" id="solvencia-comp-inner">
                             <canvas id="chartSolvenciaComp"></canvas>
                         </div>
@@ -7988,7 +8101,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 // Recalcular pointRadius/pointBackgroundColor según idx actual
                 const idxActual = obtenerIdxActualCobertura();
                 chartCobertura.data.datasets[0].pointBackgroundColor = serie.map((v, i) =>
-                    i === idxActual ? '#115e59' : '#0d9488'
+                    i === idxActual ? '#1E6B61' : '#2A9488'
                 );
                 chartCobertura.data.datasets[0].pointRadius = serie.map((_, i) =>
                     i === idxActual ? 8 : 4.5
@@ -8085,6 +8198,65 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             Chart.defaults.transitions.update.animation = {{ duration: 650, easing: 'easeInOutCubic' }};
         }}
         
+        // =====================================================================
+        // SISTEMA DE COLOR MONOCROMÁTICO (paleta "Monochromatic Colour Palette")
+        // ---------------------------------------------------------------------
+        // Cada familia tiene una rampa shade -> base -> mid -> tint -> soft.
+        // Hex extraídos de la imagen de paleta. Se usan en todo el modelo para
+        // dar coherencia visual: un color ancla por módulo + degradados sobrios.
+        // =====================================================================
+        const PALETA = {{
+            reds:          {{ shade:'#A0100B', base:'#EA1912', mid:'#EA544F', tint:'#EEA9A6', soft:'#F6DDDC' }},
+            oranges:       {{ shade:'#A75A00', base:'#F78502', mid:'#F6A141', tint:'#F4CC9E', soft:'#F8E9D7' }},
+            yellows:       {{ shade:'#AC9500', base:'#FBDA03', mid:'#F5DE46', tint:'#F4E9A3', soft:'#F8F5DC' }},
+            yellow_greens: {{ shade:'#678A27', base:'#95C63D', mid:'#AED070', tint:'#D4E3B9', soft:'#EFF4E6' }},
+            greens:        {{ shade:'#0C5E22', base:'#17A53D', mid:'#26D354', tint:'#77DE93', soft:'#ADE6BC' }},
+            blue_greens:   {{ shade:'#237C70', base:'#36BAA8', mid:'#62CBBD', tint:'#ABDED7', soft:'#D8EEEB' }},
+            blues:         {{ shade:'#045988', base:'#088DD5', mid:'#2CAAEE', tint:'#89CAED', soft:'#C1E1F2' }},
+            blue_violets:  {{ shade:'#33417C', base:'#4D61B4', mid:'#7B89C3', tint:'#BDC3DD', soft:'#E6E8F1' }},
+            violets:       {{ shade:'#3C2367', base:'#6039A3', mid:'#7F5ABF', tint:'#B4A0D5', soft:'#D6CCE6' }},
+            mauves:        {{ shade:'#7A3E7D', base:'#AB5EAE', mid:'#BE89C0', tint:'#DDC7DE', soft:'#F4EEF4' }},
+            mauve_pinks:   {{ shade:'#952568', base:'#CD3F94', mid:'#D574AE', tint:'#E7BED7', soft:'#F7EBF2' }},
+            pinks:         {{ shade:'#CC0F66', base:'#EF3E8F', mid:'#EF7CB0', tint:'#F6D0E1', soft:'#FBE9F2' }},
+        }};
+        // Asignación de familia ancla por módulo (arco frío + un cálido para resultados)
+        const MODULO_COLOR = {{
+            solvencia:   PALETA.greens,
+            activo:      PALETA.blue_greens,
+            pasivo:      PALETA.blue_violets,
+            patrimonio:  PALETA.violets,
+            ingresos:    PALETA.oranges,
+            portada:     PALETA.mauves,
+        }};
+        
+        // Convierte '#RRGGBB' a 'rgba(r,g,b,a)'
+        function hexToRgba(hex, alpha) {{
+            const h = hex.replace('#','');
+            const r = parseInt(h.substring(0,2),16);
+            const g = parseInt(h.substring(2,4),16);
+            const b = parseInt(h.substring(4,6),16);
+            return `rgba(${{r}},${{g}},${{b}},${{alpha === undefined ? 1 : alpha}})`;
+        }}
+        
+        // Crea un degradado vertical de relleno para gráficos de línea (estilo Solvencia,
+        // pero "real": color arriba -> transparente abajo). Devuelve un CanvasGradient o,
+        // si el área aún no está disponible, un color rgba de respaldo.
+        // Uso recomendado: pasar backgroundColor como función (ctx) => gradienteArea(ctx, color)
+        function gradienteArea(context, hexColor, opts) {{
+            opts = opts || {{}};
+            const topAlpha = opts.topAlpha === undefined ? 0.34 : opts.topAlpha;
+            const midAlpha = opts.midAlpha === undefined ? 0.12 : opts.midAlpha;
+            const botAlpha = opts.botAlpha === undefined ? 0.02 : opts.botAlpha;
+            const chart = context.chart;
+            const {{ ctx, chartArea }} = chart;
+            if (!chartArea) return hexToRgba(hexColor, midAlpha);
+            const g = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+            g.addColorStop(0,    hexToRgba(hexColor, topAlpha));
+            g.addColorStop(0.55, hexToRgba(hexColor, midAlpha));
+            g.addColorStop(1,    hexToRgba(hexColor, botAlpha));
+            return g;
+        }}
+        
         // Helpers
         // Formato europeo: miles con punto, decimales con coma (de-DE)
         const fmtMillones = (v) => new Intl.NumberFormat('de-DE', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}).format(v);
@@ -8111,10 +8283,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         }}
         
         function colorZona(pct) {{
-            if (pct < 9) return '#dc2626';
-            if (pct < 15) return '#eab308';
-            if (pct < 25) return '#22c55e';
-            return '#15803d';
+            if (pct < 9) return PALETA.reds.base;       // peligro
+            if (pct < 15) return PALETA.yellows.base;   // advertencia
+            if (pct < 25) return PALETA.greens.mid;     // bien
+            return PALETA.greens.base;                  // óptimo
         }}
         
         function actualizarGauge(r) {{
@@ -8232,12 +8404,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         {{
                             label: 'Solvencia',
                             data: SERIE_SOLVENCIA,
-                            borderColor: '#15803d',
-                            backgroundColor: 'rgba(21,128,61,0.10)',
+                            borderColor: PALETA.greens.base,
+                            backgroundColor: (c) => gradienteArea(c, PALETA.greens.base),
                             borderWidth: 2.5,
                             tension: 0.3,
                             fill: true,
-                            pointBackgroundColor: SERIE_SOLVENCIA.map((v, i) => i === idxActual ? '#dc2626' : colorZona(v)),
+                            pointBackgroundColor: SERIE_SOLVENCIA.map((v, i) => i === idxActual ? PALETA.reds.base : colorZona(v)),
                             pointBorderColor: '#ffffff',
                             pointBorderWidth: 2,
                             pointRadius: SERIE_SOLVENCIA.map((_, i) => i === idxActual ? 7 : 4),
@@ -8318,7 +8490,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         label: 'Fondo Liquidez',
                         data: SERIE_LIQUIDEZ,
                         backgroundColor: SERIE_LIQUIDEZ.map((v, i) => {{
-                            if (i === idxActual) return v >= 10 ? '#15803d' : '#dc2626';
+                            if (i === idxActual) return v >= 10 ? '#17A53D' : '#C91A15';
                             return v >= 10 ? 'rgba(21,128,61,0.65)' : 'rgba(220,38,38,0.65)';
                         }}),
                         borderColor: SERIE_LIQUIDEZ.map((v, i) => i === idxActual ? '#1c2520' : 'transparent'),
@@ -8387,12 +8559,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function actualizarGraficos(idxActual) {{
             if (!chartSolvencia || !chartLiquidez) return;
             
-            chartSolvencia.data.datasets[0].pointBackgroundColor = SERIE_SOLVENCIA.map((v, i) => i === idxActual ? '#dc2626' : colorZona(v));
+            chartSolvencia.data.datasets[0].pointBackgroundColor = SERIE_SOLVENCIA.map((v, i) => i === idxActual ? '#C91A15' : colorZona(v));
             chartSolvencia.data.datasets[0].pointRadius = SERIE_SOLVENCIA.map((_, i) => i === idxActual ? 7 : 4);
             chartSolvencia.update('active');
             
             chartLiquidez.data.datasets[0].backgroundColor = SERIE_LIQUIDEZ.map((v, i) => {{
-                if (i === idxActual) return v >= 10 ? '#15803d' : '#dc2626';
+                if (i === idxActual) return v >= 10 ? '#17A53D' : '#C91A15';
                 return v >= 10 ? 'rgba(21,128,61,0.65)' : 'rgba(220,38,38,0.65)';
             }});
             chartLiquidez.data.datasets[0].borderColor = SERIE_LIQUIDEZ.map((v, i) => i === idxActual ? '#1c2520' : 'transparent');
@@ -10764,32 +10936,32 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             activo: {{
                 titulo: 'Módulo Activo',
                 descripcion: 'Análisis detallado de la composición del activo, evolución por cuenta y participación en el balance. Te lo traemos muy pronto.',
-                color: '#06b6d4',
-                colorDeep: '#0e7490',
+                color: '#36BAA8',
+                colorDeep: '#237C70',
                 colorSoft: 'rgba(6,182,212,0.12)',
                 icono: 'circle-percent'
             }},
             pasivo: {{
                 titulo: 'Módulo Pasivo',
                 descripcion: 'Análisis de obligaciones financieras, depósitos, créditos externos y composición de la deuda. Te lo traemos muy pronto.',
-                color: '#ec4899',
-                colorDeep: '#9d174d',
+                color: '#CD3F94',
+                colorDeep: '#7A1F4F',
                 colorSoft: 'rgba(236,72,153,0.12)',
                 icono: 'card'
             }},
             patrimonio: {{
                 titulo: 'Módulo Patrimonio',
                 descripcion: 'Aportes sociales, reservas, fondos patrimoniales y evolución del patrimonio neto. Te lo traemos muy pronto.',
-                color: '#8b5cf6',
-                colorDeep: '#5b21b6',
+                color: '#6039A3',
+                colorDeep: '#3C2367',
                 colorSoft: 'rgba(139,92,246,0.12)',
                 icono: 'building'
             }},
             ingresos: {{
                 titulo: 'Ingresos, Costos y Gastos',
                 descripcion: 'Estado de resultados, márgenes operativos, eficiencia y análisis de rentabilidad. Te lo traemos muy pronto.',
-                color: '#f59e0b',
-                colorDeep: '#b45309',
+                color: '#F78502',
+                colorDeep: '#A75A00',
                 colorSoft: 'rgba(245,158,11,0.12)',
                 icono: 'chart-up'
             }}
@@ -10903,13 +11075,16 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         // ============================================================
         // ========== SUBMODULO: CRECIMIENTO DE DEPOSITOS ==========
         // ============================================================
-        const DEPOSITOS_STATE = {{ inicializado: false, chart: null, idxActual: 0, modo: 'total' }};
+        const DEPOSITOS_STATE = {{ inicializado: false, charts: {{}}, chartTotal: null, idxActual: 0, modo: 'total' }};
+        // Colores armónicos (arco frío de la paleta monocromática), un tono por producto.
         const DEP_COLORS = {{
-            ahorro_vista: '#0ea5e9',
-            cdat:         '#b45309',
-            contractual:  '#15803d',
-            daes:         '#8b5cf6',
+            ahorro_vista: PALETA.blues.base,        // #088DD5
+            cdat:         PALETA.blue_greens.base,  // #36BAA8
+            contractual:  PALETA.blue_violets.base, // #4D61B4
+            daes:         PALETA.violets.base,      // #6039A3
         }};
+        // Color ancla del total del módulo Pasivo/Depósitos
+        const DEP_COLOR_TOTAL = MODULO_COLOR.pasivo.base; // blue_violets
         
         function depSaldoProducto(prod, modo) {{
             return modo === 'capital' ? prod.saldo_capital : prod.saldo_total;
@@ -10941,7 +11116,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }} else {{
                 requestAnimationFrame(() => {{
                     ajustarAnchoCanvasDepositos();
-                    if (DEPOSITOS_STATE.chart) DEPOSITOS_STATE.chart.resize();
+                    if (DEPOSITOS_STATE.chartTotal) DEPOSITOS_STATE.chartTotal.resize();
+                    Object.values(DEPOSITOS_STATE.charts).forEach(c => c && c.resize());
                 }});
             }}
             window.scrollTo({{ top: 0, behavior: 'instant' }});
@@ -10976,7 +11152,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             if (idx >= 0) {{
                 DEPOSITOS_STATE.idxActual = idx;
                 renderPeriodoDepositos(idx);
-                if (DEPOSITOS_STATE.chart) scrollAlPeriodoDepositos(idx);
+                // Redibuja para resaltar el punto activo y reposiciona el scroll
+                inicializarGraficoDepositos();
+                scrollAlPeriodoDepositos(idx);
             }}
         }}
         
@@ -11020,9 +11198,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const crecTotal = crecTotalSerie[idx];
             
             let kpisHtml = `
-                <div class="evo-kpi-card" style="border-left:4px solid #b45309;">
+                <div class="evo-kpi-card" style="border-left:4px solid #A75A00;">
                     <span class="evo-kpi-label">TOTAL DEPOSITOS</span>
-                    <span class="evo-kpi-valor" style="color:#b45309;">${{fmtDepMill(totalVal)}}</span>
+                    <span class="evo-kpi-valor" style="color:#A75A00;">${{fmtDepMill(totalVal)}}</span>
                     <span class="evo-kpi-sub">${{badgeCrecDep(crecTotal)}} vs mes anterior</span>
                 </div>`;
             r.productos.forEach(p => {{
@@ -11081,94 +11259,147 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             document.getElementById('depositos-tabla').innerHTML = thtml;
         }}
         
-        function inicializarGraficoDepositos() {{
-            const modo = DEPOSITOS_STATE.modo;
-            const etiquetas = DATOS_DEPOSITOS.map(r => `${{(MESES_NOMBRE[r.mes] || r.mes).substring(0,3)}}-${{String(r.anio).substring(2)}}`);
-            const etiquetasLargas = DATOS_DEPOSITOS.map(r => `${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}}`);
-            const productos = [
-                {{ id: 'ahorro_vista', label: 'Ahorro a la Vista' }},
-                {{ id: 'cdat', label: 'CDAT' }},
-                {{ id: 'contractual', label: 'Ahorro Contractual' }},
-                {{ id: 'daes', label: 'DAES' }},
-            ];
-            ajustarAnchoCanvasDepositos();
-            const ctx = document.getElementById('chartDepositos');
-            if (DEPOSITOS_STATE.chart) DEPOSITOS_STATE.chart.destroy();
-            
-            const datasets = productos.map(prod => {{
-                const serie = depSerieProducto(prod.id, modo);
-                const color = DEP_COLORS[prod.id];
-                return {{
-                    label: prod.label, type: 'bar', data: serie,
-                    backgroundColor: color, borderColor: color,
-                    borderWidth: 1, borderRadius: 3, stack: 'depositos',
-                }};
+        // ---------------------------------------------------------------
+        // Gráficos de línea con área degradada (estilo Solvencia) para el
+        // módulo Crecimiento de Depósitos: 1 total grande + cuadrícula 2x2.
+        // ---------------------------------------------------------------
+        const DEP_PRODUCTOS = [
+            {{ id: 'ahorro_vista', label: 'Ahorro a la Vista' }},
+            {{ id: 'cdat',         label: 'CDAT' }},
+            {{ id: 'contractual',  label: 'Ahorro Contractual' }},
+            {{ id: 'daes',         label: 'DAES' }},
+        ];
+
+        // Crea (o recrea) un gráfico de línea con relleno degradado vertical.
+        // canvasId: id del <canvas>; serie: array de valores; color: hex base;
+        // axisContainerId: contenedor del eje Y HTML; etiquetasLargas: tooltips.
+        function crearGraficoLineaDep(canvasId, serie, color, axisContainerId, etiquetas, etiquetasLargas, store, key) {{
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            if (store[key]) {{ store[key].destroy(); store[key] = null; }}
+
+            const idxActual = DEPOSITOS_STATE.idxActual;
+            const maxSerie = Math.max(...serie.filter(v => v !== null && !isNaN(v)), 0);
+            const niceMax = sincronizarEjeYHistorico([0, maxSerie], axisContainerId, {{
+                tituloEje: 'Millones COP', formatter: fmtDepMillEs
             }});
-            
-            DEPOSITOS_STATE.chart = new Chart(ctx, {{
-                type: 'bar',
-                data: {{ labels: etiquetas, datasets }},
+
+            store[key] = new Chart(ctx, {{
+                type: 'line',
+                data: {{
+                    labels: etiquetas,
+                    datasets: [{{
+                        label: 'Saldo',
+                        data: serie,
+                        borderColor: color,
+                        backgroundColor: (c) => gradienteArea(c, color),
+                        borderWidth: 2.5,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: serie.map((_, i) => i === idxActual ? '#C91A15' : color),
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: serie.map((_, i) => i === idxActual ? 6 : 3),
+                        pointHoverRadius: 8
+                    }}]
+                }},
                 options: {{
-                    responsive: true, maintainAspectRatio: false,
+                    responsive: true,
+                    maintainAspectRatio: false,
                     interaction: {{ mode: 'index', intersect: false }},
-                    layout: {{ padding: {{ top: 28, bottom: 8, left: 8, right: 20 }} }},
+                    layout: {{ padding: {{ top: 24, bottom: 4 }} }},
                     plugins: {{
-                        legend: {{
-                            display: true, position: 'top', align: 'start',
-                            labels: {{ usePointStyle: true, pointStyle: 'rectRounded', padding: 14, font: {{ size: 12, weight: '600' }}, color: '#475569' }}
-                        }},
+                        legend: {{ display: false }},
                         tooltip: {{
-                            backgroundColor: '#1c2520', padding: 12, cornerRadius: 8,
+                            backgroundColor: '#1c2520', padding: 11, cornerRadius: 8,
                             titleColor: '#fff', bodyColor: '#fff',
-                            titleFont: {{ weight: '700', size: 13 }}, bodyFont: {{ size: 12.5, weight: '600' }},
+                            titleFont: {{ family: "'Poppins', sans-serif", weight: '600' }},
+                            bodyFont: {{ family: "'Poppins', sans-serif" }},
                             callbacks: {{
-                                title: (items) => items?.[0] ? etiquetasLargas[items[0].dataIndex] : '',
-                                label: (c) => `  ${{c.dataset.label}}: ${{fmtDepMill(c.parsed.y)}} M`,
-                                footer: (items) => {{
-                                    const sum = items.reduce((a,b) => a + b.parsed.y, 0);
-                                    return `  Total: ${{fmtDepMill(sum)}} M`;
-                                }}
+                                title: (items) => items && items[0] ? etiquetasLargas[items[0].dataIndex] : '',
+                                label: (c) => `  ${{fmtDepMill(c.parsed.y)}} M COP`
                             }}
                         }},
                         datalabels: {{ display: false }}
                     }},
                     scales: {{
-                        y: {{ beginAtZero: true, stacked: true, display: false, grace: '8%' }},
-                        x: {{ stacked: true, offset: true, grid: {{ display: false }},
-                              ticks: {{ maxRotation: 0, font: {{ size: 10, weight: '500' }}, color: '#475569' }} }}
+                        y: {{ beginAtZero: true, display: false, min: 0, max: niceMax, grace: '0%' }},
+                        x: {{
+                            offset: true,
+                            grid: {{ display: false }},
+                            ticks: {{ maxRotation: 0, minRotation: 0, font: {{ size: 10, weight: '500' }}, color: '#475569' }}
+                        }}
                     }},
                     onClick: (evt, els) => {{ if (els.length > 0) {{
                         DEPOSITOS_STATE.idxActual = els[0].index;
                         renderPeriodoDepositos(els[0].index);
+                        inicializarGraficoDepositos();
+                        scrollAlPeriodoDepositos(els[0].index);
                     }} }}
                 }}
             }});
-            
+        }}
+
+        function inicializarGraficoDepositos() {{
+            const modo = DEPOSITOS_STATE.modo;
+            const etiquetas = DATOS_DEPOSITOS.map(r => `${{(MESES_NOMBRE[r.mes] || r.mes).substring(0,3)}}-${{String(r.anio).substring(2)}}`);
+            const etiquetasLargas = DATOS_DEPOSITOS.map(r => `${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}}`);
+
+            ajustarAnchoCanvasDepositos();
+
+            // Gráfico TOTAL grande
             const totalSerie = depSerieTotal(modo);
-            const maxTotal = Math.max(...totalSerie, 0);
-            sincronizarEjeYHistorico([0, maxTotal], 'chartDepositos-axis-container', {{
-                tituloEje: 'Millones COP', formatter: fmtDepMillEs
+            crearGraficoLineaDep('chartDepositosTotal', totalSerie, DEP_COLOR_TOTAL,
+                'chartDepositosTotal-axis-container', etiquetas, etiquetasLargas, DEPOSITOS_STATE.charts, 'total');
+            DEPOSITOS_STATE.chartTotal = DEPOSITOS_STATE.charts.total;
+
+            // 4 gráficos por producto (cuadrícula 2x2)
+            DEP_PRODUCTOS.forEach(prod => {{
+                const serie = depSerieProducto(prod.id, modo);
+                const color = DEP_COLORS[prod.id];
+                // pintar el punto de color del título de la mini-card
+                const punto = document.getElementById('dep-mini-punto-' + prod.id);
+                if (punto) punto.style.background = color;
+                crearGraficoLineaDep('chartDep-' + prod.id, serie, color,
+                    'chartDep-' + prod.id + '-axis-container', etiquetas, etiquetasLargas,
+                    DEPOSITOS_STATE.charts, prod.id);
             }});
+
             setTimeout(() => scrollAlPeriodoDepositos(DEPOSITOS_STATE.idxActual), 100);
         }}
-        
+
+        // IDs de todos los contenedores scroll/inner (total + 4 productos)
+        const DEP_SCROLL_IDS = [
+            {{ scroll: 'depositosTotal-scroll-container', inner: 'depositosTotal-inner' }},
+            {{ scroll: 'dep-ahorro_vista-scroll-container', inner: 'dep-ahorro_vista-inner' }},
+            {{ scroll: 'dep-cdat-scroll-container', inner: 'dep-cdat-inner' }},
+            {{ scroll: 'dep-contractual-scroll-container', inner: 'dep-contractual-inner' }},
+            {{ scroll: 'dep-daes-scroll-container', inner: 'dep-daes-inner' }},
+        ];
+
         function ajustarAnchoCanvasDepositos() {{
-            const inner = document.getElementById('depositos-inner');
-            const scroll = document.getElementById('depositos-scroll-container');
-            if (!inner || !scroll) return;
-            let anchoVisible = scroll.clientWidth;
-            if (anchoVisible < 100) anchoVisible = 900;
-            const VENTANA = 12, ANCHO_MIN = 56;
-            const anchoPorMes = Math.max(ANCHO_MIN, anchoVisible / VENTANA);
-            inner.style.width = Math.max(anchoVisible, DATOS_DEPOSITOS.length * anchoPorMes) + 'px';
+            DEP_SCROLL_IDS.forEach((ids, i) => {{
+                const inner = document.getElementById(ids.inner);
+                const scroll = document.getElementById(ids.scroll);
+                if (!inner || !scroll) return;
+                let anchoVisible = scroll.clientWidth;
+                if (anchoVisible < 100) anchoVisible = (i === 0 ? 900 : 420);
+                // El total muestra ~12 meses; los mini ~8 para que se lean bien
+                const VENTANA = (i === 0) ? 12 : 8;
+                const ANCHO_MIN = (i === 0) ? 56 : 46;
+                const anchoPorMes = Math.max(ANCHO_MIN, anchoVisible / VENTANA);
+                inner.style.width = Math.max(anchoVisible, DATOS_DEPOSITOS.length * anchoPorMes) + 'px';
+            }});
         }}
-        
+
         function scrollAlPeriodoDepositos(idx) {{
-            const scroll = document.getElementById('depositos-scroll-container');
-            const inner = document.getElementById('depositos-inner');
-            if (!scroll || !inner) return;
             const ratio = idx / Math.max(1, DATOS_DEPOSITOS.length - 1);
-            scroll.scrollTo({{ left: Math.max(0, ratio * inner.scrollWidth - scroll.clientWidth/2), behavior: 'smooth' }});
+            DEP_SCROLL_IDS.forEach(ids => {{
+                const scroll = document.getElementById(ids.scroll);
+                const inner = document.getElementById(ids.inner);
+                if (!scroll || !inner) return;
+                scroll.scrollTo({{ left: Math.max(0, ratio * inner.scrollWidth - scroll.clientWidth/2), behavior: 'smooth' }});
+            }});
         }}
         
         async function descargarExcelDepositos() {{
@@ -11277,8 +11508,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             activo: {{
                 datos: () => DATOS_EVOLUCION_ACTIVO,
                 serie: () => SERIE_EVOLUCION_ACTIVO,
-                color: '#06b6d4', deep: '#0e7490', soft: 'rgba(6,182,212,0.18)', light: 'rgba(6,182,212,0.10)',
-                colorVar: '#0e7490',
+                color: '#36BAA8', deep: '#237C70', soft: 'rgba(54,186,168,0.18)', light: 'rgba(54,186,168,0.10)',
+                colorVar: '#237C70',
                 nombre: 'Activo', cuentaPrincipal: '1',
                 rootId: 'evolucion-activo-root',
                 canvasId: 'chartEvolucionActivo',
@@ -11300,8 +11531,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             pasivo: {{
                 datos: () => DATOS_EVOLUCION_PASIVO,
                 serie: () => SERIE_EVOLUCION_PASIVO,
-                color: '#f59e0b', deep: '#b45309', soft: 'rgba(245,158,11,0.18)', light: 'rgba(245,158,11,0.10)',
-                colorVar: '#b45309',
+                color: '#4D61B4', deep: '#33417C', soft: 'rgba(77,97,180,0.18)', light: 'rgba(77,97,180,0.10)',
+                colorVar: '#33417C',
                 nombre: 'Pasivo', cuentaPrincipal: '2',
                 rootId: 'evolucion-pasivo-root',
                 canvasId: 'chartEvolucionPasivo',
@@ -11323,8 +11554,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             patrimonio: {{
                 datos: () => DATOS_EVOLUCION_PATRIMONIO,
                 serie: () => SERIE_EVOLUCION_PATRIMONIO,
-                color: '#8b5cf6', deep: '#6d28d9', soft: 'rgba(139,92,246,0.18)', light: 'rgba(139,92,246,0.10)',
-                colorVar: '#6d28d9',
+                color: '#6039A3', deep: '#3C2367', soft: 'rgba(96,57,163,0.18)', light: 'rgba(96,57,163,0.10)',
+                colorVar: '#3C2367',
                 nombre: 'Patrimonio', cuentaPrincipal: '3',
                 rootId: 'evolucion-patrimonio-root',
                 canvasId: 'chartEvolucionPatrimonio',
@@ -11600,7 +11831,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         label: cfg.nombre,
                         data: serie,
                         borderColor: cfg.color,
-                        backgroundColor: cfg.soft,
+                        backgroundColor: (c) => gradienteArea(c, cfg.color),
                         borderWidth: 3,
                         tension: 0.3,
                         fill: true,
@@ -11752,7 +11983,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 const tendEl = document.getElementById('subcuenta-tend');
                 const signo = delta >= 0 ? '↑' : '↓';
                 tendEl.textContent = `${{signo}} ${{(pctDelta * 100 >= 0 ? '+' : '')}}${{(pctDelta * 100).toFixed(2).replace('.', ',')}}%`;
-                tendEl.style.color = delta >= 0 ? '#15803d' : '#dc2626';
+                tendEl.style.color = delta >= 0 ? '#17A53D' : '#C91A15';
             }} else {{
                 ['subcuenta-min','subcuenta-max','subcuenta-prom','subcuenta-tend'].forEach(id => {{
                     document.getElementById(id).textContent = '--';
@@ -11804,7 +12035,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     datasets: [{{
                         data: serie,
                         borderColor: cfg.color,
-                        backgroundColor: cfg.soft,
+                        backgroundColor: (c) => gradienteArea(c, cfg.color),
                         borderWidth: 3,
                         tension: 0.3,
                         fill: true,
@@ -12197,24 +12428,24 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         }};
         
         const ICG_COLORS = {{
-            // Paleta pastel suave
+            // Armonizado con la paleta monocromática (tonos suaves)
             ingresos: {{
-                bar: '#F5D77E', border: '#E5C166', soft: 'rgba(245,215,126,0.18)'
+                bar: '#77DE93', border: '#26D354', soft: 'rgba(38,211,84,0.18)'
             }},
             costos: {{
-                bar: '#6FA8A8', border: '#578F8F', soft: 'rgba(111,168,168,0.18)'
+                bar: '#F6A141', border: '#F78502', soft: 'rgba(247,133,2,0.18)'
             }},
             gastos: {{
-                bar: '#A8D5BA', border: '#8AC0A2', soft: 'rgba(168,213,186,0.18)'
+                bar: '#EEA9A6', border: '#EA544F', soft: 'rgba(234,84,79,0.18)'
             }},
-            // Excedente: línea negra, marcadores círculo blanco con borde negro
+            // Excedente: línea azul-violeta de la paleta, marcadores círculo blanco con borde
             excedente: {{
-                line: '#1a1a1a',
-                pointFill: '#ffffff', pointBorder: '#1a1a1a',
-                pointFillActivo: '#1a1a1a', pointBorderActivo: '#ffffff',
-                soft: 'rgba(26,26,26,0.06)',
+                line: '#4D61B4',
+                pointFill: '#ffffff', pointBorder: '#4D61B4',
+                pointFillActivo: '#33417C', pointBorderActivo: '#ffffff',
+                soft: 'rgba(77,97,180,0.08)',
                 // color de relleno para el segmento "Excedente" en el donut de distribución
-                slice: '#2C3E50'
+                slice: '#33417C'
             }},
         }};
         
@@ -12395,7 +12626,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }};
             const colorVar = (v) => {{
                 if (v === null || v === undefined) return '#6b7280';
-                return v >= 0 ? '#15803d' : '#dc2626';
+                return v >= 0 ? '#17A53D' : '#C91A15';
             }};
             
             // KPIs
@@ -12445,9 +12676,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     cont.appendChild(card);
                 }});
             }};
-            renderCol('icg-subc-ingresos', r.subc_ingresos, 'ingresos', '#B8923C');
-            renderCol('icg-subc-costos',   r.subc_costos,   'costos',   '#3F7878');
-            renderCol('icg-subc-gastos',   r.subc_gastos,   'gastos',   '#5A8B6E');
+            renderCol('icg-subc-ingresos', r.subc_ingresos, 'ingresos', '#11782C');
+            renderCol('icg-subc-costos',   r.subc_costos,   'costos',   '#A75A00');
+            renderCol('icg-subc-gastos',   r.subc_gastos,   'gastos',   '#C91A15');
             
             // Actualizar los gráficos
             // 1. Gráfico anual: depende del idx (incluye o no el período actual)
@@ -13084,23 +13315,23 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         const ICG_RUBRO_CFG = {{
             ingresos: {{
                 nombre: 'Ingresos',
-                color: '#E5C166', deep: '#B8923C',
+                color: '#26D354', deep: '#11782C',
                 soft: 'rgba(245,215,126,0.20)', light: 'rgba(245,215,126,0.10)',
-                colorVar: '#B8923C',
+                colorVar: '#11782C',
                 subcKey: 'subc_ingresos'
             }},
             costos: {{
                 nombre: 'Costos',
-                color: '#6FA8A8', deep: '#3F7878',
+                color: '#F6A141', deep: '#A75A00',
                 soft: 'rgba(111,168,168,0.20)', light: 'rgba(111,168,168,0.10)',
-                colorVar: '#3F7878',
+                colorVar: '#A75A00',
                 subcKey: 'subc_costos'
             }},
             gastos: {{
                 nombre: 'Gastos',
-                color: '#8AC0A2', deep: '#5A8B6E',
+                color: '#8AC0A2', deep: '#C91A15',
                 soft: 'rgba(168,213,186,0.22)', light: 'rgba(168,213,186,0.10)',
-                colorVar: '#5A8B6E',
+                colorVar: '#C91A15',
                 subcKey: 'subc_gastos'
             }}
         }};
@@ -13177,7 +13408,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 const tendEl = document.getElementById('subcuenta-tend');
                 const signo = delta >= 0 ? '↑' : '↓';
                 tendEl.textContent = `${{signo}} ${{(pctDelta * 100 >= 0 ? '+' : '')}}${{(pctDelta * 100).toFixed(2).replace('.', ',')}}%`;
-                tendEl.style.color = delta >= 0 ? '#15803d' : '#dc2626';
+                tendEl.style.color = delta >= 0 ? '#17A53D' : '#C91A15';
             }} else {{
                 ['subcuenta-min','subcuenta-max','subcuenta-prom','subcuenta-tend'].forEach(id => {{
                     document.getElementById(id).textContent = '--';
@@ -13727,9 +13958,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         
         // Paleta morada (de la imagen): cada indicador con su tono
         const RENT_PALETTE = {{
-            roe:    {{ bar: '#634782', border: '#3D2259', soft: 'rgba(99,71,130,0.16)',  deep: '#3D2259', label: '#3D2259' }},
-            margen: {{ bar: '#937BAB', border: '#634782', soft: 'rgba(147,123,171,0.16)', deep: '#634782', label: '#634782' }},
-            roic:   {{ bar: '#DEBBFF', border: '#937BAB', soft: 'rgba(222,187,255,0.30)', deep: '#937BAB', label: '#634782' }}
+            roe:    {{ bar: '#6039A3', border: '#3C2367', soft: 'rgba(99,71,130,0.16)',  deep: '#3C2367', label: '#3C2367' }},
+            margen: {{ bar: '#9B86C0', border: '#6039A3', soft: 'rgba(147,123,171,0.16)', deep: '#6039A3', label: '#6039A3' }},
+            roic:   {{ bar: '#DEBBFF', border: '#9B86C0', soft: 'rgba(222,187,255,0.30)', deep: '#9B86C0', label: '#6039A3' }}
         }};
         
         const RENT_MESES_ORD = ['ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO',
@@ -14071,7 +14302,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     plugins: {{
                         legend: {{ display: false }},
                         tooltip: {{
-                            backgroundColor: '#3D2259',
+                            backgroundColor: '#3C2367',
                             padding: 12, cornerRadius: 8,
                             titleColor: '#ffffff', bodyColor: '#EADDF7',
                             titleFont: {{ family: 'Poppins', weight: '700', size: 13 }},
@@ -14100,7 +14331,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             ticks: {{
                                 // Etiquetas COMPLETAMENTE horizontales
                                 maxRotation: 0, minRotation: 0, autoSkip: false,
-                                font: {{ family: 'Poppins', size: 10.5, weight: '600' }}, color: '#3D2259'
+                                font: {{ family: 'Poppins', size: 10.5, weight: '600' }}, color: '#3C2367'
                             }}
                         }}
                     }},
@@ -14364,10 +14595,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         }}
         
         function colorMoraZona(pct) {{
-            if (pct < 3) return '#15803d';
-            if (pct < 6) return '#eab308';
-            if (pct < 9) return '#f97316';
-            return '#dc2626';
+            if (pct < 3) return '#17A53D';
+            if (pct < 6) return '#E2C403';
+            if (pct < 9) return '#F78502';
+            return '#C91A15';
         }}
         
         function gradosGaugeMora(porcentaje) {{
@@ -14423,13 +14654,13 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     datasets: [{{
                         label: 'Índice de Mora',
                         data: SERIE_INDICE_MORA,
-                        borderColor: '#dc2626',
-                        backgroundColor: 'rgba(220, 38, 38, 0.10)',
+                        borderColor: '#C91A15',
+                        backgroundColor: (c) => gradienteArea(c, '#C91A15'),
                         borderWidth: 2.8,
                         tension: 0.3,
                         fill: true,
                         pointBackgroundColor: SERIE_INDICE_MORA.map((v, i) =>
-                            i === idxActual ? '#7c2d12' : colorMoraZona(v)
+                            i === idxActual ? '#A0100B' : colorMoraZona(v)
                         ),
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
@@ -14463,7 +14694,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             borderColor: 'rgba(220, 38, 38, 0.25)',
                             borderWidth: 1,
                             padding: {{ top: 4, bottom: 4, left: 9, right: 9 }},
-                            color: '#7c2d12',
+                            color: '#A0100B',
                             font: {{
                                 family: "'JetBrains Mono', monospace",
                                 size: 10,
@@ -14476,7 +14707,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         y: {{
                             beginAtZero: true,
                             display: false,
-                            grid: {{ color: '#fef2f2' }},
+                            grid: {{ color: '#F8E5E4' }},
                             ticks: {{
                                 callback: (v) => (Math.round(v * 10) / 10).toString().replace('.', ',') + '%',
                                 font: {{ size: 11 }},
@@ -14508,7 +14739,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function actualizarGraficoMora(idxActual) {{
             if (!chartMora) return;
             chartMora.data.datasets[0].pointBackgroundColor = SERIE_INDICE_MORA.map((v, i) =>
-                i === idxActual ? '#7c2d12' : colorMoraZona(v)
+                i === idxActual ? '#A0100B' : colorMoraZona(v)
             );
             chartMora.data.datasets[0].pointRadius = SERIE_INDICE_MORA.map((_, i) =>
                 i === idxActual ? 8 : 4.5
@@ -14837,7 +15068,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             </h3>
                             <div class="mora-grupo-indicador">
                                 <span style="color: #6b7268;">Cartera: <strong style="color: #1c2520; font-family: 'JetBrains Mono', monospace;">${{fmtMillonesMora(g.subtotal)}}</strong></span>
-                                <span style="color: #6b7268;">Mora: <strong style="color: #991b1b; font-family: 'JetBrains Mono', monospace;">${{fmtMillonesMora(g.mora)}}</strong></span>
+                                <span style="color: #6b7268;">Mora: <strong style="color: #A0100B; font-family: 'JetBrains Mono', monospace;">${{fmtMillonesMora(g.mora)}}</strong></span>
                                 <span class="mora-grupo-indice-pill ${{pillClase}}">Índice: ${{idx.toFixed(2).replace('.', ',')}}%</span>
                             </div>
                         </div>
@@ -14898,10 +15129,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const pct = r.indice_mora * 100;
             const estadoEl = document.getElementById('mora-estado-badge');
             let estadoTxt, estadoColor, estadoBg;
-            if (pct < 3) {{ estadoTxt = 'Bajo'; estadoColor = '#166534'; estadoBg = '#f0fdf4'; }}
-            else if (pct < 6) {{ estadoTxt = 'Aceptable'; estadoColor = '#a16207'; estadoBg = '#fefce8'; }}
-            else if (pct < 9) {{ estadoTxt = 'Alerta'; estadoColor = '#c2410c'; estadoBg = '#fff7ed'; }}
-            else {{ estadoTxt = 'Crítico'; estadoColor = '#991b1b'; estadoBg = '#fef2f2'; }}
+            if (pct < 3) {{ estadoTxt = 'Bajo'; estadoColor = '#11782C'; estadoBg = '#E8F6EC'; }}
+            else if (pct < 6) {{ estadoTxt = 'Aceptable'; estadoColor = '#AC9500'; estadoBg = '#F8F5DC'; }}
+            else if (pct < 9) {{ estadoTxt = 'Alerta'; estadoColor = '#A75A00'; estadoBg = '#F8E9D7'; }}
+            else {{ estadoTxt = 'Crítico'; estadoColor = '#A0100B'; estadoBg = '#F8E5E4'; }}
             estadoEl.textContent = estadoTxt;
             estadoEl.style.cssText = `background:${{estadoBg}};color:${{estadoColor}};border:1px solid ${{estadoColor}}40;padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;`;
             
@@ -14915,7 +15146,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 const idxPct = g.indice_grupo * 100;
                 document.getElementById(id).textContent = fmtMillonesMora(g.mora);
                 document.getElementById(id + '-sub').innerHTML = `
-                    <span class="badge ${{idxPct < 3 ? 'verde' : (idxPct < 9 ? 'verde' : 'rojo')}}" style="${{idxPct < 9 ? 'background:#fef3c7;color:#a16207;' : ''}}">${{idxPct.toFixed(2).replace('.', ',')}}%</span>
+                    <span class="badge ${{idxPct < 3 ? 'verde' : (idxPct < 9 ? 'verde' : 'rojo')}}" style="${{idxPct < 9 ? 'background:#F8F5DC;color:#AC9500;' : ''}}">${{idxPct.toFixed(2).replace('.', ',')}}%</span>
                     <span>de su cartera</span>
                 `;
             }};
@@ -14978,7 +15209,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         denSerie: SERIE_MORA_DEN,
                         numLabel: 'Mora Total',
                         denLabel: 'Cartera Total',
-                        colorNum: '#dc2626',
+                        colorNum: '#C91A15',
                         colorDen: '#fca5a5',
                         axisContainerId: 'chartMoraCompAxis-container'
                     }});
@@ -15067,10 +15298,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         }}
         
         function colorRiesgoZona(pct) {{
-            if (pct < 5) return '#15803d';
-            if (pct < 10) return '#eab308';
-            if (pct < 15) return '#f97316';
-            return '#1e40af';
+            if (pct < 5) return '#17A53D';
+            if (pct < 10) return '#E2C403';
+            if (pct < 15) return '#F78502';
+            return '#045988';
         }}
         
         function gradosGaugeRiesgo(porcentaje) {{
@@ -15126,13 +15357,13 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     datasets: [{{
                         label: 'Calidad de Cartera',
                         data: SERIE_CALIDAD_CARTERA,
-                        borderColor: '#1e40af',
-                        backgroundColor: 'rgba(30, 64, 175, 0.10)',
+                        borderColor: '#045988',
+                        backgroundColor: (c) => gradienteArea(c, '#045988'),
                         borderWidth: 2.8,
                         tension: 0.3,
                         fill: true,
                         pointBackgroundColor: SERIE_CALIDAD_CARTERA.map((v, i) =>
-                            i === idxActual ? '#1e3a8a' : colorRiesgoZona(v)
+                            i === idxActual ? '#033F61' : colorRiesgoZona(v)
                         ),
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
@@ -15148,7 +15379,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     plugins: {{
                         legend: {{ display: false }},
                         tooltip: {{
-                            backgroundColor: '#1e3a8a',
+                            backgroundColor: '#033F61',
                             padding: 12,
                             cornerRadius: 8,
                             callbacks: {{
@@ -15166,7 +15397,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             borderColor: 'rgba(30, 64, 175, 0.30)',
                             borderWidth: 1,
                             padding: {{ top: 4, bottom: 4, left: 9, right: 9 }},
-                            color: '#1e3a8a',
+                            color: '#033F61',
                             font: {{
                                 family: "'JetBrains Mono', monospace",
                                 size: 10,
@@ -15179,7 +15410,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         y: {{
                             beginAtZero: true,
                             display: false,
-                            grid: {{ color: '#eff6ff' }},
+                            grid: {{ color: '#E8F2FA' }},
                             ticks: {{
                                 callback: (v) => (Math.round(v * 10) / 10).toString().replace('.', ',') + '%',
                                 font: {{ size: 11 }},
@@ -15211,7 +15442,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function actualizarGraficoRiesgo(idxActual) {{
             if (!chartRiesgo) return;
             chartRiesgo.data.datasets[0].pointBackgroundColor = SERIE_CALIDAD_CARTERA.map((v, i) =>
-                i === idxActual ? '#1e3a8a' : colorRiesgoZona(v)
+                i === idxActual ? '#033F61' : colorRiesgoZona(v)
             );
             chartRiesgo.data.datasets[0].pointRadius = SERIE_CALIDAD_CARTERA.map((_, i) =>
                 i === idxActual ? 8 : 4.5
@@ -15363,15 +15594,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         
         // Configuración visual por modalidad
         const HISTORICO_CONFIG = {{
-            'vivienda':            {{ color: '#8b5cf6', deep: '#5b21b6', light: '#a78bfa', lighter: '#c4b5fd', soft: 'rgba(139,92,246,0.10)', glow: 'rgba(139,92,246,0.55)', color30: 'rgba(139,92,246,0.30)' }},
-            'consumo':             {{ color: '#f59e0b', deep: '#b45309', light: '#fbbf24', lighter: '#fcd34d', soft: 'rgba(245,158,11,0.10)', glow: 'rgba(245,158,11,0.55)', color30: 'rgba(245,158,11,0.30)' }},
-            'consumo_con_libranza':{{ color: '#ec4899', deep: '#9d174d', light: '#f472b6', lighter: '#f9a8d4', soft: 'rgba(236,72,153,0.10)', glow: 'rgba(236,72,153,0.55)', color30: 'rgba(236,72,153,0.30)' }},
-            'consumo_sin_libranza':{{ color: '#f59e0b', deep: '#b45309', light: '#fbbf24', lighter: '#fcd34d', soft: 'rgba(245,158,11,0.10)', glow: 'rgba(245,158,11,0.55)', color30: 'rgba(245,158,11,0.30)' }},
-            'microcredito':        {{ color: '#06b6d4', deep: '#0e7490', light: '#22d3ee', lighter: '#67e8f9', soft: 'rgba(6,182,212,0.10)', glow: 'rgba(6,182,212,0.55)', color30: 'rgba(6,182,212,0.30)' }},
-            'microcredito_empresarial': {{ color: '#06b6d4', deep: '#0e7490', light: '#22d3ee', lighter: '#67e8f9', soft: 'rgba(6,182,212,0.10)', glow: 'rgba(6,182,212,0.55)', color30: 'rgba(6,182,212,0.30)' }},
-            'comercial':           {{ color: '#14b8a6', deep: '#0f766e', light: '#2dd4bf', lighter: '#5eead4', soft: 'rgba(20,184,166,0.10)', glow: 'rgba(20,184,166,0.55)', color30: 'rgba(20,184,166,0.30)' }},
-            'riesgo':              {{ color: '#1e40af', deep: '#1e3a8a', light: '#3b82f6', lighter: '#60a5fa', soft: 'rgba(30,64,175,0.10)', glow: 'rgba(30,64,175,0.55)', color30: 'rgba(30,64,175,0.30)' }},
-            'total':               {{ color: '#6366f1', deep: '#4338ca', light: '#818cf8', lighter: '#a5b4fc', soft: 'rgba(99,102,241,0.10)', glow: 'rgba(99,102,241,0.55)', color30: 'rgba(99,102,241,0.30)' }},
+            'vivienda':            {{ color: '#6039A3', deep: '#3C2367', light: '#B4A0D5', lighter: '#D6CCE6', soft: 'rgba(139,92,246,0.10)', glow: 'rgba(139,92,246,0.55)', color30: 'rgba(139,92,246,0.30)' }},
+            'consumo':             {{ color: '#F78502', deep: '#A75A00', light: '#F6A141', lighter: '#F4CC9E', soft: 'rgba(245,158,11,0.10)', glow: 'rgba(245,158,11,0.55)', color30: 'rgba(245,158,11,0.30)' }},
+            'consumo_con_libranza':{{ color: '#CD3F94', deep: '#7A1F4F', light: '#f472b6', lighter: '#E7BED7', soft: 'rgba(236,72,153,0.10)', glow: 'rgba(236,72,153,0.55)', color30: 'rgba(236,72,153,0.30)' }},
+            'consumo_sin_libranza':{{ color: '#F78502', deep: '#A75A00', light: '#F6A141', lighter: '#F4CC9E', soft: 'rgba(245,158,11,0.10)', glow: 'rgba(245,158,11,0.55)', color30: 'rgba(245,158,11,0.30)' }},
+            'microcredito':        {{ color: '#36BAA8', deep: '#237C70', light: '#62CBBD', lighter: '#67e8f9', soft: 'rgba(6,182,212,0.10)', glow: 'rgba(6,182,212,0.55)', color30: 'rgba(6,182,212,0.30)' }},
+            'microcredito_empresarial': {{ color: '#36BAA8', deep: '#237C70', light: '#62CBBD', lighter: '#67e8f9', soft: 'rgba(6,182,212,0.10)', glow: 'rgba(6,182,212,0.55)', color30: 'rgba(6,182,212,0.30)' }},
+            'comercial':           {{ color: '#36BAA8', deep: '#237C70', light: '#62CBBD', lighter: '#ABDED7', soft: 'rgba(20,184,166,0.10)', glow: 'rgba(20,184,166,0.55)', color30: 'rgba(20,184,166,0.30)' }},
+            'riesgo':              {{ color: '#045988', deep: '#033F61', light: '#2CAAEE', lighter: '#89CAED', soft: 'rgba(30,64,175,0.10)', glow: 'rgba(30,64,175,0.55)', color30: 'rgba(30,64,175,0.30)' }},
+            'total':               {{ color: '#088DD5', deep: '#045988', light: '#2CAAEE', lighter: '#89CAED', soft: 'rgba(99,102,241,0.10)', glow: 'rgba(99,102,241,0.55)', color30: 'rgba(99,102,241,0.30)' }},
         }};
         
         // Construye serie histórica para una modalidad/tipo
@@ -15535,7 +15766,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     const tendEl = document.getElementById('historico-tendencia');
                     tendEl.textContent = `${{flecha}} ${{signo}}${{dif.toFixed(2).replace('.', ',')}} pp`;
                     // Verde si baja (mejora), rojo si sube (empeora)
-                    tendEl.style.color = dif <= 0 ? '#15803d' : '#dc2626';
+                    tendEl.style.color = dif <= 0 ? '#17A53D' : '#C91A15';
                 }} else {{
                     document.getElementById('historico-tendencia').textContent = 'N/A';
                     document.getElementById('historico-tendencia').style.color = '#9ca3af';
@@ -15931,10 +16162,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const pct = r.calidad_cartera * 100;
             const estadoEl = document.getElementById('riesgo-estado-badge');
             let estadoTxt, estadoColor, estadoBg;
-            if (pct < 5) {{ estadoTxt = 'Excelente'; estadoColor = '#166534'; estadoBg = '#f0fdf4'; }}
-            else if (pct < 10) {{ estadoTxt = 'Aceptable'; estadoColor = '#a16207'; estadoBg = '#fefce8'; }}
-            else if (pct < 15) {{ estadoTxt = 'Alerta'; estadoColor = '#c2410c'; estadoBg = '#fff7ed'; }}
-            else {{ estadoTxt = 'Crítico'; estadoColor = '#1e3a8a'; estadoBg = '#eff6ff'; }}
+            if (pct < 5) {{ estadoTxt = 'Excelente'; estadoColor = '#11782C'; estadoBg = '#E8F6EC'; }}
+            else if (pct < 10) {{ estadoTxt = 'Aceptable'; estadoColor = '#AC9500'; estadoBg = '#F8F5DC'; }}
+            else if (pct < 15) {{ estadoTxt = 'Alerta'; estadoColor = '#A75A00'; estadoBg = '#F8E9D7'; }}
+            else {{ estadoTxt = 'Crítico'; estadoColor = '#033F61'; estadoBg = '#E8F2FA'; }}
             estadoEl.textContent = estadoTxt;
             estadoEl.style.cssText = `background:${{estadoBg}};color:${{estadoColor}};border:1px solid ${{estadoColor}}40;padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;`;
             
@@ -15951,12 +16182,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             document.getElementById('riesgo-kpi-CD').textContent = fmtMillonesMora(valCD);
             document.getElementById('riesgo-kpi-CD-sub').innerHTML = `
-                <span class="badge" style="background:#fff7ed;color:#c2410c;">${{pctCD.toFixed(2).replace('.', ',')}}%</span>
+                <span class="badge" style="background:#F8E9D7;color:#A75A00;">${{pctCD.toFixed(2).replace('.', ',')}}%</span>
                 <span>del total</span>`;
             
             document.getElementById('riesgo-kpi-E').textContent = fmtMillonesMora(r.cartera_E);
             document.getElementById('riesgo-kpi-E-sub').innerHTML = `
-                <span class="badge" style="background:#eff6ff;color:#1e3a8a;">${{pctE.toFixed(2).replace('.', ',')}}%</span>
+                <span class="badge" style="background:#E8F2FA;color:#033F61;">${{pctE.toFixed(2).replace('.', ',')}}%</span>
                 <span>del total</span>`;
             
             renderCategoriaRiesgo(r);
@@ -16014,7 +16245,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         denSerie: SERIE_RIESGO_DEN,
                         numLabel: 'Cartera B+C+D+E',
                         denLabel: 'Cartera Total',
-                        colorNum: '#1e40af',
+                        colorNum: '#045988',
                         colorDen: '#93c5fd',
                         axisContainerId: 'chartRiesgoCompAxis-container'
                     }});
@@ -16104,10 +16335,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         }}
         
         function colorCoberturaZona(pct) {{
-            if (pct < 25) return '#dc2626';
-            if (pct < 50) return '#f97316';
-            if (pct < 75) return '#eab308';
-            return '#15803d';
+            if (pct < 25) return '#C91A15';
+            if (pct < 50) return '#F78502';
+            if (pct < 75) return '#E2C403';
+            return '#17A53D';
         }}
         
         function gradosGaugeCobertura(porcentaje) {{
@@ -16162,13 +16393,13 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     datasets: [{{
                         label: 'Cobertura de Cartera',
                         data: SERIE_COBERTURA,
-                        borderColor: '#14b8a6',
-                        backgroundColor: 'rgba(20, 184, 166, 0.10)',
+                        borderColor: '#36BAA8',
+                        backgroundColor: (c) => gradienteArea(c, '#36BAA8'),
                         borderWidth: 2.8,
                         tension: 0.3,
                         fill: true,
                         pointBackgroundColor: SERIE_COBERTURA.map((v, i) =>
-                            i === idxActual ? '#0f766e' : colorCoberturaZona(v)
+                            i === idxActual ? '#237C70' : colorCoberturaZona(v)
                         ),
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
@@ -16184,7 +16415,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     plugins: {{
                         legend: {{ display: false }},
                         tooltip: {{
-                            backgroundColor: '#0f766e',
+                            backgroundColor: '#237C70',
                             padding: 12,
                             cornerRadius: 8,
                             callbacks: {{
@@ -16202,7 +16433,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             borderColor: 'rgba(20, 184, 166, 0.30)',
                             borderWidth: 1,
                             padding: {{ top: 4, bottom: 4, left: 9, right: 9 }},
-                            color: '#0f766e',
+                            color: '#237C70',
                             font: {{
                                 family: "'JetBrains Mono', monospace",
                                 size: 10,
@@ -16215,7 +16446,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         y: {{
                             beginAtZero: true,
                             display: false,
-                            grid: {{ color: '#f0fdfa' }},
+                            grid: {{ color: '#D8EEEB' }},
                             ticks: {{
                                 callback: (v) => (Math.round(v * 10) / 10).toString().replace('.', ',') + '%',
                                 font: {{ size: 11 }},
@@ -16247,7 +16478,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function actualizarGraficoCobertura(idxActual) {{
             if (!chartCobertura) return;
             chartCobertura.data.datasets[0].pointBackgroundColor = SERIE_COBERTURA.map((v, i) =>
-                i === idxActual ? '#0f766e' : colorCoberturaZona(v)
+                i === idxActual ? '#237C70' : colorCoberturaZona(v)
             );
             chartCobertura.data.datasets[0].pointRadius = SERIE_COBERTURA.map((_, i) =>
                 i === idxActual ? 8 : 4.5
@@ -16330,10 +16561,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const pct = obtenerCoberturaActiva(r) * 100;
             const estadoEl = document.getElementById('cobertura-estado-badge');
             let estadoTxt, estadoColor, estadoBg;
-            if (pct < 25)      {{ estadoTxt = 'Insuficiente'; estadoColor = '#991b1b'; estadoBg = '#fef2f2'; }}
-            else if (pct < 50) {{ estadoTxt = 'Bajo'; estadoColor = '#c2410c'; estadoBg = '#fff7ed'; }}
-            else if (pct < 75) {{ estadoTxt = 'Aceptable'; estadoColor = '#a16207'; estadoBg = '#fefce8'; }}
-            else               {{ estadoTxt = 'Sólido'; estadoColor = '#166534'; estadoBg = '#f0fdf4'; }}
+            if (pct < 25)      {{ estadoTxt = 'Insuficiente'; estadoColor = '#A0100B'; estadoBg = '#F8E5E4'; }}
+            else if (pct < 50) {{ estadoTxt = 'Bajo'; estadoColor = '#A75A00'; estadoBg = '#F8E9D7'; }}
+            else if (pct < 75) {{ estadoTxt = 'Aceptable'; estadoColor = '#AC9500'; estadoBg = '#F8F5DC'; }}
+            else               {{ estadoTxt = 'Sólido'; estadoColor = '#11782C'; estadoBg = '#E8F6EC'; }}
             estadoEl.textContent = estadoTxt;
             estadoEl.style.cssText = `background:${{estadoBg}};color:${{estadoColor}};border:1px solid ${{estadoColor}}40;padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;`;
             
@@ -16352,9 +16583,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 const pctMod = data.indice * 100;
                 document.getElementById(idKpi).textContent = pctMod.toFixed(2).replace('.', ',') + '%';
                 let badgeStyle = '';
-                if (pctMod < 50) badgeStyle = 'background:#fef2f2;color:#991b1b;';
-                else if (pctMod < 75) badgeStyle = 'background:#fefce8;color:#a16207;';
-                else badgeStyle = 'background:#f0fdf4;color:#166534;';
+                if (pctMod < 50) badgeStyle = 'background:#F8E5E4;color:#A0100B;';
+                else if (pctMod < 75) badgeStyle = 'background:#F8F5DC;color:#AC9500;';
+                else badgeStyle = 'background:#E8F6EC;color:#11782C;';
                 document.getElementById(idKpi + '-sub').innerHTML = `
                     <span class="badge" style="${{badgeStyle}}">${{fmtMillonesMora(data.numerador)}} M</span>
                     <span>de provisión</span>`;
@@ -16372,7 +16603,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 const otrosPct = otrosNum / otrosDen * 100;
                 document.getElementById('cobertura-kpi-otros').textContent = otrosPct.toFixed(2).replace('.', ',') + '%';
                 document.getElementById('cobertura-kpi-otros-sub').innerHTML = `
-                    <span class="badge" style="background:#f0fdfa;color:#0f766e;">${{fmtMillonesMora(otrosNum)}} M</span>
+                    <span class="badge" style="background:#D8EEEB;color:#237C70;">${{fmtMillonesMora(otrosNum)}} M</span>
                     <span>de provisión</span>`;
             }}
             
@@ -16429,8 +16660,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         denSerie: SERIE_COBERTURA_DEN,
                         numLabel: 'Deterioro Total',
                         denLabel: 'Cartera Vencida (B+C+D+E)',
-                        colorNum: '#0d9488',
-                        colorDen: '#5eead4',
+                        colorNum: '#2A9488',
+                        colorDen: '#ABDED7',
                         axisContainerId: 'chartCoberturaCompAxis-container'
                     }});
                     setTimeout(() => {{
@@ -16519,10 +16750,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         
         function colorCrecZona(pct) {{
             if (pct === null) return '#9ca3af';
-            if (pct < 0) return '#dc2626';
-            if (pct < 5) return '#eab308';
-            if (pct < 10) return '#15803d';
-            return '#6366f1';
+            if (pct < 0) return '#C91A15';
+            if (pct < 5) return '#E2C403';
+            if (pct < 10) return '#17A53D';
+            return '#088DD5';
         }}
         
         function gradosGaugeCrec(porcentaje) {{
@@ -16587,14 +16818,14 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     datasets: [{{
                         label: 'Crecimiento Anual',
                         data: SERIE_CRECIMIENTO_TOTAL,
-                        borderColor: '#6366f1',
-                        backgroundColor: 'rgba(99, 102, 241, 0.10)',
+                        borderColor: '#088DD5',
+                        backgroundColor: (c) => gradienteArea(c, '#088DD5'),
                         borderWidth: 2.8,
                         tension: 0.3,
                         fill: true,
                         spanGaps: true,
                         pointBackgroundColor: SERIE_CRECIMIENTO_TOTAL.map((v, i) =>
-                            i === idxActual ? '#4338ca' : colorCrecZona(v)
+                            i === idxActual ? '#045988' : colorCrecZona(v)
                         ),
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
@@ -16612,7 +16843,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     plugins: {{
                         legend: {{ display: false }},
                         tooltip: {{
-                            backgroundColor: '#4338ca',
+                            backgroundColor: '#045988',
                             padding: 12,
                             cornerRadius: 8,
                             titleColor: '#ffffff',
@@ -16634,7 +16865,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             borderColor: 'rgba(99, 102, 241, 0.30)',
                             borderWidth: 1,
                             padding: {{ top: 4, bottom: 4, left: 9, right: 9 }},
-                            color: '#4338ca',
+                            color: '#045988',
                             font: {{
                                 family: "'JetBrains Mono', monospace",
                                 size: 10,
@@ -16686,7 +16917,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         function actualizarGraficoCrecimiento(idxActual) {{
             if (!chartCrecimiento) return;
             chartCrecimiento.data.datasets[0].pointBackgroundColor = SERIE_CRECIMIENTO_TOTAL.map((v, i) =>
-                i === idxActual ? '#4338ca' : colorCrecZona(v)
+                i === idxActual ? '#045988' : colorCrecZona(v)
             );
             chartCrecimiento.data.datasets[0].pointRadius = SERIE_CRECIMIENTO_TOTAL.map((v, i) =>
                 v === null ? 0 : (i === idxActual ? 8 : 4.5)
@@ -16782,10 +17013,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 estadoTxt = 'Sin año anterior'; estadoColor = '#6b7268'; estadoBg = '#f3f4f6';
             }} else {{
                 const pct = r.crecimiento_total * 100;
-                if (pct < 0)       {{ estadoTxt = 'Contracción';  estadoColor = '#991b1b'; estadoBg = '#fef2f2'; }}
-                else if (pct < 5)  {{ estadoTxt = 'Bajo';         estadoColor = '#a16207'; estadoBg = '#fefce8'; }}
-                else if (pct < 10) {{ estadoTxt = 'Saludable';    estadoColor = '#166534'; estadoBg = '#f0fdf4'; }}
-                else               {{ estadoTxt = 'Acelerado';    estadoColor = '#4338ca'; estadoBg = '#eef2ff'; }}
+                if (pct < 0)       {{ estadoTxt = 'Contracción';  estadoColor = '#A0100B'; estadoBg = '#F8E5E4'; }}
+                else if (pct < 5)  {{ estadoTxt = 'Bajo';         estadoColor = '#AC9500'; estadoBg = '#F8F5DC'; }}
+                else if (pct < 10) {{ estadoTxt = 'Saludable';    estadoColor = '#11782C'; estadoBg = '#E8F6EC'; }}
+                else               {{ estadoTxt = 'Acelerado';    estadoColor = '#045988'; estadoBg = '#eef2ff'; }}
             }}
             estadoEl.textContent = estadoTxt;
             estadoEl.style.cssText = `background:${{estadoBg}};color:${{estadoColor}};border:1px solid ${{estadoColor}}40;padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;`;
@@ -16807,10 +17038,10 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 const color = colorCrecZona(pct);
                 document.getElementById(idKpi).innerHTML = `<span style="color:${{color}};">${{signo}}${{pct.toFixed(2).replace('.', ',')}}%</span>`;
                 let badgeStyle = '';
-                if (pct < 0) badgeStyle = 'background:#fef2f2;color:#991b1b;';
-                else if (pct < 5) badgeStyle = 'background:#fefce8;color:#a16207;';
-                else if (pct < 10) badgeStyle = 'background:#f0fdf4;color:#166534;';
-                else badgeStyle = 'background:#eef2ff;color:#4338ca;';
+                if (pct < 0) badgeStyle = 'background:#F8E5E4;color:#A0100B;';
+                else if (pct < 5) badgeStyle = 'background:#F8F5DC;color:#AC9500;';
+                else if (pct < 10) badgeStyle = 'background:#E8F6EC;color:#11782C;';
+                else badgeStyle = 'background:#eef2ff;color:#045988;';
                 document.getElementById(idKpi + '-sub').innerHTML = `
                     <span class="badge" style="${{badgeStyle}}">${{fmtMillonesMora(dataObj.actual)}} M</span>
                     <span>actual</span>`;
@@ -16887,8 +17118,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         denSerie: SERIE_CREC_DEN,
                         numLabel: 'Cartera Período Actual',
                         denLabel: 'Cartera Año Anterior',
-                        colorNum: '#6366f1',
-                        colorDen: '#a5b4fc',
+                        colorNum: '#088DD5',
+                        colorDen: '#89CAED',
                         axisContainerId: 'chartCrecimientoCompAxis-container'
                     }});
                     setTimeout(() => {{
@@ -16944,8 +17175,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         denSerie: SERIE_SOLVENCIA_DEN,
                         numLabel: 'Patrimonio Técnico',
                         denLabel: 'APR',
-                        colorNum: '#15803d',
-                        colorDen: '#86efac',
+                        colorNum: '#17A53D',
+                        colorDen: '#ADE6BC',
                         axisContainerId: 'chartSolvenciaCompAxis-container'
                     }});
                     setTimeout(() => {{
@@ -17128,39 +17359,39 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             // serie: array · fmt · unidad ('pts'|'pb'|'%') · modo neón · invertir · varDesdeFebrero
             const FILAS_PCT = [
                 {{ seccion: 'Solvencia y Liquidez' }},
-                {{ nombre: 'Solvencia', modulo: 'Solvencia', serie: SERIE_SOLVENCIA, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, punto: '#15803d', click: 'abrirSolvencia' }},
+                {{ nombre: 'Solvencia', modulo: 'Solvencia', serie: SERIE_SOLVENCIA, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, punto: '#17A53D', click: 'abrirSolvencia' }},
                 {{ seccion: 'Calidad de Cartera' }},
-                {{ nombre: 'Índice de Mora', modulo: 'Activo · Mora', serie: SERIE_INDICE_MORA, fmt: fmtPct, unidad: 'pb', modo: 'bueno_bajo', invertir: true, punto: '#dc2626', click: 'abrirIndiceMora' }},
-                {{ nombre: 'Calidad de Cartera', modulo: 'Activo · Riesgo', serie: SERIE_CALIDAD_CARTERA, fmt: fmtPct, unidad: 'pb', modo: 'bueno_bajo', invertir: true, punto: '#1e40af', click: 'abrirIndiceRiesgo' }},
-                {{ nombre: 'Cobertura', modulo: 'Activo · Cobertura', serie: SERIE_COBERTURA_TOTAL, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, punto: '#0d9488', click: 'abrirCobertura' }},
-                {{ nombre: 'Cobertura c/Prov. Gral', modulo: 'Activo · Cobertura', serie: SERIE_COBERTURA_CON_GRAL, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, punto: '#115e59', click: 'abrirCobertura' }},
+                {{ nombre: 'Índice de Mora', modulo: 'Activo · Mora', serie: SERIE_INDICE_MORA, fmt: fmtPct, unidad: 'pb', modo: 'bueno_bajo', invertir: true, punto: '#C91A15', click: 'abrirIndiceMora' }},
+                {{ nombre: 'Calidad de Cartera', modulo: 'Activo · Riesgo', serie: SERIE_CALIDAD_CARTERA, fmt: fmtPct, unidad: 'pb', modo: 'bueno_bajo', invertir: true, punto: '#045988', click: 'abrirIndiceRiesgo' }},
+                {{ nombre: 'Cobertura', modulo: 'Activo · Cobertura', serie: SERIE_COBERTURA_TOTAL, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, punto: '#36BAA8', click: 'abrirCobertura' }},
+                {{ nombre: 'Cobertura c/Prov. Gral', modulo: 'Activo · Cobertura', serie: SERIE_COBERTURA_CON_GRAL, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, punto: '#237C70', click: 'abrirCobertura' }},
                 {{ seccion: 'Rentabilidad' }},
-                {{ nombre: 'ROE · Rent. Patrimonio', modulo: 'Excedente / Patrimonio', serie: SERIE_ROE, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, varDesdeFebrero: true, punto: '#0891b2', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'ROA · Rent. Activo', modulo: 'Excedente / Activo', serie: SERIE_ROA, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, varDesdeFebrero: true, punto: '#0d9488', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Margen Neto', modulo: 'Excedente / Ingresos', serie: SERIE_MARGEN, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, varDesdeFebrero: true, punto: '#6d28d9', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Eficiencia', modulo: 'Gastos / Ingresos', serie: SERIE_EFICIENCIA, fmt: fmtPct, unidad: 'pts', modo: 'bueno_bajo', invertir: true, varDesdeFebrero: true, punto: '#c2410c', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'ROE · Rent. Patrimonio', modulo: 'Excedente / Patrimonio', serie: SERIE_ROE, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, varDesdeFebrero: true, punto: '#F78502', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'ROA · Rent. Activo', modulo: 'Excedente / Activo', serie: SERIE_ROA, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, varDesdeFebrero: true, punto: '#A75A00', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Margen Neto', modulo: 'Excedente / Ingresos', serie: SERIE_MARGEN, fmt: fmtPct, unidad: 'pts', modo: 'bueno_alto', invertir: false, varDesdeFebrero: true, punto: '#F6A141', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Eficiencia', modulo: 'Gastos / Ingresos', serie: SERIE_EFICIENCIA, fmt: fmtPct, unidad: 'pts', modo: 'bueno_bajo', invertir: true, varDesdeFebrero: true, punto: '#CC6A02', click: 'abrirEvolucionICG' }},
             ];
             
             const FILAS_MONEY = [
                 {{ seccion: 'Estructura — Activo' }},
-                {{ nombre: 'Activo', modulo: 'Activo', serie: SERIE_EVOLUCION_ACTIVO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#06b6d4', punto: '#06b6d4', click: 'abrirEvolucionActivo' }},
-                {{ nombre: 'Cartera Total', modulo: 'Activo · Mora', serie: SERIE_CARTERA_TOTAL, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#0ea5e9', punto: '#0ea5e9', click: 'abrirIndiceMora' }},
-                {{ nombre: 'Cartera de Créditos', modulo: 'Activo · Cuenta 14', serie: SERIE_CARTERA_14, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#0284c7', punto: '#0284c7', click: 'abrirEvolucionActivo' }},
-                {{ nombre: 'Efectivo y Equivalente', modulo: 'Activo · Cuenta 11', serie: SERIE_EFECTIVO_11, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#06b6d4', punto: '#06b6d4', click: 'abrirEvolucionActivo' }},
-                {{ nombre: 'Inversiones', modulo: 'Activo · Cuenta 12', serie: SERIE_INVERSIONES_12, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#0891b2', punto: '#0891b2', click: 'abrirEvolucionActivo' }},
-                {{ nombre: 'Cuentas por Cobrar', modulo: 'Activo · Cuenta 16', serie: SERIE_CXC_16, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#155e75', punto: '#155e75', click: 'abrirEvolucionActivo' }},
+                {{ nombre: 'Activo', modulo: 'Activo', serie: SERIE_EVOLUCION_ACTIVO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#36BAA8', punto: '#36BAA8', click: 'abrirEvolucionActivo' }},
+                {{ nombre: 'Cartera Total', modulo: 'Activo · Mora', serie: SERIE_CARTERA_TOTAL, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#088DD5', punto: '#088DD5', click: 'abrirIndiceMora' }},
+                {{ nombre: 'Cartera de Créditos', modulo: 'Activo · Cuenta 14', serie: SERIE_CARTERA_14, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#045988', punto: '#045988', click: 'abrirEvolucionActivo' }},
+                {{ nombre: 'Efectivo y Equivalente', modulo: 'Activo · Cuenta 11', serie: SERIE_EFECTIVO_11, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#36BAA8', punto: '#36BAA8', click: 'abrirEvolucionActivo' }},
+                {{ nombre: 'Inversiones', modulo: 'Activo · Cuenta 12', serie: SERIE_INVERSIONES_12, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#2CAAEE', punto: '#2CAAEE', click: 'abrirEvolucionActivo' }},
+                {{ nombre: 'Cuentas por Cobrar', modulo: 'Activo · Cuenta 16', serie: SERIE_CXC_16, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#237C70', punto: '#237C70', click: 'abrirEvolucionActivo' }},
                 {{ seccion: 'Estructura — Pasivo' }},
-                {{ nombre: 'Pasivo', modulo: 'Pasivo', serie: SERIE_EVOLUCION_PASIVO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#f59e0b', punto: '#f59e0b', click: 'abrirEvolucionPasivo' }},
-                {{ nombre: 'Depósitos', modulo: 'Pasivo · Cuenta 21', serie: SERIE_DEPOSITOS_21, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#d97706', punto: '#d97706', click: 'abrirEvolucionPasivo' }},
+                {{ nombre: 'Pasivo', modulo: 'Pasivo', serie: SERIE_EVOLUCION_PASIVO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#4D61B4', punto: '#4D61B4', click: 'abrirEvolucionPasivo' }},
+                {{ nombre: 'Depósitos', modulo: 'Pasivo · Cuenta 21', serie: SERIE_DEPOSITOS_21, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#33417C', punto: '#33417C', click: 'abrirEvolucionPasivo' }},
                 {{ seccion: 'Estructura — Patrimonio' }},
-                {{ nombre: 'Patrimonio', modulo: 'Patrimonio', serie: SERIE_EVOLUCION_PATRIMONIO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#8b5cf6', punto: '#8b5cf6', click: 'abrirEvolucionPatrimonio' }},
-                {{ nombre: 'Capital Social', modulo: 'Patrimonio · Cuenta 31', serie: SERIE_CAPITAL_31, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#7c3aed', punto: '#7c3aed', click: 'abrirEvolucionPatrimonio' }},
-                {{ nombre: 'Reservas', modulo: 'Patrimonio · Cuenta 32', serie: SERIE_RESERVAS_32, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#6d28d9', punto: '#6d28d9', click: 'abrirEvolucionPatrimonio' }},
+                {{ nombre: 'Patrimonio', modulo: 'Patrimonio', serie: SERIE_EVOLUCION_PATRIMONIO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#6039A3', punto: '#6039A3', click: 'abrirEvolucionPatrimonio' }},
+                {{ nombre: 'Capital Social', modulo: 'Patrimonio · Cuenta 31', serie: SERIE_CAPITAL_31, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#7F5ABF', punto: '#7F5ABF', click: 'abrirEvolucionPatrimonio' }},
+                {{ nombre: 'Reservas', modulo: 'Patrimonio · Cuenta 32', serie: SERIE_RESERVAS_32, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#3C2367', punto: '#3C2367', click: 'abrirEvolucionPatrimonio' }},
                 {{ seccion: 'Estado de Resultados' }},
-                {{ nombre: 'Ingresos', modulo: 'Ingresos', serie: SERIE_ICG_INGRESOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, baseHex: '#15803d', punto: '#15803d', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Costos', modulo: 'Ingresos', serie: SERIE_ICG_COSTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, baseHex: '#c2410c', punto: '#c2410c', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Gastos', modulo: 'Ingresos', serie: SERIE_ICG_GASTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, baseHex: '#dc2626', punto: '#dc2626', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Excedente', modulo: 'Ingresos', serie: SERIE_ICG_EXCEDENTE, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, baseHex: '#6d28d9', punto: '#6d28d9', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Ingresos', modulo: 'Ingresos', serie: SERIE_ICG_INGRESOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, baseHex: '#17A53D', punto: '#17A53D', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Costos', modulo: 'Ingresos', serie: SERIE_ICG_COSTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, baseHex: '#A75A00', punto: '#A75A00', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Gastos', modulo: 'Ingresos', serie: SERIE_ICG_GASTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, baseHex: '#C91A15', punto: '#C91A15', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Excedente', modulo: 'Ingresos', serie: SERIE_ICG_EXCEDENTE, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, baseHex: '#F78502', punto: '#F78502', click: 'abrirEvolucionICG' }},
             ];
             
             // ===== Construye una tabla matriz dado el array de filas =====
