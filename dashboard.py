@@ -1891,6 +1891,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                  todos_icg: list = None,
                  todos_depositos: list = None,
                  series_indicadores: list = None,
+                 cartera_segmentos: list = None,
                  catalogo_cuentas: dict = None) -> str:
     """Genera el archivo HTML del dashboard interactivo."""
     datos_json = [_resultado_a_json(r) for r in todos_resultados]
@@ -1932,6 +1933,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
     icg_json = todos_icg
     
     if series_indicadores is None: series_indicadores = []
+    if cartera_segmentos is None: cartera_segmentos = []
     
     # Catálogo de cuentas PUC para reportes auditables
     if catalogo_cuentas is None:
@@ -3826,6 +3828,74 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             @media (max-width: 768px) {{
                 .evolucion-kpis-grid {{ grid-template-columns: 1fr; }}
             }}
+            /* ===== Fila de 6 mini-cajas de estadísticas ===== */
+            .stats-fila {{
+                display: grid;
+                grid-template-columns: repeat(8, 1fr);
+                gap: 9px;
+                margin: -8px 0 24px;
+            }}
+            .stat-box {{
+                background: #ffffff;
+                border: 1px solid #e8eaef;
+                border-left: 3px solid var(--stat-color, #64748b);
+                border-radius: 10px;
+                padding: 9px 12px;
+            }}
+            .stat-box-top {{
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                margin-bottom: 4px;
+            }}
+            .stat-box-ico {{
+                font-size: 9px;
+                color: var(--stat-color, #64748b);
+                font-weight: 700;
+            }}
+            .stat-box-lbl {{
+                font-size: 9.5px;
+                font-weight: 700;
+                color: #94a3b8;
+                text-transform: uppercase;
+                letter-spacing: 0.3px;
+                white-space: nowrap;
+            }}
+            .stat-box-val {{
+                font-size: 16px;
+                font-weight: 800;
+                color: #1e293b;
+                font-family: 'JetBrains Mono', monospace;
+                letter-spacing: -0.3px;
+            }}
+            .stat-box-per {{
+                font-size: 9px;
+                font-weight: 600;
+                color: #94a3b8;
+                margin-top: 2px;
+                font-style: italic;
+            }}
+            /* Versión compacta de stats dentro de los mini-gráficos (productos/segmentos) */
+            .stats-fila-mini {{
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+                margin: 14px 0 2px;
+            }}
+            .stats-fila-mini .stat-box {{ padding: 6px 8px; border-radius: 8px; }}
+            .stats-fila-mini .stat-box-lbl {{ font-size: 8px; }}
+            .stats-fila-mini .stat-box-ico {{ font-size: 8px; }}
+            .stats-fila-mini .stat-box-val {{ font-size: 12.5px; }}
+            .stats-fila-mini .stat-box-per {{ font-size: 8px; }}
+            @media (max-width: 620px) {{
+                .stats-fila-mini {{ grid-template-columns: repeat(2, 1fr); }}
+            }}
+            @media (max-width: 1100px) {{
+                .stats-fila {{ grid-template-columns: repeat(4, 1fr); }}
+            }}
+            @media (max-width: 620px) {{
+                .stats-fila {{ grid-template-columns: repeat(2, 1fr); }}
+                .stat-box-val {{ font-size: 14px; }}
+            }}
             .evo-kpi {{
                 background: white;
                 border-radius: 14px;
@@ -4509,6 +4579,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .var-sube  {{ color: #16a34a; }}
             .var-baja  {{ color: #C91A15; }}
             .var-igual {{ color: #94a3b8; }}
+            .var-neutro {{ color: #334155; }}  /* gris oscuro, sin connotación verde/rojo */
             
             /* Filas clickables */
             .matriz-fila {{
@@ -5840,6 +5911,34 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .dep-mini-tag .dep-tag-valor {{ font-size: 15px; }}
             .dep-mini-tag .dep-tag-nombre {{ font-size: 10px; }}
             .dep-mini-tag .dep-tag-var {{ font-size: 10px; }}
+            /* ===== Crecimiento de Cartera: fila de KPIs + etiquetas de segmentos ===== */
+            .crec-kpis-fila {{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+                margin-bottom: 24px;
+            }}
+            @media (max-width: 760px) {{
+                .crec-kpis-fila {{ grid-template-columns: 1fr; }}
+            }}
+            .cseg-chart-box {{ position: relative; padding-top: 64px; }}
+            .cseg-chart-tag {{
+                position: absolute;
+                top: 0;
+                right: 12px;
+                z-index: 5;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 1px;
+                pointer-events: none;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+            }}
+            /* En los mini-gráficos de segmento la etiqueta es más compacta */
+            .dep-mini-card.cseg-chart-box {{ padding-top: 0; }}
+            .dep-mini-card.cseg-chart-box .cseg-chart-tag {{ top: 2px; right: 8px; }}
             .historico-eje-fijo {{
                 flex: 0 0 80px;
                 width: 80px;
@@ -6641,6 +6740,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica de Depósitos</h2>
                 <p class="seccion-subtitulo" id="depositos-graf-sub">Saldo total de captaciones · Millones COP</p>
+                <p class="seccion-subtitulo" style="margin:0 0 10px;font-weight:700;color:#475569;">Estadísticas del total de depósitos</p>
+                <div class="stats-fila" id="depositos-stats" style="margin-bottom:18px;"></div>
                 <div class="dep-chart-box">
                     <div class="dep-chart-tag" id="dep-tag-total"></div>
                     <div class="historico-flex-wrap">
@@ -6915,6 +7016,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="icg-excedente-var">—</div>
                 </div>
             </div>
+            <p class="seccion-subtitulo" style="margin:-12px 0 6px;font-weight:700;color:#475569;">Estadísticas del Excedente acumulado</p>
+            <div class="stats-fila" id="icg-stats"></div>
             
             <!-- Gráfico histórico combinado (barras agrupadas + línea de excedente) -->
             <div class="section acc-graficos seccion-icg-neon">
@@ -7289,6 +7392,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     </div>
                 </div>
             </div>
+            <div class="stats-fila" id="mora-stats"></div>
             
             <!-- GRÁFICO HISTÓRICO -->
             <div class="section acc-graficos seccion-mora-neon">
@@ -7452,6 +7556,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     </div>
                 </div>
             </div>
+            <div class="stats-fila" id="riesgo-stats"></div>
             
             <!-- GRÁFICO HISTÓRICO -->
             <div class="section acc-graficos seccion-riesgo-neon">
@@ -7630,6 +7735,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     </div>
                 </div>
             </div>
+            <div class="stats-fila" id="cobertura-stats"></div>
             
             <!-- GRÁFICO HISTÓRICO -->
             <div class="section acc-graficos seccion-cobertura-neon">
@@ -7721,65 +7827,54 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 </div>
             </header>
             
-            <!-- TOP: Gauge + KPIs -->
-            <div class="top-grid">
-                <div class="gauge-card gauge-card-crecimiento">
-                    <div class="gauge-label">Crecimiento Anual Cartera</div>
-                    <div class="gauge-periodo" id="crecimiento-gauge-periodo">--</div>
-                    <div class="gauge-wrapper">
-                        <svg class="gauge-svg" viewBox="0 0 200 165" preserveAspectRatio="xMidYMid meet">
-                            <path class="gauge-arc-bg" d="M 30 100 A 70 70 0 0 1 170 100"/>
-                            <path class="gauge-arc-zone gauge-zone-red-mora"   d="M 30 100 A 70 70 0 0 1 70 35.36"/>
-                            <path class="gauge-arc-zone gauge-zone-yellow"     d="M 70 35.36 A 70 70 0 0 1 130 35.36"/>
-                            <path class="gauge-arc-zone gauge-zone-green-dark" d="M 130 35.36 A 70 70 0 0 1 158.66 60"/>
-                            <path class="gauge-arc-zone gauge-zone-indigo-crec" d="M 158.66 60 A 70 70 0 0 1 170 100"/>
-                            <g><rect class="gauge-tick-chip" x="0" y="93" width="26" height="14" rx="4"/>
-                               <text class="gauge-tick-label" x="12" y="103" text-anchor="middle">-20%</text></g>
-                            <g><rect class="gauge-tick-chip" x="46" y="26" width="24" height="14" rx="4"/>
-                               <text class="gauge-tick-label" x="58" y="36" text-anchor="middle">-10%</text></g>
-                            <g><rect class="gauge-tick-chip" x="89" y="6" width="26" height="14" rx="4"/>
-                               <text class="gauge-tick-label" x="102" y="16" text-anchor="middle">0%</text></g>
-                            <g><rect class="gauge-tick-chip" x="135" y="26" width="22" height="14" rx="4"/>
-                               <text class="gauge-tick-label" x="146" y="36" text-anchor="middle">10%</text></g>
-                            <g><rect class="gauge-tick-chip" x="172" y="93" width="26" height="14" rx="4"/>
-                               <text class="gauge-tick-label" x="185" y="103" text-anchor="middle">20%</text></g>
-                            <g id="crecimiento-gauge-needle-group" class="gauge-needle-group">
-                                <polygon class="gauge-needle-line" points="97,100 103,100 100.5,40 99.5,40"/>
-                                <circle class="gauge-needle-hub" cx="100" cy="100" r="6.5"/>
-                            </g>
-                            <text id="crecimiento-gauge-text" class="gauge-center-value" x="100" y="142">--</text>
-                        </svg>
-                    </div>
-                    <div class="gauge-status">
-                        <div class="gauge-status-item">
-                            <span class="gauge-status-label">Cartera Actual</span>
-                            <span class="gauge-status-value" id="crecimiento-actual">--</span>
+            <!-- KPIs de crecimiento (sin velocímetro) -->
+            <div class="crec-kpis-fila">
+                <div class="kpi-card kpi-crec-consumo">
+                    <div class="kpi-label">Crecimiento Consumo (CL+SL)</div>
+                    <div class="kpi-value" id="crecimiento-kpi-consumo">--</div>
+                    <div class="kpi-sub" id="crecimiento-kpi-consumo-sub">--</div>
+                </div>
+                <div class="kpi-card kpi-crec-vivienda">
+                    <div class="kpi-label">Crecimiento Vivienda</div>
+                    <div class="kpi-value" id="crecimiento-kpi-vivienda">--</div>
+                    <div class="kpi-sub" id="crecimiento-kpi-vivienda-sub">--</div>
+                </div>
+                <div class="kpi-card kpi-crec-riesgo">
+                    <div class="kpi-label">Crecimiento Cartera en Riesgo</div>
+                    <div class="kpi-value" id="crecimiento-kpi-riesgo">--</div>
+                    <div class="kpi-sub" id="crecimiento-kpi-riesgo-sub">--</div>
+                </div>
+            </div>
+            <p class="seccion-subtitulo" style="margin:0 0 6px;font-weight:700;color:#475569;">Estadísticas de la Cartera Total</p>
+            <div class="stats-fila" id="crecimiento-stats"></div>
+            
+            <!-- ===== EVOLUCIÓN HISTÓRICA DE CARTERA (estilo Depósitos) ===== -->
+            <!-- Gráfico TOTAL grande -->
+            <div class="section acc-graficos">
+                <h2 class="section-title">Evolución Histórica de Cartera</h2>
+                <p class="seccion-subtitulo">Saldo total de cartera bruta · Millones COP</p>
+                <div class="cseg-chart-box">
+                    <div class="cseg-chart-tag" id="cseg-tag-total"></div>
+                    <div class="historico-flex-wrap">
+                        <div class="historico-eje-fijo">
+                            <div id="chartCSegTotal-axis-container" class="eje-y-html-container"></div>
                         </div>
-                        <div class="gauge-status-item">
-                            <span class="gauge-status-label">Año Anterior</span>
-                            <span class="gauge-status-value" id="crecimiento-anterior">--</span>
+                        <div class="chart-scroll-container" id="csegTotal-scroll-container">
+                            <div class="chart-inner" id="csegTotal-inner">
+                                <canvas id="chartCSegTotal"></canvas>
+                            </div>
                         </div>
-                        <div class="gauge-estado-badge" id="crecimiento-estado-badge">--</div>
                     </div>
                 </div>
-                
-                <div class="kpi-mini-stack">
-                    <div class="kpi-card kpi-crec-consumo">
-                        <div class="kpi-label">Crecimiento Consumo (CL+SL)</div>
-                        <div class="kpi-value" id="crecimiento-kpi-consumo">--</div>
-                        <div class="kpi-sub" id="crecimiento-kpi-consumo-sub">--</div>
-                    </div>
-                    <div class="kpi-card kpi-crec-vivienda">
-                        <div class="kpi-label">Crecimiento Vivienda</div>
-                        <div class="kpi-value" id="crecimiento-kpi-vivienda">--</div>
-                        <div class="kpi-sub" id="crecimiento-kpi-vivienda-sub">--</div>
-                    </div>
-                    <div class="kpi-card kpi-crec-riesgo">
-                        <div class="kpi-label">Crecimiento Cartera en Riesgo</div>
-                        <div class="kpi-value" id="crecimiento-kpi-riesgo">--</div>
-                        <div class="kpi-sub" id="crecimiento-kpi-riesgo-sub">--</div>
-                    </div>
-                </div>
+                <div class="chart-hint">Desplázate por los períodos con la barra inferior</div>
+            </div>
+            
+            <!-- Cuadrícula de segmentos -->
+            <div class="section acc-graficos">
+                <h2 class="section-title">Evolución por Segmento</h2>
+                <p class="seccion-subtitulo">Saldo histórico de cada segmento de cartera · Millones COP</p>
+                <div class="dep-grid-2x2" id="cseg-grid-segmentos"></div>
+                <div class="chart-hint">Cada gráfico se desplaza por los períodos con su barra inferior</div>
             </div>
             
             <!-- GRÁFICO HISTÓRICO -->
@@ -7886,6 +7981,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="evolucion-activo-var-anio-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="evolucion-activo-stats"></div>
             
             <!-- Gráfico histórico -->
             <div class="section acc-graficos seccion-evolucion-activo-neon">
@@ -7961,6 +8057,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="evolucion-pasivo-var-anio-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="evolucion-pasivo-stats"></div>
             
             <div class="section acc-graficos seccion-evolucion-pasivo-neon">
                 <h2 class="section-title">Evolución Histórica del Pasivo</h2>
@@ -8034,6 +8131,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="evolucion-patrimonio-var-anio-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="evolucion-patrimonio-stats"></div>
             
             <div class="section acc-graficos seccion-evolucion-patrimonio-neon">
                 <h2 class="section-title">Evolución Histórica del Patrimonio</h2>
@@ -8112,6 +8210,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="quebranto-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="quebranto-stats"></div>
             
             <div class="section acc-graficos seccion-evolucion-patrimonio-neon">
                 <h2 class="section-title">Evolución Histórica del Quebranto Patrimonial</h2>
@@ -8196,6 +8295,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="suficiencia-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="suficiencia-stats"></div>
             
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica de la Suficiencia del Margen Financiero</h2>
@@ -8286,6 +8386,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="margen-total-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="margen-total-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica del Margen Total</h2>
                 <p class="seccion-subtitulo">Excedentes y/o pérdidas ÷ Ingresos · expresado en porcentaje</p>
@@ -8373,6 +8474,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="cartera-activo-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="cartera-activo-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica de Cartera sobre Activo</h2>
                 <p class="seccion-subtitulo" id="cartera-activo-graf-sub">Cartera ÷ Activo · expresado en porcentaje</p>
@@ -8444,6 +8546,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="depositos-pasivo-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="depositos-pasivo-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica de Depósitos sobre Pasivo</h2>
                 <p class="seccion-subtitulo">Depósitos ÷ Pasivo · expresado en porcentaje</p>
@@ -8522,6 +8625,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="depositos-cartera-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="depositos-cartera-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica de Depósitos sobre Cartera</h2>
                 <p class="seccion-subtitulo" id="depositos-cartera-graf-sub">Depósitos ÷ Cartera · expresado en porcentaje</p>
@@ -8579,6 +8683,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="rind-roe-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="rind-roe-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica del ROE</h2>
                 <p class="seccion-subtitulo">Rentabilidad anualizada sobre el patrimonio promedio · expresado en porcentaje</p>
@@ -8638,6 +8743,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="rind-mn-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="rind-mn-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica del Margen Neto</h2>
                 <p class="seccion-subtitulo">Excedente ÷ (Ingresos 41 + Recuperaciones 4225) · expresado en porcentaje</p>
@@ -8696,6 +8802,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="rind-roic-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="rind-roic-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica del ROIC</h2>
                 <p class="seccion-subtitulo">Rentabilidad anualizada sobre el capital invertido promedio · expresado en porcentaje</p>
@@ -8756,6 +8863,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="rind-roa-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="rind-roa-stats"></div>
             <div class="section acc-graficos">
                 <h2 class="section-title">Evolución Histórica del ROA</h2>
                 <p class="seccion-subtitulo">Rentabilidad anualizada sobre el activo promedio · expresado en porcentaje</p>
@@ -8836,6 +8944,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     <div class="evo-kpi-sub" id="capital-inst-var-mes-sub">—</div>
                 </div>
             </div>
+            <div class="stats-fila" id="capital-inst-stats"></div>
             
             <div class="section acc-graficos seccion-evolucion-patrimonio-neon">
                 <h2 class="section-title">Evolución Histórica del Capital Institucional</h2>
@@ -9154,6 +9263,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     </div>
                 </div>
             </div>
+            <div class="stats-fila" id="solvencia-stats"></div>
             
             <!-- GRAFICOS CON SCROLL -->
             <div class="two-col">
@@ -9375,6 +9485,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
         
         // ===== DATOS DE INDICADORES ADICIONALES (cuentas directas por período) =====
         const DATOS_INDICADORES = {json.dumps(series_indicadores, default=_json_default)};
+        // ===== SEGMENTOS DE CARTERA POR PERÍODO (evolución estilo Depósitos) =====
+        const DATOS_CARTERA_SEGMENTOS = {json.dumps(cartera_segmentos, default=_json_default, ensure_ascii=False)};
         
         // ===== SERIES DE COMPOSICIÓN (Numerador / Denominador) =====
         const SERIE_SOLVENCIA_NUM = {json.dumps(serie_solvencia_num, default=_json_default)};
@@ -9848,6 +9960,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             document.getElementById('gauge-periodo').textContent = `${{MESES_NOMBRE[r.mes]}} de ${{r.anio}}`;
             actualizarGauge(r);
+            // Estadísticas de la serie de solvencia (en %)
+            _pintarStats('solvencia-stats', SERIE_SOLVENCIA, idx, (v) => v.toFixed(2).replace('.', ',') + '%', '#17A53D', _etqsDe(DATOS));
             
             const holgura = r.holgura_solvencia * 100;
             const holguraEl = document.getElementById('gauge-holgura');
@@ -12536,6 +12650,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('quebranto-tabla').innerHTML = html;
+            _pintarStats('quebranto-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
         }}
 
         // =================== CAPITAL INSTITUCIONAL ===================
@@ -12586,6 +12701,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('capital-inst-tabla').innerHTML = html;
+            _pintarStats('capital-inst-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
         }}
 
         // ---- Excel auditable para ambos módulos ----
@@ -12714,6 +12830,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('suficiencia-tabla').innerHTML = html;
+            _pintarStats('suficiencia-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
             // Tabla resumen de composición
             document.getElementById('smf-comp-41').textContent = fmtMillEnt(r.c41);
             document.getElementById('smf-comp-61').textContent = fmtMillEnt(r.c61);
@@ -12837,6 +12954,103 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             gtext.setAttribute('class', 'gauge-center-value ' + _zonaGauge100(pct));
         }}
 
+        // ==========================================================
+        // ===== ESTADÍSTICAS DE SERIE (para todos los indicadores) =====
+        // Máx histórico, Máx 12m, Mín histórico, Mín 12m, Promedio, Mediana.
+        // Se calculan sobre los valores no nulos de la serie hasta el período
+        // seleccionado (idx). "Últimos 12 meses" = los 12 períodos que terminan en idx.
+        // ==========================================================
+        function _calcularEstadisticas(serie, idx, etiquetas) {{
+            // Considerar la serie hasta el período seleccionado (inclusive)
+            const hasta = (idx === undefined || idx === null) ? serie.length - 1 : idx;
+            const ini12 = Math.max(0, hasta - 11);
+            // Construir pares {{valor, etq}} válidos para histórico y 12m, conservando el período.
+            const pares = [];
+            for (let i = 0; i <= hasta; i++) {{
+                const v = serie[i];
+                if (v !== null && v !== undefined && !isNaN(v)) {{
+                    pares.push({{ v: v, etq: (etiquetas && etiquetas[i]) ? etiquetas[i] : null, i: i }});
+                }}
+            }}
+            const pares12 = pares.filter(p => p.i >= ini12);
+            if (!pares.length) {{
+                return {{ maxHist: null, max12: null, minHist: null, min12: null,
+                          promHist: null, prom12: null, medHist: null, med12: null,
+                          maxHistP: null, max12P: null, minHistP: null, min12P: null }};
+            }}
+            const vals = pares.map(p => p.v);
+            const _prom = (arr) => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null;
+            const _med = (arr) => {{
+                if (!arr.length) return null;
+                const o = [...arr].sort((a, b) => a - b);
+                const n = o.length;
+                return (n % 2 === 1) ? o[(n-1)/2] : (o[n/2 - 1] + o[n/2]) / 2;
+            }};
+            // Máx/mín conservando el período donde ocurre (primer extremo encontrado)
+            const _extremo = (arr, esMax) => {{
+                if (!arr.length) return {{ v: null, etq: null }};
+                let best = arr[0];
+                for (const p of arr) {{ if (esMax ? p.v > best.v : p.v < best.v) best = p; }}
+                return best;
+            }};
+            const maxH = _extremo(pares, true), max1 = _extremo(pares12, true);
+            const minH = _extremo(pares, false), min1 = _extremo(pares12, false);
+            const vals12 = pares12.map(p => p.v);
+            return {{
+                maxHist: maxH.v, maxHistP: maxH.etq,
+                max12: max1.v,   max12P: max1.etq,
+                minHist: minH.v, minHistP: minH.etq,
+                min12: min1.v,   min12P: min1.etq,
+                promHist: _prom(vals),
+                prom12: _prom(vals12),
+                medHist: _med(vals),
+                med12: _med(vals12),
+            }};
+        }}
+        // Genera la fila compacta de mini-cajas. `fmt` formatea cada valor.
+        // `color` tiñe sutilmente el acento de cada caja.
+        // En máx/mín se muestra debajo el período donde se alcanzó.
+        function _statsBoxHTML(stats, fmt, color) {{
+            color = color || '#64748b';
+            const f = (v) => (v === null || v === undefined || isNaN(v)) ? '—' : fmt(v);
+            const cajas = [
+                {{ lbl: 'Máx. histórico',   val: stats.maxHist,  ico: '▲', per: stats.maxHistP }},
+                {{ lbl: 'Máx. 12 meses',    val: stats.max12,    ico: '▲', per: stats.max12P }},
+                {{ lbl: 'Mín. histórico',   val: stats.minHist,  ico: '▼', per: stats.minHistP }},
+                {{ lbl: 'Mín. 12 meses',    val: stats.min12,    ico: '▼', per: stats.min12P }},
+                {{ lbl: 'Promedio hist.',   val: stats.promHist, ico: 'x̄' }},
+                {{ lbl: 'Promedio 12 m',    val: stats.prom12,   ico: 'x̄' }},
+                {{ lbl: 'Mediana hist.',    val: stats.medHist,  ico: 'M' }},
+                {{ lbl: 'Mediana 12 m',     val: stats.med12,    ico: 'M' }},
+            ];
+            return cajas.map(c => {{
+                const periodo = c.per ? `<div class="stat-box-per">${{c.per}}</div>` : '';
+                return `
+                <div class="stat-box" style="--stat-color:${{color}}">
+                    <div class="stat-box-top"><span class="stat-box-ico">${{c.ico}}</span><span class="stat-box-lbl">${{c.lbl}}</span></div>
+                    <div class="stat-box-val">${{f(c.val)}}</div>
+                    ${{periodo}}
+                </div>`;
+            }}).join('');
+        }}
+        // Genera etiquetas cortas de período ("Abr 2026") desde un array de registros {{mes, anio}}.
+        function _etqsDe(datos) {{
+            if (!datos) return null;
+            return datos.map(d => {{
+                const m = (MESES_NOMBRE[d.mes] || d.mes || '').toString();
+                const mCorto = m.charAt(0).toUpperCase() + m.slice(1, 3).toLowerCase();
+                return `${{mCorto}} ${{d.anio}}`;
+            }});
+        }}
+        // Atajo: calcula y pinta directamente en un contenedor por id.
+        // `etiquetas` (opcional) es un array paralelo a `serie` con el período de cada punto.
+        function _pintarStats(containerId, serie, idx, fmt, color, etiquetas) {{
+            const cont = document.getElementById(containerId);
+            if (!cont) return;
+            const stats = _calcularEstadisticas(serie, idx, etiquetas);
+            cont.innerHTML = _statsBoxHTML(stats, fmt, color);
+        }}
+
         function _carteraTotalPeriodo(i) {{
             const r = DATOS_INDICADORES[i];
             if (!r) return 0;
@@ -12895,6 +13109,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('margen-total-tabla').innerHTML = html;
+            _pintarStats('margen-total-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
             // Tabla resumen de composición
             document.getElementById('mgt-comp-num').textContent = fmtMillEnt(r.num);
             document.getElementById('mgt-comp-den').textContent = fmtMillEnt(r.den);
@@ -12982,6 +13197,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('cartera-activo-tabla').innerHTML = html;
+            _pintarStats('cartera-activo-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
             // Gauge velocímetro
             const gw = document.getElementById('cartera-activo-gauge-wrapper');
             if (gw && !gw.innerHTML.trim()) gw.innerHTML = _svgGauge100('cartera-activo-gauge');
@@ -13060,6 +13276,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('depositos-pasivo-tabla').innerHTML = html;
+            _pintarStats('depositos-pasivo-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
             // Gauge velocímetro
             const gw = document.getElementById('depositos-pasivo-gauge-wrapper');
             if (gw && !gw.innerHTML.trim()) gw.innerHTML = _svgGauge100('depositos-pasivo-gauge');
@@ -13148,6 +13365,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
             html += '</tbody>';
             document.getElementById('depositos-cartera-tabla').innerHTML = html;
+            _pintarStats('depositos-cartera-stats', serie, idx, fmtPctDirecto, COLOR, _etqsDe(datos));
             // Gauge velocímetro
             const gw = document.getElementById('depositos-cartera-gauge-wrapper');
             if (gw && !gw.innerHTML.trim()) gw.innerHTML = _svgGauge100('depositos-cartera-gauge');
@@ -13239,6 +13457,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 STATE.chart = _crearGraficoRatio(cfg.canvas, cfg.axis, serie, etq.cortas, etq.largas, COLOR_RENT_IND, idx);
                 setTimeout(() => _scrollRatio(cfg.scroll, cfg.inner, idx, DATOS_ICG.length), 100);
                 cfg.llenarComposicion(calc.inputs || {{}}, val);
+                _pintarStats(cfg.prefijo + '-stats', serie, idx, fmtPctDirecto, COLOR_RENT_IND, _etqsDe(DATOS_ICG));
             }};
             return cfg;
         }}
@@ -13532,6 +13751,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             const totalSerie = depSerieTotal(modo);
             const crecTotalSerie = depCrecimientoMensual(totalSerie);
+            _pintarStats('depositos-stats', totalSerie, idx, fmtDepMillEs, '#045988', _etqsDe(DATOS_DEPOSITOS));
             const totalVal = modo === 'capital' ? r.total_capital : r.total_depositos;
             const crecTotal = crecTotalSerie[idx];
             
@@ -13660,6 +13880,207 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }});
         }}
 
+        // ==========================================================
+        // ===== EVOLUCIÓN DE CARTERA: TOTAL Y POR SEGMENTOS =====
+        // Mismo estilo que el módulo de Crecimiento de Depósitos.
+        // Total = suma de los 4 segmentos (Vivienda, Consumo CL, Consumo SL, Empleados).
+        // ==========================================================
+        const CSEG_STATE = {{ inic: false, idxActual: 0, charts: {{}} }};
+        let CSEG_SCROLL_IDS = [{{ scroll: 'csegTotal-scroll-container', inner: 'csegTotal-inner' }}];
+        // Colores por segmento (paleta verde-azulada del módulo Activo)
+        const CSEG_COLORS = {{
+            vivienda:   '#237C70',
+            consumo_cl: '#36BAA8',
+            consumo_sl: '#2CAAEE',
+            empleados:  '#088DD5',
+        }};
+        const CSEG_COLOR_TOTAL = '#237C70';
+
+        // Serie total y por segmento a lo largo de los períodos
+        function csegSerieTotal() {{
+            return DATOS_CARTERA_SEGMENTOS.map(r => r.total);
+        }}
+        function csegSerieSegmento(id) {{
+            return DATOS_CARTERA_SEGMENTOS.map(r => {{
+                const s = r.segmentos.find(x => x.id === id);
+                return s ? s.saldo : 0;
+            }});
+        }}
+        function csegSaldoSegmento(reg, id) {{
+            const s = reg.segmentos.find(x => x.id === id);
+            return s ? s.saldo : 0;
+        }}
+        // Crecimiento mensual de una serie (para la etiqueta integrada)
+        function csegCrecMensual(serie) {{
+            return serie.map((v, i) => {{
+                if (i === 0) return null;
+                const ant = serie[i-1];
+                if (!ant || ant === 0) return null;
+                return ((v / ant) - 1) * 100;
+            }});
+        }}
+        // Lista de segmentos visibles (los 4)
+        function csegItems() {{
+            const ref = DATOS_CARTERA_SEGMENTOS[DATOS_CARTERA_SEGMENTOS.length - 1];
+            return ref ? ref.segmentos.map(s => ({{ id: s.id, nombre: s.nombre }})) : [];
+        }}
+
+        // Crea un gráfico de línea+área para cartera (estilo Depósitos)
+        function crearGraficoLineaCSeg(canvasId, serie, color, axisContainerId, etiquetas, etiquetasLargas, key) {{
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return;
+            if (CSEG_STATE.charts[key]) {{ CSEG_STATE.charts[key].destroy(); CSEG_STATE.charts[key] = null; }}
+            const idxActual = CSEG_STATE.idxActual;
+            const ejeInfo = sincronizarEjeYHistorico(serie, axisContainerId, {{
+                tituloEje: 'Millones COP', formatter: fmtDepMillEs
+            }});
+            CSEG_STATE.charts[key] = new Chart(ctx, {{
+                type: 'line',
+                data: {{
+                    labels: etiquetas,
+                    datasets: [{{
+                        label: 'Saldo',
+                        data: serie,
+                        borderColor: color,
+                        backgroundColor: (c) => gradienteArea(c, color),
+                        borderWidth: 2.5,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: serie.map((_, i) => i === idxActual ? '#C91A15' : color),
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: serie.map((_, i) => i === idxActual ? 7 : 4),
+                        pointHoverRadius: 9
+                    }}]
+                }},
+                options: {{
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {{ padding: {{ top: 26, right: 52, bottom: 4, left: 4 }} }},
+                    plugins: {{
+                        legend: {{ display: false }},
+                        tooltip: {{
+                            callbacks: {{
+                                title: (items) => etiquetasLargas[items[0].dataIndex],
+                                label: (item) => 'Saldo: ' + fmtDepMillEs(item.parsed.y) + ' M'
+                            }}
+                        }},
+                        datalabels: dataLabelsCajita((v) => v !== null ? fmtDepMillEs(v) : '', {{ borderColor: color + '55', color: '#1c2520', soloIdx: idxActual }})
+                    }},
+                    scales: {{
+                        y: {{ min: ejeInfo.niceMin, max: ejeInfo.niceMax, grace: 0, display: false, grid: {{ display: false }} }},
+                        x: {{
+                            grid: {{ display: false }},
+                            ticks: {{ maxRotation: 0, minRotation: 0, font: {{ size: 10, weight: '500' }}, color: '#475569' }}
+                        }}
+                    }},
+                    onClick: (evt, els) => {{ if (els.length > 0) {{
+                        CSEG_STATE.idxActual = els[0].index;
+                        renderPeriodoCSeg(els[0].index);
+                        inicializarGraficoCSeg();
+                        scrollAlPeriodoCSeg(els[0].index);
+                    }} }}
+                }}
+            }});
+        }}
+
+        function ajustarAnchoCanvasCSeg() {{
+            const n = DATOS_CARTERA_SEGMENTOS.length;
+            const anchoTotal = Math.max(n * 46, 700);
+            CSEG_SCROLL_IDS.forEach(o => {{
+                const inner = document.getElementById(o.inner);
+                if (inner) inner.style.width = anchoTotal + 'px';
+            }});
+        }}
+        function scrollAlPeriodoCSeg(idx) {{
+            CSEG_SCROLL_IDS.forEach(o => {{
+                const sc = document.getElementById(o.scroll);
+                const inner = document.getElementById(o.inner);
+                if (!sc || !inner) return;
+                const n = DATOS_CARTERA_SEGMENTOS.length;
+                const x = (inner.offsetWidth / n) * idx - sc.offsetWidth / 2;
+                sc.scrollLeft = Math.max(0, x);
+            }});
+        }}
+
+        function inicializarGraficoCSeg() {{
+            const idx = CSEG_STATE.idxActual;
+            const reg = DATOS_CARTERA_SEGMENTOS[idx];
+            const etiquetas = DATOS_CARTERA_SEGMENTOS.map(r => `${{(MESES_NOMBRE[r.mes] || r.mes).substring(0,3)}}-${{String(r.anio).substring(2)}}`);
+            const etiquetasLargas = DATOS_CARTERA_SEGMENTOS.map(r => `${{MESES_NOMBRE[r.mes] || r.mes}} ${{r.anio}}`);
+
+            Object.keys(CSEG_STATE.charts).forEach(k => {{
+                if (CSEG_STATE.charts[k]) {{ CSEG_STATE.charts[k].destroy(); CSEG_STATE.charts[k] = null; }}
+            }});
+
+            const items = csegItems();
+            // Construir la cuadrícula de segmentos
+            const grid = document.getElementById('cseg-grid-segmentos');
+            grid.innerHTML = items.map(item => `
+                <div class="dep-mini-card cseg-chart-box">
+                    <div class="cseg-chart-tag dep-mini-tag" id="cseg-tag-${{item.id}}"></div>
+                    <div class="historico-flex-wrap">
+                        <div class="historico-eje-fijo historico-eje-fijo-small">
+                            <div id="chartCSeg-${{item.id}}-axis-container" class="eje-y-html-container"></div>
+                        </div>
+                        <div class="chart-scroll-container" id="cseg-${{item.id}}-scroll-container">
+                            <div class="chart-inner dep-mini-inner" id="cseg-${{item.id}}-inner">
+                                <canvas id="chartCSeg-${{item.id}}"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats-fila stats-fila-mini" id="cseg-${{item.id}}-stats"></div>
+                </div>`).join('');
+
+            CSEG_SCROLL_IDS = [{{ scroll: 'csegTotal-scroll-container', inner: 'csegTotal-inner' }}];
+            items.forEach(item => CSEG_SCROLL_IDS.push({{
+                scroll: 'cseg-' + item.id + '-scroll-container', inner: 'cseg-' + item.id + '-inner'
+            }}));
+
+            ajustarAnchoCanvasCSeg();
+
+            // Gráfico TOTAL
+            const totalSerie = csegSerieTotal();
+            crearGraficoLineaCSeg('chartCSegTotal', totalSerie, CSEG_COLOR_TOTAL,
+                'chartCSegTotal-axis-container', etiquetas, etiquetasLargas, 'total');
+
+            // Un gráfico por segmento con su etiqueta integrada
+            items.forEach(item => {{
+                const serie = csegSerieSegmento(item.id);
+                const crecSerie = csegCrecMensual(serie);
+                const color = CSEG_COLORS[item.id] || '#64748b';
+                const val = reg ? csegSaldoSegmento(reg, item.id) : 0;
+                const tag = document.getElementById('cseg-tag-' + item.id);
+                if (tag) tag.outerHTML = _depTagHTML(item.nombre, color, val, crecSerie[idx], true)
+                    .replace('class="dep-chart-tag dep-mini-tag"', 'class="cseg-chart-tag dep-mini-tag" id="cseg-tag-' + item.id + '"');
+                crearGraficoLineaCSeg('chartCSeg-' + item.id, serie, color,
+                    'chartCSeg-' + item.id + '-axis-container', etiquetas, etiquetasLargas, item.id);
+                _pintarStats('cseg-' + item.id + '-stats', serie, idx, fmtDepMillEs, color, _etqsDe(DATOS_CARTERA_SEGMENTOS));
+            }});
+
+            setTimeout(() => scrollAlPeriodoCSeg(CSEG_STATE.idxActual), 100);
+        }}
+
+        function renderPeriodoCSeg(idx) {{
+            const reg = DATOS_CARTERA_SEGMENTOS[idx];
+            if (!reg) return;
+            const totalSerie = csegSerieTotal();
+            _pintarStats('crecimiento-stats', totalSerie, idx, fmtDepMillEs, '#237C70', _etqsDe(DATOS_CARTERA_SEGMENTOS));
+            const crecTotalSerie = csegCrecMensual(totalSerie);
+            // Etiqueta integrada del gráfico TOTAL
+            const tagTotal = document.getElementById('cseg-tag-total');
+            if (tagTotal) tagTotal.outerHTML = _depTagHTML('Cartera Total', CSEG_COLOR_TOTAL, reg.total, crecTotalSerie[idx], false)
+                .replace('class="dep-chart-tag"', 'class="cseg-chart-tag" id="cseg-tag-total"');
+        }}
+
+        // Inicializa la sección de evolución (se llama al abrir el módulo)
+        function inicializarEvolucionCartera() {{
+            if (!DATOS_CARTERA_SEGMENTOS || !DATOS_CARTERA_SEGMENTOS.length) return;
+            CSEG_STATE.idxActual = DATOS_CARTERA_SEGMENTOS.length - 1;
+            renderPeriodoCSeg(CSEG_STATE.idxActual);
+            inicializarGraficoCSeg();
+        }}
+
         function inicializarGraficoDepositos() {{
             const modo = DEPOSITOS_STATE.modo;
             const idx = DEPOSITOS_STATE.idxActual;
@@ -13689,6 +14110,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                             </div>
                         </div>
                     </div>
+                    <div class="stats-fila stats-fila-mini" id="dep-${{item.id}}-stats"></div>
                 </div>`).join('');
 
             // Reconstruir el mapa de IDs de scroll (total + items visibles)
@@ -13718,6 +14140,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 crearGraficoLineaDep('chartDep-' + item.id, serie, color,
                     'chartDep-' + item.id + '-axis-container', etiquetas, etiquetasLargas,
                     DEPOSITOS_STATE.charts, item.id);
+                _pintarStats('dep-' + item.id + '-stats', serie, idx, fmtDepMillEs, color, _etqsDe(DATOS_DEPOSITOS));
             }});
 
             setTimeout(() => scrollAlPeriodoDepositos(DEPOSITOS_STATE.idxActual), 100);
@@ -14054,6 +14477,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             // KPIs
             document.getElementById(cfg.saldoId).textContent = fmtMillones(r.saldo_actual);
+            // Estadísticas de la serie de saldos (máx/mín hist y 12m, promedio, mediana)
+            _pintarStats(tipo === 'activo' ? 'evolucion-activo-stats' : (tipo === 'pasivo' ? 'evolucion-pasivo-stats' : 'evolucion-patrimonio-stats'),
+                datos.map(d => d.saldo_actual), idx, fmtMillones, cfg.color, _etqsDe(datos));
             document.getElementById(cfg.periodoId).textContent = `${{MESES_NOMBRE[r.mes]}} ${{r.anio}}  ·  Millones COP`;
             
             // Variación mes
@@ -14953,6 +15379,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const r = DATOS_ICG[idx];
             if (!r) return;
             ICG_STATE.idxActual = idx;
+            _pintarStats('icg-stats', SERIE_ICG_EXCEDENTE, idx,
+                (v) => new Intl.NumberFormat('de-DE', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}).format(v),
+                '#F78502', _etqsDe(DATOS_ICG));
             
             const fmtMill = (v) => {{
                 if (v === null || v === undefined) return '—';
@@ -17545,6 +17974,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             document.getElementById('mora-gauge-periodo').textContent = `${{MESES_NOMBRE[r.mes]}} de ${{r.anio}}`;
             actualizarGaugeMora(r);
+            _pintarStats('mora-stats', SERIE_INDICE_MORA, idx, (v) => v.toFixed(2).replace('.', ',') + '%', '#C91A15', _etqsDe(DATOS_MOROSIDAD));
             
             document.getElementById('mora-cartera-total').textContent = fmtMillonesMora(r.total_general);
             document.getElementById('mora-mora-total').textContent = fmtMillonesMora(r.mora_total);
@@ -18578,6 +19008,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             
             document.getElementById('riesgo-gauge-periodo').textContent = `${{MESES_NOMBRE[r.mes]}} de ${{r.anio}}`;
             actualizarGaugeRiesgo(r);
+            _pintarStats('riesgo-stats', SERIE_CALIDAD_CARTERA, idx, (v) => v.toFixed(2).replace('.', ',') + '%', '#045988', _etqsDe(DATOS_RIESGO));
             
             document.getElementById('riesgo-cartera-total').textContent = fmtMillonesMora(r.cartera_total);
             document.getElementById('riesgo-total-bcde').textContent = fmtMillonesMora(r.total_bcde);
@@ -18975,6 +19406,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             if (!r) return;
             
             document.getElementById('cobertura-gauge-periodo').textContent = `${{MESES_NOMBRE[r.mes]}} de ${{r.anio}}`;
+            _pintarStats('cobertura-stats', obtenerSerieCoberturaActiva(), idx, (v) => v.toFixed(2).replace('.', ',') + '%', '#36BAA8', _etqsDe(DATOS_COBERTURA));
             actualizarGaugeCobertura(r);
             
             // Mostrar deterioro según modo activo
@@ -19141,6 +19573,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                     if (chartCrecimiento) chartCrecimiento.resize();
                 }});
             }}
+            // Evolución de cartera total y por segmentos (estilo Depósitos)
+            inicializarEvolucionCartera();
             
             window.scrollTo({{ top: 0, behavior: 'instant' }});
         }}
@@ -19190,6 +19624,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const tieneAnt = r.tiene_dato_anterior;
             const gtext = document.getElementById('crecimiento-gauge-text');
             const needleGroup = document.getElementById('crecimiento-gauge-needle-group');
+            // El velocímetro fue retirado de este módulo; si no existe, no hacemos nada.
+            if (!gtext || !needleGroup) return;
             
             if (!tieneAnt) {{
                 gtext.textContent = 'N/A';
@@ -19423,15 +19859,19 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const r = DATOS_CRECIMIENTO[idx];
             if (!r) return;
             
-            document.getElementById('crecimiento-gauge-periodo').textContent =
+            const gpEl = document.getElementById('crecimiento-gauge-periodo');
+            if (gpEl) gpEl.textContent =
                 `${{MESES_NOMBRE[r.mes]}} de ${{r.anio}} vs ${{MESES_NOMBRE[r.mes]}} de ${{r.anio_anterior}}`;
             actualizarGaugeCrecimiento(r);
             
-            document.getElementById('crecimiento-actual').textContent = fmtMillonesMora(r.total_actual);
-            document.getElementById('crecimiento-anterior').textContent = fmtMillonesMora(r.total_anterior);
+            const caEl = document.getElementById('crecimiento-actual');
+            if (caEl) caEl.textContent = fmtMillonesMora(r.total_actual);
+            const cantEl = document.getElementById('crecimiento-anterior');
+            if (cantEl) cantEl.textContent = fmtMillonesMora(r.total_anterior);
             
-            // Badge de estado
+            // Badge de estado (solo si existe, fue parte del velocímetro)
             const estadoEl = document.getElementById('crecimiento-estado-badge');
+            if (estadoEl) {{
             let estadoTxt, estadoColor, estadoBg;
             if (!r.tiene_dato_anterior) {{
                 estadoTxt = 'Sin año anterior'; estadoColor = '#6b7268'; estadoBg = '#f3f4f6';
@@ -19444,6 +19884,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             }}
             estadoEl.textContent = estadoTxt;
             estadoEl.style.cssText = `background:${{estadoBg}};color:${{estadoColor}};border:1px solid ${{estadoColor}}40;padding:7px 16px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;`;
+            }}
             
             // KPIs
             const setKpiCrec = (idKpi, dataObj) => {{
@@ -20042,7 +20483,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const fmtPct = (v) => (v === null || v === undefined) ? '—' :
                 v.toFixed(2).replace('.', ',') + '%';
             const fmtMill = (v) => (v === null || v === undefined) ? '—' :
-                new Intl.NumberFormat('de-DE', {{ minimumFractionDigits: 0, maximumFractionDigits: 0 }}).format(v);
+                new Intl.NumberFormat('de-DE', {{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}).format(v);
             
             // ===== Borde neón sutil según estado de la celda (relativo a la fila) =====
             // modo 'bueno_alto': valores altos = neón verde · 'bueno_bajo': bajos = verde
@@ -20075,7 +20516,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             // Para indicadores normales: ▲ verde si sube, ▼ rojo si baja
             // invertirVar=true (mora, riesgo): ▲ rojo si sube (malo), ▼ verde si baja (bueno)
             // unidad: 'pts' (puntos %), 'pb' (puntos básicos = delta*100), '%' (cambio relativo para montos)
-            function badgeVariacion(actual, anterior, unidad, invertir) {{
+            function badgeVariacion(actual, anterior, unidad, invertir, colorNeutro) {{
                 if (actual === null || actual === undefined || anterior === null || anterior === undefined || anterior === 0) {{
                     return '';
                 }}
@@ -20085,7 +20526,8 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 }}
                 const sube = delta > 0;
                 let clase;
-                if (invertir) clase = sube ? 'var-baja' : 'var-sube';
+                if (colorNeutro) clase = 'var-neutro';   // gris oscuro, sin verde/rojo
+                else if (invertir) clase = sube ? 'var-baja' : 'var-sube';
                 else clase = sube ? 'var-sube' : 'var-baja';
                 const flecha = sube ? '▲' : '▼';
                 let txt;
@@ -20175,6 +20617,34 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const SERIE_DEP_CDAT         = _depTipoSerie('cdat');
             const SERIE_DEP_CONTRACTUAL  = _depTipoSerie('contractual');
             const SERIE_DEP_DAES         = _depTipoSerie('daes');
+            // Saldos de los segmentos de cartera (capital) por período
+            const _cartSegSerie = (id) => DATOS_CARTERA_SEGMENTOS.map(r => {{
+                const s = r.segmentos.find(x => x.id === id);
+                return s ? s.saldo : 0;
+            }});
+            const SERIE_CART_CAPITAL    = DATOS_CARTERA_SEGMENTOS.map(r => r.total);
+            const SERIE_CART_VIVIENDA   = _cartSegSerie('vivienda');
+            const SERIE_CART_CONSUMO_CL = _cartSegSerie('consumo_cl');
+            const SERIE_CART_CONSUMO_SL = _cartSegSerie('consumo_sl');
+            const SERIE_CART_EMPLEADOS  = _cartSegSerie('empleados');
+            
+            // ===== Series MENSUALES (no acumuladas) del Estado de Resultados =====
+            // Las cuentas 4/6/5/53 son acumuladas YTD: el saldo de cada mes incluye
+            // los meses previos del mismo año fiscal. El dato del mes se obtiene
+            // restando el acumulado del período anterior, salvo en ENERO (reinicia el año),
+            // donde el dato del mes ES el acumulado.
+            const _serieMensual = (campo) => DATOS_ICG.map((r, i) => {{
+                const actual = r[campo];
+                if (actual === null || actual === undefined) return null;
+                if (r.mes === 'ENERO' || i === 0) return actual;       // reinicio anual
+                const ant = DATOS_ICG[i-1][campo];
+                if (ant === null || ant === undefined) return actual;
+                return actual - ant;                                    // desacumulado
+            }});
+            const SERIE_ICG_INGRESOS_MES  = _serieMensual('ingresos');
+            const SERIE_ICG_COSTOS_MES    = _serieMensual('costos');
+            const SERIE_ICG_GASTOS_MES    = _serieMensual('gastos_sin_excedente');
+            const SERIE_ICG_EXCEDENTE_MES = _serieMensual('excedente');
             
             // Índice del primer mes "comparable" para ICG/rentabilidad:
             // como son acumulados YTD, la variación arranca en el 2º mes del primer año fiscal disponible.
@@ -20212,11 +20682,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             const FILAS_MONEY = [
                 {{ seccion: 'Estructura — Activo' }},
                 {{ nombre: 'Activo', modulo: 'Activo', serie: SERIE_EVOLUCION_ACTIVO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#36BAA8', punto: '#36BAA8', click: 'abrirEvolucionActivo' }},
-                {{ nombre: 'Cartera Total', modulo: 'Activo · Mora', serie: SERIE_CARTERA_TOTAL, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#088DD5', punto: '#088DD5', click: 'abrirIndiceMora' }},
                 {{ nombre: 'Cartera de Créditos', modulo: 'Activo · Cuenta 14', serie: SERIE_CARTERA_14, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#045988', punto: '#045988', click: 'abrirEvolucionActivo' }},
                 {{ nombre: 'Efectivo y Equivalente', modulo: 'Activo · Cuenta 11', serie: SERIE_EFECTIVO_11, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#36BAA8', punto: '#36BAA8', click: 'abrirEvolucionActivo' }},
                 {{ nombre: 'Inversiones', modulo: 'Activo · Cuenta 12', serie: SERIE_INVERSIONES_12, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#2CAAEE', punto: '#2CAAEE', click: 'abrirEvolucionActivo' }},
                 {{ nombre: 'Cuentas por Cobrar', modulo: 'Activo · Cuenta 16', serie: SERIE_CXC_16, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#237C70', punto: '#237C70', click: 'abrirEvolucionActivo' }},
+                {{ nombre: 'Cartera Capital', modulo: 'Cartera bruta · Suma segmentos', serie: SERIE_CART_CAPITAL, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#088DD5', punto: '#088DD5', click: 'abrirCrecimiento' }},
+                {{ nombre: 'Vivienda', modulo: 'Cartera · Segmento', serie: SERIE_CART_VIVIENDA, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#237C70', punto: '#237C70', click: 'abrirCrecimiento' }},
+                {{ nombre: 'Consumo con Libranza', modulo: 'Cartera · Segmento', serie: SERIE_CART_CONSUMO_CL, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#36BAA8', punto: '#36BAA8', click: 'abrirCrecimiento' }},
+                {{ nombre: 'Consumo sin Libranza', modulo: 'Cartera · Segmento', serie: SERIE_CART_CONSUMO_SL, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#2CAAEE', punto: '#2CAAEE', click: 'abrirCrecimiento' }},
+                {{ nombre: 'Empleados', modulo: 'Cartera · Segmento', serie: SERIE_CART_EMPLEADOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#088DD5', punto: '#088DD5', click: 'abrirCrecimiento' }},
                 {{ seccion: 'Estructura — Pasivo' }},
                 {{ nombre: 'Pasivo', modulo: 'Pasivo', serie: SERIE_EVOLUCION_PASIVO, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#088DD5', punto: '#088DD5', click: 'abrirEvolucionPasivo' }},
                 {{ nombre: 'Depósitos', modulo: 'Pasivo · Cuenta 21', serie: SERIE_DEPOSITOS_21, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#045988', punto: '#045988', click: 'abrirEvolucionPasivo' }},
@@ -20230,10 +20704,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 {{ nombre: 'Capital Social', modulo: 'Patrimonio · Cuenta 31', serie: SERIE_CAPITAL_31, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#7F5ABF', punto: '#7F5ABF', click: 'abrirEvolucionPatrimonio' }},
                 {{ nombre: 'Reservas', modulo: 'Patrimonio · Cuenta 32', serie: SERIE_RESERVAS_32, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#3C2367', punto: '#3C2367', click: 'abrirEvolucionPatrimonio' }},
                 {{ seccion: 'Estado de Resultados' }},
-                {{ nombre: 'Ingresos', modulo: 'Ingresos', serie: SERIE_ICG_INGRESOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, baseHex: '#17A53D', punto: '#17A53D', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Costos', modulo: 'Ingresos', serie: SERIE_ICG_COSTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, baseHex: '#A75A00', punto: '#A75A00', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Gastos', modulo: 'Ingresos', serie: SERIE_ICG_GASTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, baseHex: '#C91A15', punto: '#C91A15', click: 'abrirEvolucionICG' }},
-                {{ nombre: 'Excedente', modulo: 'Ingresos', serie: SERIE_ICG_EXCEDENTE, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, baseHex: '#F78502', punto: '#F78502', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Ingresos', modulo: 'Ingresos', serie: SERIE_ICG_INGRESOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, colorNeutro: true, baseHex: '#17A53D', punto: '#17A53D', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Costos', modulo: 'Ingresos', serie: SERIE_ICG_COSTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, colorNeutro: true, baseHex: '#A75A00', punto: '#A75A00', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Gastos', modulo: 'Ingresos', serie: SERIE_ICG_GASTOS, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, varDesdeFebrero: true, colorNeutro: true, baseHex: '#C91A15', punto: '#C91A15', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Excedente', modulo: 'Ingresos', serie: SERIE_ICG_EXCEDENTE, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, varDesdeFebrero: true, colorNeutro: true, baseHex: '#F78502', punto: '#F78502', click: 'abrirEvolucionICG' }},
+                {{ seccion: 'Estado de Resultados — del mes (no acumulado)' }},
+                {{ nombre: 'Ingresos del mes', modulo: 'Ingresos · mensual', serie: SERIE_ICG_INGRESOS_MES, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#17A53D', punto: '#17A53D', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Costos del mes', modulo: 'Ingresos · mensual', serie: SERIE_ICG_COSTOS_MES, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, baseHex: '#A75A00', punto: '#A75A00', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Gastos del mes', modulo: 'Ingresos · mensual', serie: SERIE_ICG_GASTOS_MES, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: true, baseHex: '#C91A15', punto: '#C91A15', click: 'abrirEvolucionICG' }},
+                {{ nombre: 'Excedente del mes', modulo: 'Ingresos · mensual', serie: SERIE_ICG_EXCEDENTE_MES, fmt: fmtMill, unidad: '%', modo: 'neutro', invertir: false, baseHex: '#F78502', punto: '#F78502', click: 'abrirEvolucionICG' }},
             ];
             
             // ===== Construye una tabla matriz dado el array de filas =====
@@ -20295,7 +20774,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                         const ocultarPorEnero = fila.varDesdeFebrero && esEnero(i);
                         if (i > 0 && !ocultarPorEnero) {{
                             const anterior = fila.serie[i-1];
-                            badge = badgeVariacion(v, anterior, fila.unidad, fila.invertir);
+                            badge = badgeVariacion(v, anterior, fila.unidad, fila.invertir, fila.colorNeutro);
                         }}
                         let cls = 'matriz-celda';
                         if (i === ultimoIdx) cls += ' ultimo-periodo';
@@ -20672,6 +21151,37 @@ def main():
             "cartera_total": round(cartera_bruta_tot, 2),       # Cartera Total (suma cuentas brutas 14xx)
         })
     
+    # === Segmentos de cartera por período (para evolución estilo Depósitos) ===
+    # Vivienda (1404+1405), Consumo c/libranza (1411+1441),
+    # Consumo s/libranza (1412+1442), Empleados (1469).
+    # La suma de los 4 segmentos = cartera bruta total.
+    print("\nCalculando segmentos de cartera por periodo (Vivienda, Consumo CL/SL, Empleados)...")
+    CARTERA_SEGMENTOS_DEF = [
+        {"id": "vivienda",    "nombre": "Vivienda",              "cuentas": ["1404", "1405"]},
+        {"id": "consumo_cl",  "nombre": "Consumo con Libranza",  "cuentas": ["1411", "1441"]},
+        {"id": "consumo_sl",  "nombre": "Consumo sin Libranza",  "cuentas": ["1412", "1442"]},
+        {"id": "empleados",   "nombre": "Empleados",             "cuentas": ["1469"]},
+    ]
+    cartera_segmentos = []
+    for (anio, mes) in periodos:
+        segmentos = []
+        total_seg = 0.0
+        for seg in CARTERA_SEGMENTOS_DEF:
+            saldo = sum(_saldo_cta(anio, mes, c) for c in seg["cuentas"])
+            saldo_aa = sum(_saldo_cta(anio - 1, mes, c) for c in seg["cuentas"])
+            crec = ((saldo / saldo_aa) - 1) if saldo_aa > 0 else None
+            total_seg += saldo
+            segmentos.append({
+                "id": seg["id"], "nombre": seg["nombre"],
+                "saldo": round(saldo, 2), "saldo_aa": round(saldo_aa, 2),
+                "crecimiento": crec,
+            })
+        cartera_segmentos.append({
+            "anio": anio, "mes": mes.upper(),
+            "total": round(total_seg, 2),
+            "segmentos": segmentos,
+        })
+    
     r = todos_resultados[-1]
     rm = todos_morosidad[-1]
     rr = todos_riesgo[-1]
@@ -20709,6 +21219,7 @@ def main():
                  todos_icg=todos_icg,
                  todos_depositos=todos_depositos,
                  series_indicadores=series_indicadores,
+                 cartera_segmentos=cartera_segmentos,
                  catalogo_cuentas=catalogo_cuentas)
     print(f"   OK: {ruta_html.name}")
     
