@@ -4417,10 +4417,12 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 background: #ffffff;
                 text-align: left;
                 padding: 0 14px;
-                min-width: 200px;
-                max-width: 200px;
+                min-width: 210px;
+                max-width: 210px;
+                width: 210px;
                 border-radius: 10px;
                 box-shadow: 4px 0 10px -6px rgba(0,0,0,0.12);
+                overflow: hidden;
             }}
             
             .col-indicador-inner {{
@@ -4428,6 +4430,7 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 align-items: center;
                 gap: 10px;
                 padding: 12px 0;
+                min-width: 0;
             }}
             .col-indicador-punto {{
                 width: 9px;
@@ -4438,12 +4441,18 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .col-indicador-txt {{
                 display: flex;
                 flex-direction: column;
-                line-height: 1.25;
+                line-height: 1.2;
+                min-width: 0;
+                flex: 1 1 auto;
+                overflow: hidden;
             }}
             .col-indicador-nombre {{
                 font-size: 12.5px;
                 font-weight: 700;
                 color: #334155;
+                white-space: normal;
+                overflow-wrap: break-word;
+                word-break: break-word;
             }}
             .col-indicador-modulo {{
                 font-size: 9px;
@@ -4451,6 +4460,9 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
                 color: #b0b8c4;
                 text-transform: uppercase;
                 letter-spacing: 0.4px;
+                white-space: normal;
+                overflow-wrap: break-word;
+                word-break: break-word;
             }}
             
             /* Celdas de datos — etiqueta clara con borde neón sutil */
@@ -4539,8 +4551,15 @@ def generar_html(todos_resultados: list, ruta_salida: str = "index.html",
             .matriz-seccion-nombre {{ vertical-align: middle; }}
             
             @media (max-width: 768px) {{
-                .matriz-tabla .col-indicador {{ min-width: 150px; max-width: 150px; }}
-                .col-indicador-nombre {{ font-size: 11px; }}
+                .matriz-tabla .col-indicador {{
+                    min-width: 140px; max-width: 140px; width: 140px;
+                    padding: 0 8px;
+                }}
+                .col-indicador-inner {{ gap: 6px; padding: 9px 0; }}
+                .col-indicador-nombre {{ font-size: 10.5px; line-height: 1.15; }}
+                .col-indicador-modulo {{ font-size: 8px; letter-spacing: 0.2px; }}
+                .matriz-celda {{ font-size: 11px; padding: 7px 8px; }}
+                .matriz-celda-valor {{ font-size: 11px; }}
                 .tablero-titulo {{ font-size: 21px; }}
             }}
             
